@@ -1,3 +1,22 @@
 {
-    "name": "Friday Night Funkin'"
+    "name": "Friday Night Funkin'",
+    "description": "A port of the original Friday Night Funkin'",
+    "credits": [
+        {
+            "name": "ninjamuffin99",
+            "role": "Programming"
+        },
+        {
+            "name": "PhantomArcade",
+            "role": "Animation"
+        },
+        {
+            "name": "evilsk8r",
+            "role": "Artist"
+        },
+        {
+            "name": "KawaiSprite",
+            "role": "Music"
+        }
+    ]
 }
