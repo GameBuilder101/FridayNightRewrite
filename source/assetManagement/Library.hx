@@ -1,9 +1,8 @@
 package assetManagement;
 
 import Album;
-import haxe.Json;
 
-/** A library defines a collection of assets/content (such as a mod). **/
+/** A library defines a collection of assets/content (such as a mod). */
 class Library
 {
 	public var name(default, null):String;
@@ -20,9 +19,20 @@ class Library
 		this.version = version;
 		this.dependencies = dependencies;
 	}
+
+	/** Returns true if a library of the given ID is a dependency. */
+	public function dependsOn(id:String):Bool
+	{
+		for (dependency in dependencies)
+		{
+			if (dependency.id == id)
+				return true;
+		}
+		return false;
+	}
 }
 
-/** Tells what other library is required for a library to work. **/
+/** Tells what other library is required for a library to work. */
 typedef LibraryDependency =
 {
 	id:String,
