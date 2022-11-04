@@ -1,0 +1,11 @@
+{
+    "name": "Vs. Example Joe",
+    "description": "An example mod",
+    "version": "1.0.0",
+    "dependencies": [
+        {
+            "id": "friday_night_funkin",
+            "suggestedVersion": "0.2.7"
+        }
+    ]
+}

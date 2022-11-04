@@ -1,22 +1,6 @@
 {
     "name": "Friday Night Funkin'",
-    "description": "A port of the original Friday Night Funkin'",
-    "credits": [
-        {
-            "name": "ninjamuffin99",
-            "role": "Programming"
-        },
-        {
-            "name": "PhantomArcade",
-            "role": "Animation"
-        },
-        {
-            "name": "evilsk8r",
-            "role": "Artist"
-        },
-        {
-            "name": "KawaiSprite",
-            "role": "Music"
-        }
-    ]
+    "description": "A port of the original Friday Night Funkin'. Probably required for many mods to work",
+    "version": "0.2.7",
+    "dependencies": []
 }

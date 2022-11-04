@@ -1,0 +1,21 @@
+{
+    "name": "Friday Night Funkin'",
+    "credits": [
+        {
+            "name": "ninjamuffin99",
+            "role": "Programming"
+        },
+        {
+            "name": "PhantomArcade",
+            "role": "Animation"
+        },
+        {
+            "name": "evilsk8r",
+            "role": "Artist"
+        },
+        {
+            "name": "KawaiSprite",
+            "role": "Music"
+        }
+    ]
+}

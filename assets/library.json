@@ -1,5 +1,6 @@
 {
     "name": "Core",
     "description": "The core, important engine assets. Don't touch these you dingus",
-    "credits": []
+    "version": "0.1.0",
+    "dependencies": []
 }
