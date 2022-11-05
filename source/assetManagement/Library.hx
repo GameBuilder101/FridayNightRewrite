@@ -2,7 +2,7 @@ package assetManagement;
 
 import Album;
 
-/** A library defines a collection of assets/content (such as a mod). */
+/** A library defines a collection of assets/content (such as a mod). **/
 class Library
 {
 	public var name(default, null):String;
@@ -20,7 +20,7 @@ class Library
 		this.dependencies = dependencies;
 	}
 
-	/** Returns true if a library of the given ID is a dependency. */
+	/** Returns true if a library of the given ID is a dependency. **/
 	public function dependsOn(id:String):Bool
 	{
 		for (dependency in dependencies)
@@ -32,7 +32,7 @@ class Library
 	}
 }
 
-/** Tells what other library is required for a library to work. */
+/** Tells what other library is required for a library to work. **/
 typedef LibraryDependency =
 {
 	id:String,
@@ -41,9 +41,9 @@ typedef LibraryDependency =
 
 class LibraryRegistry extends Registry<Library>
 {
-	function loadData(path:String):Library
+	function loadData(directory:String, id:String, fullPath:String):Library
 	{
-		var parsed:Dynamic = Paths.getParsedJson(path + "/library");
+		var parsed:Dynamic = Paths.getParsedJson(fullPath + "/library");
 		if (parsed == null)
 			return null;
 
@@ -56,8 +56,9 @@ class LibraryRegistry extends Registry<Library>
 		var library:Library = new Library(parsed.name, parsed.description, parsed.version, dependencies);
 
 		// Load registries
-		library.albums.loadAll(path + "/" + AlbumRegistry.LIBRARY_DIRECTORY);
+		library.albums.loadAll(fullPath + "/" + AlbumRegistry.LIBRARY_DIRECTORY);
 
+		trace("Loaded library '" + id + "' from '" + directory + "'");
 		// Return the created library
 		return library;
 	}

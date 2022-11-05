@@ -12,9 +12,9 @@ class AlbumRegistry extends Registry<AlbumData>
 {
 	public static inline final LIBRARY_DIRECTORY:String = "albums";
 
-	function loadData(path:String):AlbumData
+	function loadData(directory:String, id:String, fullPath:String):AlbumData
 	{
-		var parsed:Dynamic = Paths.getParsedJson(path + "/album");
+		var parsed:Dynamic = Paths.getParsedJson(fullPath + "/album");
 		if (parsed == null)
 			return null;
 

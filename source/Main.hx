@@ -9,6 +9,6 @@ class Main extends Sprite
 	{
 		super();
 		Lib.reloadLibraries();
-		addChild(new FlxGame(0, 0, PlayState, 1.0, 60, 60, true, true));
+		addChild(new FlxGame(0, 0, PlayState, 1.0, 60, 60, true, false));
 	}
 }
