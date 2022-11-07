@@ -33,7 +33,7 @@
 	<source path="source" />
 	<assets path="assets" />
 	<assets path="mods" />
-	<assets path="embedded_assets" embed='true'/>
+	<assets path="embedded_assets" embed='true' />
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
@@ -67,4 +67,8 @@
 	<!-- _________________________________ Custom _______________________________ -->
 
 	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->
+	<icon path="icon_16.png" size='16' />
+	<icon path="icon_32.png" size='32' />
+	<icon path="icon_64.png" size='64' />
+	<icon path="icon.png" />
 </project>
