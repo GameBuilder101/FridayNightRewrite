@@ -12,22 +12,28 @@ abstract class Registry<T>
 
 	public function new() {}
 
+	/** Returns the full entry path (excluding the file extension). **/
+	public static inline function getFullPath(directory:String, id:String):String
+	{
+		if (directory != "")
+			return directory + "/" + id;
+		return id;
+	}
+
 	/** Loads a specific entry of the given ID from the directory. **/
 	public function load(directory:String, id:String):RegistryEntry
 	{
-		var path:String = id;
-		if (directory != "")
-			path = directory + "/" + path;
-		if (!FileSystem.exists(path))
+		var data:T = loadData(directory, id);
+		if (data == null)
 			return null;
-		entries.push({directory: directory, id: id, data: loadData(directory, id, path)});
+		entries.push({directory: directory, id: id, data: data});
 		return entries[entries.length - 1];
 	}
 
 	/** Create a new T from the data/files provided in the entry directory.
-		@return A new instance of T generated from the data/files found in the directory at path.
+		@return A new instance of T generated from the data/files found in the directory at path. If null, the entry is not added.
 	**/
-	abstract function loadData(directory:String, id:String, fullPath:String):T;
+	abstract function loadData(directory:String, id:String):T;
 
 	/** Loads all entries from the given directory. **/
 	public function loadAll(directory:String)

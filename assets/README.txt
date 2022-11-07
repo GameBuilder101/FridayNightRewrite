@@ -1,0 +1,2 @@
+DON'T TOUCH ANYTHING IN THIS ASSETS FOLDER! (Unless you're editing the source code. Even then, only UNIVERSALLY-REQUIRED assets should go here.)
+If you want to change or add something use a MOD! (That's the point of them!)

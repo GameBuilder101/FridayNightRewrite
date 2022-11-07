@@ -33,6 +33,7 @@
 	<source path="source" />
 	<assets path="assets" />
 	<assets path="mods" />
+	<assets path="embedded_assets" embed='true'/>
 
 	<!-- _______________________________ Libraries ______________________________ -->
 

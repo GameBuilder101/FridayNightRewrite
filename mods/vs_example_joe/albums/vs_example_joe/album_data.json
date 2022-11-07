@@ -1,0 +1,11 @@
+{
+    "name": "Vs. Example Joe",
+    "credits": [
+        {
+            "name": "GameBuilder101",
+            "role": "Joe-ification"
+        }
+    ],
+    "spriteID": "albums/vs_example_joe/sprite",
+    "previewMusicID": "menus/_shared/funky_menu_theme"
+}

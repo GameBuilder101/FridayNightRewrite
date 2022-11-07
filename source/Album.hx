@@ -1,28 +1,40 @@
 package;
 
+import assetManagement.FileManager;
+import assetManagement.LibraryManager;
 import assetManagement.Registry;
 
 typedef AlbumData =
 {
 	name:String,
-	credits:Array<Credit>
+	credits:Array<Credit>,
+	spriteID:String,
+	previewMusicID:String
 }
 
 class AlbumRegistry extends Registry<AlbumData>
 {
-	public static inline final LIBRARY_DIRECTORY:String = "albums";
+	static var cache:AlbumRegistry = new AlbumRegistry();
+	static var cachedIDs:Array<String>;
 
-	function loadData(directory:String, id:String, fullPath:String):AlbumData
+	function loadData(directory:String, id:String):AlbumData
 	{
-		var parsed:Dynamic = Paths.getParsedJson(fullPath + "/album");
+		var parsed:Dynamic = FileManager.getParsedJson(Registry.getFullPath(directory, id) + "/album_data");
 		if (parsed == null)
 			return null;
+		return parsed;
+	}
 
-		// Load the credits as an array of Credit
-		var credits:Array<Credit> = new Array<Credit>();
-		for (credit in cast(parsed.credits, Array<Dynamic>))
-			credits.push(credit);
+	public static function getAsset(id:String):AlbumData
+	{
+		return LibraryManager.getLibraryAsset("albums/" + id, cache);
+	}
 
-		return {name: parsed.name, credits: credits};
+	public static function getAllIDs():Array<String>
+	{
+		if (cachedIDs != null)
+			return cachedIDs;
+		cachedIDs = LibraryManager.getAllIDs("albums");
+		return cachedIDs;
 	}
 }

@@ -17,5 +17,7 @@
             "name": "KawaiSprite",
             "role": "Music"
         }
-    ]
+    ],
+    "spriteID": "albums/friday_night_funkin/sprite",
+    "previewMusicID": "menus/_shared/funky_menu_theme"
 }

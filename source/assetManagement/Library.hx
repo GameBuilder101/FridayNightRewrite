@@ -1,7 +1,5 @@
 package assetManagement;
 
-import Album;
-
 /** A library defines a collection of assets/content (such as a mod). **/
 class Library
 {
@@ -9,8 +7,6 @@ class Library
 	public var description(default, null):String;
 	public var version(default, null):String;
 	public var dependencies(default, null):Array<LibraryDependency> = [];
-
-	public var albums(default, null):AlbumRegistry = new AlbumRegistry();
 
 	public function new(name:String, description:String, version:String, dependencies:Array<LibraryDependency>)
 	{
@@ -41,25 +37,12 @@ typedef LibraryDependency =
 
 class LibraryRegistry extends Registry<Library>
 {
-	function loadData(directory:String, id:String, fullPath:String):Library
+	function loadData(directory:String, id:String):Library
 	{
-		var parsed:Dynamic = Paths.getParsedJson(fullPath + "/library");
+		var parsed:Dynamic = FileManager.getParsedJson(Registry.getFullPath(directory, id) + "/library");
 		if (parsed == null)
 			return null;
-
-		// Load the dependencies as an array of LibraryDependency
-		var dependencies:Array<LibraryDependency> = new Array<LibraryDependency>();
-		for (dependency in cast(parsed.dependencies, Array<Dynamic>))
-			dependencies.push(dependency);
-
-		// Create the library from the initial JSON information
-		var library:Library = new Library(parsed.name, parsed.description, parsed.version, dependencies);
-
-		// Load registries
-		library.albums.loadAll(fullPath + "/" + AlbumRegistry.LIBRARY_DIRECTORY);
-
-		trace("Loaded library '" + id + "' from '" + directory + "'");
-		// Return the created library
-		return library;
+		trace("Loaded library '" + id + "'");
+		return new Library(parsed.name, parsed.description, parsed.version, parsed.dependencies);
 	}
 }

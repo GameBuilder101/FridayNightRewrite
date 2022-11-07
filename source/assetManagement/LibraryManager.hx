@@ -1,7 +1,8 @@
 package assetManagement;
 
-import Album;
 import assetManagement.Library;
+import assetManagement.Registry;
+import sys.FileSystem;
 
 /** Handles the loading, storing, and retrieving of data from libraries. **/
 class LibraryManager
@@ -15,7 +16,7 @@ class LibraryManager
 	/** The currently-loaded libraries in memory. Sorted by dependency, with the last having no dependencies. **/
 	public static var libraries(default, null):LibraryRegistry = new LibraryRegistry();
 
-	/** Reloads all libraries. Warning: possibly very laggy **/
+	/** Reloads all libraries. **/
 	public static function reloadLibraries()
 	{
 		libraries.clear();
@@ -50,19 +51,43 @@ class LibraryManager
 		libraries.load("", CORE_ID);
 	}
 
-	/** Returns the first found instance of the album with the given id. **/
-	public static function getAlbum(id:String):AlbumData
+	/** Returns the first found instance of an asset with the given id.
+		@param cacheRegistry The registry used to cache the type of asset
+	**/
+	public static function getLibraryAsset<T>(id:String, cacheRegistry:Registry<T>):T
 	{
-		var library:Library;
-		for (entry in libraries.entries)
+		var entry:RegistryEntry = cacheRegistry.get(id);
+		if (entry != null)
+			return entry.data;
+		for (libraryEntry in libraries.entries)
 		{
-			library = cast(entry.data, Library);
-			if (library.albums.contains(id))
-				return cast library.albums.get(id).data;
+			entry = cacheRegistry.load(Registry.getFullPath(libraryEntry.directory, libraryEntry.id), id);
+			if (entry != null)
+				return entry.data;
 		}
 		return null;
 	}
-}
 
-/** An alias for LibraryManager. **/
-typedef Lib = LibraryManager;
+	/** Returns the IDs of all registry entries from all libraries in the given library-relative directory. **/
+	public static function getAllIDs(libraryDirectory:String):Array<String>
+	{
+		var all:Array<String> = new Array<String>();
+		var contents:Array<String>;
+		// Go through every library
+		for (libraryEntry in libraries.entries)
+		{
+			// Get every file in the provided directory of that library
+			contents = FileSystem.readDirectory(Registry.getFullPath(libraryEntry.directory, libraryEntry.id) + "/" + libraryDirectory);
+			if (contents == null)
+				continue;
+			// Clear out any already-added
+			for (content in contents)
+			{
+				if (all.contains(content))
+					contents.remove(content);
+			}
+			all = all.concat(contents);
+		}
+		return all;
+	}
+}

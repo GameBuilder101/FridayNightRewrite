@@ -1,2 +1,2 @@
-# FridayNightRewrite
- A code rewrite/re-imagining of Friday Night Funkin'
+# Friday Night Rewrite
+A code rewrite/re-imagining of Friday Night Funkin'
