@@ -16,6 +16,7 @@ class SoundData
 		this.variants = variants;
 	}
 
+	/** Returns a random variant. **/
 	public function getRandom():SoundVariant
 	{
 		return variants[FlxG.random.int(0, variants.length - 1)];
@@ -35,6 +36,7 @@ typedef SoundVariant =
 	volume:Float
 }
 
+/** Use this to access/load sound data. **/
 class SoundRegistry extends Registry<SoundData>
 {
 	static var cache:SoundRegistry = new SoundRegistry();

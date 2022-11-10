@@ -4,6 +4,8 @@ import assetManagement.FileManager;
 import assetManagement.LibraryManager;
 import assetManagement.Registry;
 
+/** An album defines a collection of weeks. Useful for if you want a main story
+	mode but also extra content grouped into their own thing. **/
 typedef AlbumData =
 {
 	name:String,
@@ -12,6 +14,7 @@ typedef AlbumData =
 	previewMusicID:String
 }
 
+/** Use this to access/load albums. **/
 class AlbumRegistry extends Registry<AlbumData>
 {
 	static var cache:AlbumRegistry = new AlbumRegistry();

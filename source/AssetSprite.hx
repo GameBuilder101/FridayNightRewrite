@@ -33,6 +33,7 @@ typedef AnimationData =
 	offsetY:Float
 }
 
+/** Use this to access/load asset-sprites. **/
 class AssetSpriteRegistry extends Registry<AssetSpriteData>
 {
 	static var cache:AssetSpriteRegistry = new AssetSpriteRegistry();
@@ -105,9 +106,9 @@ class AssetSprite extends FlxSprite
 	public function loadFromData(data:AssetSpriteData)
 	{
 		this.data = data;
-		if (data.sparrowAtlas != null)
+		if (data.sparrowAtlas != null && data.sparrowAtlas != "")
 			frames = FlxAtlasFrames.fromSparrow(data.bitmapData, data.sparrowAtlas);
-		else if (data.spriteSheetPacker != null)
+		else if (data.spriteSheetPacker != null && data.spriteSheetPacker != "")
 			frames = FlxAtlasFrames.fromSpriteSheetPacker(data.bitmapData, data.spriteSheetPacker);
 		else
 			loadGraphic(data.bitmapData);
@@ -115,7 +116,7 @@ class AssetSprite extends FlxSprite
 		// Add the animations given the animation data
 		for (animationData in data.animations)
 		{
-			if (animationData.indices != null)
+			if (animationData.indices != null && animationData.indices.length > 0)
 				animation.add(animationData.name, animationData.indices, animationData.frameRate, animationData.looped, animationData.flipX);
 			else
 				animation.addByPrefix(animationData.name, animationData.atlasPrefix, animationData.frameRate, animationData.looped, animationData.flipX);

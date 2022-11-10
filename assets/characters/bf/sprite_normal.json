@@ -3,106 +3,151 @@
         {
             "name": "idle",
             "atlasPrefix": "BF idle dance",
+            "indices": [],
+            "frameRate": 24,
             "looped": false,
-            "offsetX": 0.0,
+            "flipX": true,
+            "offsetX": -5.0,
             "offsetY": 0.0
         },
         {
             "name": "sing_left",
             "atlasPrefix": "BF NOTE LEFT",
+            "indices": [],
+            "frameRate": 24,
             "looped": false,
-            "offsetX": 0.0,
-            "offsetY": 0.0
+            "flipX": true,
+            "offsetX": 5.0,
+            "offsetY": -6.0
         },
         {
             "name": "sing_left_sustain",
             "atlasPrefix": "BF NOTE LEFT",
+            "indices": [],
+            "frameRate": 24,
             "looped": true,
-            "offsetX": 0.0,
-            "offsetY": 0.0
+            "flipX": true,
+            "offsetX": 5.0,
+            "offsetY": -6.0
         },
         {
             "name": "sing_down",
             "atlasPrefix": "BF NOTE DOWN",
+            "indices": [],
+            "frameRate": 24,
             "looped": false,
-            "offsetX": 0.0,
-            "offsetY": 0.0
+            "flipX": true,
+            "offsetX": -20.0,
+            "offsetY": -51.0
         },
         {
             "name": "sing_down_sustain",
             "atlasPrefix": "BF NOTE DOWN",
+            "indices": [],
+            "frameRate": 24,
             "looped": true,
-            "offsetX": 0.0,
-            "offsetY": 0.0
+            "flipX": true,
+            "offsetX": -20.0,
+            "offsetY": -51.0
         },
         {
             "name": "sing_up",
             "atlasPrefix": "BF NOTE UP",
+            "indices": [],
+            "frameRate": 24,
             "looped": false,
-            "offsetX": 0.0,
-            "offsetY": 0.0
+            "flipX": true,
+            "offsetX": -46.0,
+            "offsetY": 27.0
         },
         {
             "name": "sing_up_sustain",
             "atlasPrefix": "BF NOTE UP",
+            "indices": [],
+            "frameRate": 24,
             "looped": true,
-            "offsetX": 0.0,
-            "offsetY": 0.0
+            "flipX": true,
+            "offsetX": -46.0,
+            "offsetY": 27.0
         },
         {
             "name": "sing_right",
             "atlasPrefix": "BF NOTE RIGHT",
+            "indices": [],
+            "frameRate": 24,
             "looped": false,
-            "offsetX": 0.0,
-            "offsetY": 0.0
+            "flipX": true,
+            "offsetX": -48.0,
+            "offsetY": -7.0
         },
         {
             "name": "sing_right_sustain",
             "atlasPrefix": "BF NOTE RIGHT",
+            "indices": [],
+            "frameRate": 24,
             "looped": true,
-            "offsetX": 0.0,
-            "offsetY": 0.0
+            "flipX": true,
+            "offsetX": -48.0,
+            "offsetY": -7.0
         },
         {
             "name": "sing_left_miss",
             "atlasPrefix": "BF NOTE LEFT MISS",
+            "indices": [],
+            "frameRate": 24,
             "looped": false,
-            "offsetX": 0.0,
-            "offsetY": 0.0
+            "flipX": true,
+            "offsetX": 7.0,
+            "offsetY": 19.0
         },
         {
             "name": "sing_down_miss",
             "atlasPrefix": "BF NOTE DOWN MISS",
+            "indices": [],
+            "frameRate": 24,
             "looped": false,
-            "offsetX": 0.0,
-            "offsetY": 0.0
+            "flipX": true,
+            "offsetX": -15.0,
+            "offsetY": -19.0
         },
         {
             "name": "sing_up_miss",
             "atlasPrefix": "BF NOTE UP MISS",
+            "indices": [],
+            "frameRate": 24,
             "looped": false,
-            "offsetX": 0.0,
-            "offsetY": 0.0
+            "flipX": true,
+            "offsetX": -46.0,
+            "offsetY": 27.0
         },
         {
             "name": "sing_right_miss",
             "atlasPrefix": "BF NOTE RIGHT MISS",
+            "indices": [],
+            "frameRate": 24,
             "looped": false,
-            "offsetX": 0.0,
-            "offsetY": 0.0
+            "flipX": true,
+            "offsetX": -44.0,
+            "offsetY": 22.0
         },
         {
             "name": "hey",
             "atlasPrefix": "BF HEY!!",
+            "indices": [],
+            "frameRate": 24,
             "looped": false,
-            "offsetX": 0.0,
-            "offsetY": 0.0
+            "flipX": true,
+            "offsetX": -3.0,
+            "offsetY": 5.0
         },
         {
             "name": "scared",
             "atlasPrefix": "BF idle shaking",
+            "indices": [],
+            "frameRate": 24,
             "looped": false,
-            "offsetX": 0.0,
+            "flipX": true,
+            "offsetX": -4.0,
             "offsetY": 0.0
         }
     ]

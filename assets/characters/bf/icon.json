@@ -1,0 +1,34 @@
+{
+    "animations": [
+        {
+            "name": "losing",
+            "atlasPrefix": "losing",
+            "indices": [],
+            "frameRate": 24,
+            "looped": true,
+            "flipX": false,
+            "offsetX": 0.0,
+            "offsetY": 0.0
+        },
+        {
+            "name": "normal",
+            "atlasPrefix": "normal",
+            "indices": [],
+            "frameRate": 24,
+            "looped": true,
+            "flipX": false,
+            "offsetX": 0.0,
+            "offsetY": 0.0
+        },
+        {
+            "name": "winning",
+            "atlasPrefix": "winning",
+            "indices": [],
+            "frameRate": 24,
+            "looped": true,
+            "flipX": false,
+            "offsetX": 0.0,
+            "offsetY": 0.0
+        }
+    ]
+}
