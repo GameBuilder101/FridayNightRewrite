@@ -17,16 +17,16 @@ This is the repository for Friday Night Rewrite, a full code rewrite of the orig
 
 ## Features
 - A playable character unlocking system! A mod could add a playable character, and if the player has them unlocked they can use them in any song from any other mod
-- Achievements system
+- Achievements
 - An "album" system, which are like groups of weeks. This means mods can seperate themselves from other mods' weeks
 - Support for custom albums, weeks, stages, songs, characters, and stages without need for scripting!
 - Custom editors for everything you could need in a mod
 - A port of the original FNF
 
 **Technical features:**
-- A new mod loading system, where mods can set dependencies and override other mods. This means you can have mods... Of mods!
-- A sprite system where animations and other data can be defined in a JSON file for any graphic in the game.
-- A sound system where sound variations and volume can be defined in a JSON file for any sound in the game.
+- A new mod loading system, where mods can set dependencies and override other mods. This means you can have mods... of mods!
+- A sprite system where animations and other data can be defined in a JSON file for any graphic in the game
+- A sound system where sound variations and volume can be defined in a JSON file for any sound in the game
 - Characters can have multiple sprite variations defined in their JSON data. For instance: BF has his christmas outfit in Week 5. However, if you want a custom playable character to also have a christmas outfit, you can add that and it is automatically loaded for Week 5
 - (Some) support for custom arrow types though JSON data
 - Super epic cool poggers code lol
