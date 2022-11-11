@@ -29,7 +29,7 @@ This is the repository for Friday Night Rewrite, a full code rewrite of the orig
 - A sound system where sound variations and volume can be defined in a JSON file for any sound in the game
 - Characters can have multiple sprite variations defined in their JSON data. For instance: BF has his christmas outfit in Week 5. However, if you want a custom playable character to also have a christmas outfit, you can add that and it is automatically loaded for Week 5
 - (Some) support for custom arrow types though JSON data
-- Super epic cool poggers code lol
+- **COMmeNTEd cODE?!?!?!?!?!?!?!??!?!?!?!! :scream::scream::scream:**
 
 **Things to note:**
 - FNR is only designed to compile to Windows. It cannot compile to HTML5 (browser mode basically), since it requires direct access to the file system to load assets and mods.
