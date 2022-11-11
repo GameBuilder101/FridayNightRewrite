@@ -1,4 +1,4 @@
-# Friday Night Rewrite
+# ◄ ▼ Friday Night Rewrite ▲ ►
 A code rewrite/re-imagining of Friday Night Funkin'!
 
 ### This site is for accessing the project's source code. If you want to download Friday Night Rewrite normally, do so here:
