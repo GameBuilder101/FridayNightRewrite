@@ -22,7 +22,7 @@
         },
         {
             "name": "winning",
-            "atlasPrefix": "winning",
+            "atlasPrefix": "normal",
             "indices": [],
             "frameRate": 24,
             "looped": true,

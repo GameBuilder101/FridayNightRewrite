@@ -8,9 +8,9 @@ import openfl.media.Sound;
 /** A container for music-related information. Note: these are not playable songs. Just background music or parts of song data. **/
 class MusicData
 {
-	var sound(default, null):Sound;
-	var volume(default, null):Float;
-	var bpmMap(default, null):Array<BPMChange>;
+	public var sound(default, null):Sound;
+	public var volume(default, null):Float;
+	public var bpmMap(default, null):Array<BPMChange>;
 
 	public function new(sound:Sound, volume:Float, bpmMap:Array<BPMChange>)
 	{
@@ -19,8 +19,39 @@ class MusicData
 		this.bpmMap = bpmMap;
 	}
 
-	/** Plays the music on the conductor. **/
-	public function play() {}
+	/** @param time The time in milliseconds. **/
+	public function getBPMAt(time:Float):Float
+	{
+		var bpm:Float = 0.0;
+		// Loop through all BPM changes. This assumes that the changes are in order of the time that they happen
+		for (change in bpmMap)
+		{
+			// If we are now past the target time, stop and return what we had from the last BPM change
+			if (change.time > time)
+				return bpm;
+			bpm = change.bpm;
+		}
+		return bpm;
+	}
+
+	/** Returns the total number of beats that have passed by the given time. Warning: might be slow.
+		@param time The time in milliseconds. **/
+	public function getBeatAt(time:Float):Int
+	{
+		var beat:Int = 0;
+		var i:Int = 0;
+		/* We can't just use a simple equation to calculate this, since BPM changes mean you need
+			to account for how many beats passed in previous BPM segments */
+		for (change in bpmMap)
+		{
+			if (change.time >= time || i + 1 >= bpmMap.length)
+				break;
+			beat += Std.int((bpmMap[i + 1].time - change.time) * (change.bpm / 60000.0));
+			i++;
+		}
+		beat += Std.int((time - bpmMap[i].time) * (bpmMap[i].bpm / 60000.0));
+		return beat;
+	}
 }
 
 typedef BPMChange =
@@ -40,9 +71,13 @@ class MusicRegistry extends Registry<MusicData>
 		var parsed:Dynamic = FileManager.getParsedJson(path);
 		if (parsed == null)
 			return null;
+		if (parsed.bpmMap == null || parsed.bpmMap.length <= 0)
+			parsed.bpmMap = [{time: 0.0, bpm: 0.0}];
+
 		var sound:Sound = FileManager.getSound(path);
 		if (sound == null)
 			return null;
+
 		return new MusicData(sound, parsed.volume, parsed.bpmMap);
 	}
 

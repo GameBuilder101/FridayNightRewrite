@@ -1,16 +1,23 @@
 package;
 
-import flixel.FlxState;
+import MusicData;
 
-class AlbumSelectState extends FlxState
+class MenuState extends ConductedState
 {
+	var boyend:AssetSprite;
+
 	override public function create()
 	{
 		super.create();
+		conductor.play(MusicRegistry.getAsset("menus/_shared/funky_menu_theme"), true);
+		boyend = new AssetSprite(400, 400, "characters/bf/sprite_normal");
+		add(boyend);
 	}
 
-	override public function update(elapsed:Float)
+	override function onBeat(beat:Int)
 	{
-		super.update(elapsed);
+		super.onBeat(beat);
+		if (beat % 2.0 == 0.0)
+			boyend.animation.play("idle", true);
 	}
 }
