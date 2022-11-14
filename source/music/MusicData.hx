@@ -1,4 +1,4 @@
-package;
+package music;
 
 import assetManagement.FileManager;
 import assetManagement.LibraryManager;

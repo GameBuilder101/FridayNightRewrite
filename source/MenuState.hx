@@ -1,6 +1,7 @@
 package;
 
-import MusicData;
+import music.ConductedState;
+import music.MusicData;
 
 class MenuState extends ConductedState
 {

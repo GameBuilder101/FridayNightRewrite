@@ -1,6 +1,5 @@
-package;
+package music;
 
-import MusicData;
 import flixel.group.FlxGroup;
 import flixel.system.FlxSound;
 
