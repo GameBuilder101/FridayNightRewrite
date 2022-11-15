@@ -12,17 +12,17 @@ class MenuState extends ConductedState
 	override public function create()
 	{
 		super.create();
-		conductor.play(MusicRegistry.getAsset("menus/_shared/funky_menu_theme"), true);
-		boyend = new AssetSprite(400.0, 400.0, "characters/bf/sprite_normal");
-		add(boyend);
+		// conductor.play(MusicRegistry.getAsset("menus/_shared/funky_menu_theme"), true);
+		// boyend = new AssetSprite(400.0, 400.0, "characters/bf/sprite_normal");
+		// add(boyend);
 
-		obunga = new SpriteText(100.0, 100.0, "I LIKE CHEESE!!!!", AssetSpriteRegistry.getAsset("menus/_shared/sprite_text_font"), 1.0, true);
+		obunga = new SpriteText(100.0, 100.0, "i like cheese!!!!...", 1.0, true);
 		add(obunga);
 	}
 
 	override function onBeat(beat:Int)
 	{
 		super.onBeat(beat);
-		boyend.animation.play("idle", true);
+		// boyend.animation.play("idle", true);
 	}
 }

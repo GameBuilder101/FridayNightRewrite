@@ -1,8 +1,10 @@
 package;
 
+import flixel.util.FlxColor;
 import AssetSprite;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxPoint;
+import flixel.FlxSprite;
 
 /** Prints a string using a series of sprites. **/
 class SpriteText extends FlxSpriteGroup
@@ -10,6 +12,9 @@ class SpriteText extends FlxSpriteGroup
 	static final UPPERCASE_LETTERS:Array<String> = [
 		"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"
 	];
+
+	/** ID for the default font. **/
+	public static inline final DEFAULT_FONT_ID:String = "menus/_shared/sprite_text_font";
 
 	public var text(default, null):String;
 
@@ -24,13 +29,19 @@ class SpriteText extends FlxSpriteGroup
 
 	var charSprites:Array<AssetSprite> = new Array<AssetSprite>();
 
-	public function new(x:Float, y:Float, text:String, font:AssetSpriteData, fontSize:Float = 1.0, bold:Bool = false)
+	public function new(x:Float, y:Float, text:String, fontSize:Float = 1.0, bold:Bool = false, font:AssetSpriteData = null)
 	{
 		super(x, y);
 		this.font = font;
+		if (font == null)
+			font = AssetSpriteRegistry.getAsset(DEFAULT_FONT_ID);
 		this.fontSize = fontSize;
 		this.bold = bold;
 		setText(text);
+
+		var testSprite:FlxSprite = new FlxSprite(0.0, 0.0);
+		testSprite.makeGraphic(5, 5, FlxColor.RED);
+		add(testSprite);
 	}
 
 	public inline function setFont(font:AssetSpriteData, fontSize:Float = 1.0)
