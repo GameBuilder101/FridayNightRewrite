@@ -85,6 +85,9 @@ class AssetSprite extends FlxSprite
 {
 	public var data(default, null):AssetSpriteData;
 
+	/** When true, the asset-sprite sets the offsets based on the currently-playing animation from data. **/
+	public var useAnimDataOffsets:Bool = true;
+
 	/**
 		@param data Data to be loaded on creation.
 		@param id When supplied, the sprite data will be retrieved via AssetSpriteRegistry.getAsset.
@@ -115,12 +118,7 @@ class AssetSprite extends FlxSprite
 
 		// Add the animations given the animation data
 		for (animationData in data.animations)
-		{
-			if (animationData.indices != null && animationData.indices.length > 0)
-				animation.add(animationData.name, animationData.indices, animationData.frameRate, animationData.looped, animationData.flipX);
-			else
-				animation.addByPrefix(animationData.name, animationData.atlasPrefix, animationData.frameRate, animationData.looped, animationData.flipX);
-		}
+			loadAnimation(animationData);
 
 		antialiasing = data.antialiasing;
 		color = data.color;
@@ -128,12 +126,20 @@ class AssetSprite extends FlxSprite
 		blend = data.blend;
 	}
 
+	public function loadAnimation(data:AnimationData)
+	{
+		if (data.indices != null && data.indices.length > 0)
+			animation.add(data.name, data.indices, data.frameRate, data.looped, data.flipX);
+		else
+			animation.addByPrefix(data.name, data.atlasPrefix, data.frameRate, data.looped, data.flipX);
+	}
+
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
 
 		// Set the offset to that of the currently-playing animation
-		if (animation.curAnim != null)
+		if (useAnimDataOffsets && animation.curAnim != null)
 		{
 			for (animationData in data.animations)
 			{

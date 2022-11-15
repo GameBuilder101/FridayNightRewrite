@@ -1,11 +1,10 @@
 package;
 
 import AssetSprite;
-import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
-import flixel.util.FlxColor;
+import flixel.math.FlxPoint;
 
-/** Sprite-Text prints a string using a series of sprites. **/
+/** Prints a string using a series of sprites. **/
 class SpriteText extends FlxSpriteGroup
 {
 	static final UPPERCASE_LETTERS:Array<String> = [
@@ -25,15 +24,16 @@ class SpriteText extends FlxSpriteGroup
 
 	var charSprites:Array<AssetSprite> = new Array<AssetSprite>();
 
-	public function new(x:Float, y:Float, text:String, font:AssetSpriteData, fontSize:Float = 1.0)
+	public function new(x:Float, y:Float, text:String, font:AssetSpriteData, fontSize:Float = 1.0, bold:Bool = false)
 	{
 		super(x, y);
 		this.font = font;
 		this.fontSize = fontSize;
+		this.bold = bold;
 		setText(text);
 	}
 
-	public function setFont(font:AssetSpriteData, fontSize:Float = 1.0)
+	public inline function setFont(font:AssetSpriteData, fontSize:Float = 1.0)
 	{
 		this.font = font;
 		this.fontSize = fontSize;
@@ -42,10 +42,12 @@ class SpriteText extends FlxSpriteGroup
 	}
 
 	/** Returns the corresponding animation from the font data. **/
-	function getAnimation(uppercase:Bool, bold:Bool):AnimationData
+	function getFontAnimation(char:String, bold:Bool):AnimationData
 	{
 		var name:String;
-		if (uppercase)
+		if (char == " ")
+			name = "space";
+		else if (UPPERCASE_LETTERS.contains(char))
 			name = "uppercase";
 		else
 			name = "lowercase";
@@ -60,7 +62,43 @@ class SpriteText extends FlxSpriteGroup
 		return null;
 	}
 
-	public function setText(text:String)
+	/** Converts a character to the name used on the font atlas. **/
+	function getCharAtlasPrefix(char:String):String
+	{
+		switch (char)
+		{
+			case ".":
+				return "period";
+			case ",":
+				return "comma";
+			case "?":
+				return "question";
+			case "!":
+				return "exclamation";
+			case "'":
+				return "apostrophe";
+			case "’":
+				return "apostrophe";
+			case "\"":
+				return "quote";
+			case "“":
+				return "start quote";
+			case "”":
+				return "end quote";
+			case "&":
+				return "ampersand";
+			case "<":
+				return "less than";
+			case "/":
+				return "forward slash";
+			case "\\":
+				return "back slash";
+			default:
+				return char;
+		}
+	}
+
+	public inline function setText(text:String)
 	{
 		this.text = text;
 		updateText();
@@ -74,26 +112,42 @@ class SpriteText extends FlxSpriteGroup
 			remove(charSprite);
 		charSprites = new Array<AssetSprite>();
 
-		var animation:AnimationData;
+		var char:String;
+		var x:Float = 0.0;
 		var charSprite:AssetSprite;
-		var kern:Float;
+		var newAnimation:AnimationData;
 		for (i in 0...text.length)
 		{
-			animation = getAnimation(UPPERCASE_LETTERS.contains(text.charAt(i)), bold);
-			charSprite = generateCharSprite(text.charAt(i), animation);
-			charSprite.width *= fontSize;
-			charSprite.height *= fontSize;
+			char = text.charAt(i);
+			// Create the animation data to play on this character
+			newAnimation = Reflect.copy(getFontAnimation(char, bold));
+			if (char == " ") // Rather than creating a character for a space, just... Add a space
+			{
+				x += newAnimation.offsetX * fontSize;
+				continue;
+			}
+			newAnimation.name = "idle";
+			newAnimation.atlasPrefix = getCharAtlasPrefix(char) +
+				newAnimation.atlasPrefix; // The atlas prefix does not initially start out with the character identifier
 
-			kern = font.animations.charSprite.add(charSprite);
+			// Offset x is treated like kerning and offset y is treated like a baseline offset
+			charSprite = new AssetSprite(x, newAnimation.offsetY, font);
+			charSprite.useAnimDataOffsets = false; // We don't want the character to set its own offsets
+			charSprite.loadAnimation(newAnimation);
+
+			charSprite.scale = new FlxPoint(fontSize, fontSize);
+			charSprite.updateHitbox();
+			charSprite.offset = new FlxPoint(0.0, charSprite.height / 2.0); // Make the character align to the baseline
+			x += charSprite.width + newAnimation.offsetX * fontSize;
+
+			// Play the animation that was added earlier
+			charSprite.animation.play("idle");
+			charSprites.push(charSprite);
+			add(charSprite);
 		}
 	}
 
-	function generateCharSprite(char:String, animation:AnimationData):AssetSprite
-	{
-		var charSprite:AssetSprite = new AssetSprite(0.0, 0.0);
-	}
-
-	public function setBold(value:Bool)
+	public inline function setBold(value:Bool)
 	{
 		bold = value;
 		updateText();
