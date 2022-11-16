@@ -1,10 +1,11 @@
 package;
 
-import flixel.util.FlxColor;
 import AssetSprite;
+import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxPoint;
-import flixel.FlxSprite;
+
+using StringTools;
 
 /** Prints a string using a series of sprites. **/
 class SpriteText extends FlxSpriteGroup
@@ -12,6 +13,9 @@ class SpriteText extends FlxSpriteGroup
 	static final UPPERCASE_LETTERS:Array<String> = [
 		"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"
 	];
+
+	static final MIDDLE_ALIGN_CHARACTERS:Array<String> = ["+", "-", "~"];
+	static final TOP_ALIGN_CHARACTERS:Array<String> = ["'", "’", "\"", "“", "”", "*"];
 
 	/** ID for the default font. **/
 	public static inline final DEFAULT_FONT_ID:String = "menus/_shared/sprite_text_font";
@@ -27,21 +31,15 @@ class SpriteText extends FlxSpriteGroup
 	/** When true, an alternate animation for the font is used. **/
 	public var bold(default, null):Bool;
 
-	var charSprites:Array<AssetSprite> = new Array<AssetSprite>();
-
 	public function new(x:Float, y:Float, text:String, fontSize:Float = 1.0, bold:Bool = false, font:AssetSpriteData = null)
 	{
 		super(x, y);
-		this.font = font;
 		if (font == null)
 			font = AssetSpriteRegistry.getAsset(DEFAULT_FONT_ID);
+		this.font = font;
 		this.fontSize = fontSize;
 		this.bold = bold;
 		setText(text);
-
-		var testSprite:FlxSprite = new FlxSprite(0.0, 0.0);
-		testSprite.makeGraphic(5, 5, FlxColor.RED);
-		add(testSprite);
 	}
 
 	public inline function setFont(font:AssetSpriteData, fontSize:Float = 1.0)
@@ -73,40 +71,10 @@ class SpriteText extends FlxSpriteGroup
 		return null;
 	}
 
-	/** Converts a character to the name used on the font atlas. **/
-	function getCharAtlasPrefix(char:String):String
+	public inline function setBold(value:Bool)
 	{
-		switch (char)
-		{
-			case ".":
-				return "period";
-			case ",":
-				return "comma";
-			case "?":
-				return "question";
-			case "!":
-				return "exclamation";
-			case "'":
-				return "apostrophe";
-			case "’":
-				return "apostrophe";
-			case "\"":
-				return "quote";
-			case "“":
-				return "start quote";
-			case "”":
-				return "end quote";
-			case "&":
-				return "ampersand";
-			case "<":
-				return "less than";
-			case "/":
-				return "forward slash";
-			case "\\":
-				return "back slash";
-			default:
-				return char;
-		}
+		bold = value;
+		updateText();
 	}
 
 	public inline function setText(text:String)
@@ -118,49 +86,122 @@ class SpriteText extends FlxSpriteGroup
 	/** Builds and updates the character sprites. **/
 	function updateText()
 	{
-		// First, reset the current characters
-		for (charSprite in charSprites)
-			remove(charSprite);
-		charSprites = new Array<AssetSprite>();
+		/* First, we need to make sure we have the right amount of sprites. Calculate the
+			target number and add or subtract sprites until we have the right amount */
+		var targetSpriteCount:Int = getSpriteCount(text);
+		var sprite:FlxSprite;
+		var assetSprite:AssetSprite;
+		while (members.length > targetSpriteCount)
+		{
+			sprite = members[members.length - 1];
+			remove(sprite, true);
+			sprite.destroy();
+		}
+		while (members.length < targetSpriteCount)
+		{
+			assetSprite = new AssetSprite(0.0, 0.0);
+			assetSprite.useAnimDataOffsets = false; // We don't want the character to set its own offsets
+			add(assetSprite);
+		}
 
+		// Now, update the sprites to reflect the characters in the string
+		var spriteIndex:Int = 0;
 		var char:String;
 		var x:Float = 0.0;
-		var charSprite:AssetSprite;
 		var newAnimation:AnimationData;
 		for (i in 0...text.length)
 		{
 			char = text.charAt(i);
 			// Create the animation data to play on this character
 			newAnimation = Reflect.copy(getFontAnimation(char, bold));
-			if (char == " ") // Rather than creating a character for a space, just... Add a space
+			if (char == " ")
 			{
+				/* Rather than creating a character for a space, just... Add a space. We must do this after getting
+					the animation so that we can get the space size from the x-offset */
 				x += newAnimation.offsetX * fontSize;
 				continue;
 			}
 			newAnimation.name = "idle";
-			newAnimation.atlasPrefix = getCharAtlasPrefix(char) +
-				newAnimation.atlasPrefix; // The atlas prefix does not initially start out with the character identifier
+			newAnimation.atlasPrefix = getCharAtlasPrefix(char) + newAnimation.atlasPrefix;
 
-			// Offset x is treated like kerning and offset y is treated like a baseline offset
-			charSprite = new AssetSprite(x, newAnimation.offsetY, font);
-			charSprite.useAnimDataOffsets = false; // We don't want the character to set its own offsets
-			charSprite.loadAnimation(newAnimation);
+			assetSprite = cast members[spriteIndex];
+			// X-offset is treated like kerning
+			assetSprite.setPosition(this.x + x, this.y);
+			// Load the font (if it isn't already)
+			if (assetSprite.data != font)
+				assetSprite.loadFromData(font);
+			assetSprite.loadAnimation(newAnimation);
+			assetSprite.animation.play("idle"); // Play the animation that was added
 
-			charSprite.scale = new FlxPoint(fontSize, fontSize);
-			charSprite.updateHitbox();
-			charSprite.offset = new FlxPoint(0.0, charSprite.height / 2.0); // Make the character align to the baseline
-			x += charSprite.width + newAnimation.offsetX * fontSize;
+			// Scale and position the sprite
+			assetSprite.scale = new FlxPoint(fontSize, fontSize);
+			assetSprite.updateHitbox();
+			assetSprite.origin = new FlxPoint(0.0, 0.0);
+			// Set the character's height
+			assetSprite.offset = new FlxPoint(0.0, (assetSprite.height - (newAnimation.offsetY * fontSize)) * getCharAlignment(char));
+			x += assetSprite.width + newAnimation.offsetX * fontSize; // Shift over to update the next character sprite
 
-			// Play the animation that was added earlier
-			charSprite.animation.play("idle");
-			charSprites.push(charSprite);
-			add(charSprite);
+			spriteIndex++;
 		}
 	}
 
-	public inline function setBold(value:Bool)
+	/** Returns the number of sprites that will be needed to display the string. **/
+	function getSpriteCount(string:String):Int
 	{
-		bold = value;
-		updateText();
+		var count = 0;
+		for (i in 0...string.length)
+		{
+			if (string.charAt(i) != " ")
+				count++;
+		}
+		return count;
+	}
+
+	/** Converts a character to the name used on the font atlas. **/
+	function getCharAtlasPrefix(char:String):String
+	{
+		switch (char)
+		{
+			case ".":
+				return "period";
+			case ",":
+				return "comma";
+			case "?":
+				return "question_mark";
+			case "!":
+				return "exclamation_mark";
+			case "'":
+				return "apostrophe";
+			case "’":
+				return "apostrophe";
+			case "\"":
+				return "quote";
+			case "“":
+				return "start_quote";
+			case "”":
+				return "end_quote";
+			case "&":
+				return "ampersand";
+			case "<":
+				return "less_than";
+			case "/":
+				return "forward_slash";
+			case "\\":
+				return "back_slash";
+			default:
+				return char.toLowerCase();
+		}
+	}
+
+	/** Gets the alignment for a character.
+		@return 1 is bottom, 0.5 is middle, and 0 is top.
+	**/
+	function getCharAlignment(char:String):Float
+	{
+		if (MIDDLE_ALIGN_CHARACTERS.contains(char))
+			return 0.5;
+		else if (TOP_ALIGN_CHARACTERS.contains(char))
+			return 0.0;
+		return 1.0;
 	}
 }

@@ -1,28 +1,18 @@
 package;
 
-import AssetSprite;
+import flixel.FlxSprite;
+import flixel.util.FlxColor;
 import music.ConductedState;
 import music.MusicData;
 
 class MenuState extends ConductedState
 {
-	var boyend:AssetSprite;
-	var obunga:SpriteText;
-
 	override public function create()
 	{
 		super.create();
-		// conductor.play(MusicRegistry.getAsset("menus/_shared/funky_menu_theme"), true);
-		// boyend = new AssetSprite(400.0, 400.0, "characters/bf/sprite_normal");
-		// add(boyend);
+		conductor.play(MusicRegistry.getAsset("menus/_shared/funky_menu_theme"), true);
 
-		obunga = new SpriteText(100.0, 100.0, "i like cheese!!!!...", 1.0, true);
-		add(obunga);
-	}
-
-	override function onBeat(beat:Int)
-	{
-		super.onBeat(beat);
-		// boyend.animation.play("idle", true);
+		add(new FlxSprite(0.0, 0.0).makeGraphic(1280, 720, FlxColor.WHITE));
+		add(new SpriteText(256.0, 256.0, "Hello world", 1.0, false));
 	}
 }

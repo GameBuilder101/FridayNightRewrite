@@ -116,6 +116,9 @@ class AssetSprite extends FlxSprite
 		else
 			loadGraphic(data.bitmapData);
 
+		// Remove any existing animations
+		for (anim in animation.getAnimationList())
+			animation.remove(anim.name);
 		// Add the animations given the animation data
 		for (animationData in data.animations)
 			loadAnimation(animationData);

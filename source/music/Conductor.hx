@@ -12,9 +12,9 @@ class Conductor extends FlxGroup
 	/** The sound used to play the current music. The timing of music is tied directly to the current time of the sound. **/
 	var sound:FlxSound = new FlxSound();
 
-	public function new(maxSize:Int = 0)
+	public function new()
 	{
-		super(maxSize);
+		super();
 		add(sound);
 	}
 
@@ -56,12 +56,16 @@ class Conductor extends FlxGroup
 	/** Calculates the current BPM. **/
 	public function getCurrentBPM():Float
 	{
+		if (music == null)
+			return 0.0;
 		return music.getBPMAt(getTime());
 	}
 
 	/** Calculates the current beat. **/
 	public function getCurrentBeat():Int
 	{
+		if (music == null)
+			return -1;
 		return music.getBeatAt(getTime());
 	}
 }

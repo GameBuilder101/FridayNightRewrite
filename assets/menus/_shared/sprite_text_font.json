@@ -7,8 +7,8 @@
             "frameRate": 24,
             "looped": true,
             "flipX": false,
-            "offsetX": 6.0,
-            "offsetY": -40.0
+            "offsetX": 5.0,
+            "offsetY": 60.0
         },
         {
             "name": "uppercase",
@@ -17,8 +17,8 @@
             "frameRate": 24,
             "looped": true,
             "flipX": false,
-            "offsetX": 6.0,
-            "offsetY": -40.0
+            "offsetX": 5.0,
+            "offsetY": 60.0
         },
         {
             "name": "space",
@@ -27,8 +27,8 @@
             "frameRate": 24,
             "looped": true,
             "flipX": false,
-            "offsetX": 24.0,
-            "offsetY": 0.0
+            "offsetX": 30.0,
+            "offsetY": 60.0
         },
         {
             "name": "lowercase_bold",
@@ -38,7 +38,7 @@
             "looped": true,
             "flipX": false,
             "offsetX": 8.0,
-            "offsetY": -60.0
+            "offsetY": 60.0
         },
         {
             "name": "uppercase_bold",
@@ -48,7 +48,7 @@
             "looped": true,
             "flipX": false,
             "offsetX": 8.0,
-            "offsetY": -60.0
+            "offsetY": 60.0
         },
         {
             "name": "space_bold",
@@ -58,7 +58,7 @@
             "looped": true,
             "flipX": false,
             "offsetX": 34.0,
-            "offsetY": 0.0
+            "offsetY": 60.0
         }
     ]
 }
