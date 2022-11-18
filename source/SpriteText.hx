@@ -5,6 +5,7 @@ import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
+import flixel.text.FlxText;
 import flixel.util.FlxColor;
 
 /** Prints a string using a series of sprites. **/
@@ -28,6 +29,8 @@ class SpriteText extends FlxSpriteGroup
 	/** The size of the font. Gets multiplied with the original sprite sizes. **/
 	public var fontSize(default, null):Float;
 
+	public var textAlign(default, null):FlxTextAlign;
+
 	/** When true, an alternate animation for the font is used. **/
 	public var bold(default, null):Bool;
 
@@ -35,24 +38,34 @@ class SpriteText extends FlxSpriteGroup
 	var waveMagnitude:Float;
 	var waveFrequency:Float;
 	var waveSpeed:Float;
+	var wavePos:Float;
 
 	// Values for color animation
-	var colorShift:Array<FlxColor>;
+	var animateColor:Bool;
+	var colorShift1:FlxColor;
+	var colorShift2:FlxColor;
 	var colorShiftSpeed:Float;
 	var colorShiftPos:Float;
 
 	/** 1 when going right and -1 when going left. **/
 	var colorShiftDir:Int;
 
-	public function new(x:Float, y:Float, text:String, fontSize:Float = 1.0, bold:Bool = false, font:AssetSpriteData = null)
+	public function new(x:Float, y:Float, text:String, fontSize:Float = 1.0, textAlign:FlxTextAlign = LEFT, bold:Bool = false, font:AssetSpriteData = null)
 	{
 		super(x, y);
 		if (font == null)
 			font = AssetSpriteRegistry.getAsset(DEFAULT_FONT_ID);
 		this.font = font;
 		this.fontSize = fontSize;
+		this.textAlign = textAlign;
 		this.bold = bold;
 		setText(text);
+	}
+
+	public inline function setText(text:String)
+	{
+		this.text = text;
+		updateText();
 	}
 
 	public inline function setFont(font:AssetSpriteData, fontSize:Float = 1.0)
@@ -84,15 +97,15 @@ class SpriteText extends FlxSpriteGroup
 		return null;
 	}
 
-	public inline function setBold(value:Bool)
+	public inline function setTextAlign(textAlign:FlxTextAlign)
 	{
-		bold = value;
+		this.textAlign = textAlign;
 		updateText();
 	}
 
-	public inline function setText(text:String)
+	public inline function setBold(value:Bool)
 	{
-		this.text = text;
+		bold = value;
 		updateText();
 	}
 
@@ -120,7 +133,7 @@ class SpriteText extends FlxSpriteGroup
 		// Now, update the sprites to reflect the characters in the string
 		var spriteIndex:Int = 0;
 		var char:String;
-		var x:Float = 0.0;
+		var charX:Float = 0.0;
 		var newAnimation:AnimationData;
 		for (i in 0...text.length)
 		{
@@ -131,33 +144,44 @@ class SpriteText extends FlxSpriteGroup
 			{
 				/* Rather than creating a character for a space, just... Add a space. We must do this after getting
 					the animation so that we can get the space size from the x-offset */
-				x += newAnimation.offsetX * fontSize;
+				charX += newAnimation.offsetX * fontSize;
 				continue;
 			}
 			newAnimation.name = "idle";
 			newAnimation.atlasPrefix = getCharAtlasPrefix(char) + newAnimation.atlasPrefix;
 
 			assetSprite = cast members[spriteIndex];
-			// X-offset is treated like kerning
-			assetSprite.setPosition(this.x + x, this.y + 0.0);
 			// Load the font (if it isn't already)
 			if (assetSprite.data != font)
 				assetSprite.loadFromData(font);
 			assetSprite.loadAnimation(newAnimation);
 			assetSprite.animation.play("idle"); // Play the animation that was added
 
+			// Animation x-offset is treated like kerning
+			assetSprite.setPosition(charX + this.x, this.y);
 			// Scale and position the sprite
 			assetSprite.scale = new FlxPoint(fontSize, fontSize);
 			assetSprite.updateHitbox();
 			assetSprite.origin = new FlxPoint(0.0, 0.0);
 			// Set the character's height
-			assetSprite.offset = new FlxPoint(0.0, (assetSprite.height - (newAnimation.offsetY * fontSize)) * getCharVerticalAlignment(char));
-			x += assetSprite.width + newAnimation.offsetX * fontSize; // Shift over to update the next character sprite
+			assetSprite.offset = new FlxPoint(0.0, (assetSprite.height - (newAnimation.offsetY * fontSize)) * getCharAlignment(char));
+			charX += assetSprite.width + newAnimation.offsetX * fontSize; // Shift over to update the next character sprite
 
 			spriteIndex++;
 		}
 
-		updateHitbox();
+		var width:Float = width; // Width gets changed in the process of moving sprites otherwise
+		// Update the positions based on the text-align. By default, it's created left-aligned so we don't need to do this in that case
+		if (textAlign != LEFT)
+		{
+			for (sprite in members)
+			{
+				if (textAlign == RIGHT)
+					sprite.x -= width;
+				else
+					sprite.x -= width / 2.0; // For centered and justified text
+			}
+		}
 	}
 
 	/** Returns the number of sprites that will be needed to display the string. **/
@@ -211,7 +235,7 @@ class SpriteText extends FlxSpriteGroup
 	/** Gets the alignment for a character.
 		@return 1 is bottom, 0.5 is middle, and 0 is top.
 	**/
-	function getCharVerticalAlignment(char:String):Float
+	function getCharAlignment(char:String):Float
 	{
 		if (MIDDLE_ALIGN_CHARACTERS.contains(char))
 			return 0.5;
@@ -221,20 +245,34 @@ class SpriteText extends FlxSpriteGroup
 	}
 
 	/** Makes the text play an up/down wave animation. **/
-	public function waveAnimation(magnitude:Float, frequency:Float, speed:Float)
+	public function playWaveAnimation(magnitude:Float = 5.0, frequency:Float = 1.0, speed:Float = 2.0)
 	{
 		waveMagnitude = magnitude;
 		waveFrequency = frequency;
 		waveSpeed = speed;
+		wavePos = 0.0;
+	}
+
+	public function resetWaveAnimation()
+	{
+		waveMagnitude = 0.0;
 	}
 
 	/** Makes the text change colors over time. **/
-	public function colorShiftAnimation(colors:Array<FlxColor>, speed:Float)
+	public function playColorAnimation(color1:FlxColor, color2:FlxColor, speed:Float)
 	{
-		colorShift = colors;
+		animateColor = true;
+		colorShift1 = color1;
+		colorShift2 = color2;
 		colorShiftSpeed = speed;
 		colorShiftPos = 0.0;
 		colorShiftDir = 1;
+	}
+
+	public function resetColorAnimation()
+	{
+		animateColor = false;
+		color = FlxColor.WHITE;
 	}
 
 	override function update(elapsed:Float)
@@ -245,25 +283,28 @@ class SpriteText extends FlxSpriteGroup
 		for (sprite in members)
 		{
 			if (waveMagnitude != 0.0)
-				sprite.y = FlxMath.fastSin((elapsed + (i * waveFrequency)) * waveSpeed) * waveMagnitude;
+				sprite.y = FlxMath.fastSin((wavePos + (i * waveFrequency)) * waveSpeed) * waveMagnitude * fontSize + this.y;
 			else
-				sprite.y = 0.0;
+				sprite.y = this.y;
 			i++;
 		}
+		wavePos += elapsed;
 
-		// Animate the color shift
-		if (colorShift != null && colorShift.length <= 1)
-			color = colorShift[0]; // If there is only one color, just use the one color
-		else if (colorShift != null)
+		// Animation color shifting
+		if (animateColor)
 		{
-			// Get the indexes of the color to lerp between
-			var index1:Int = Std.int((colorShift.length - 1) * colorShiftPos);
-			var index2:Int = index1 + colorShiftDir;
-
-			color = FlxColor.interpolate(colorShift[index1], colorShift[index2],);
-			colorShiftPos += elapsed *
+			color = FlxColor.interpolate(colorShift1, colorShift2, colorShiftPos);
+			colorShiftPos += elapsed * colorShiftDir * colorShiftSpeed;
+			if (colorShiftPos < 0.0)
+			{
+				colorShiftPos = 0.0;
+				colorShiftDir = 1;
+			}
+			if (colorShiftPos > 1.0)
+			{
+				colorShiftPos = 1.0;
+				colorShiftDir = -1;
+			}
 		}
-		else
-			color = FlxColor.WHITE;
 	}
 }

@@ -80,11 +80,14 @@ class LibraryManager
 			contents = FileSystem.readDirectory(Registry.getFullPath(libraryEntry.directory, libraryEntry.id) + "/" + libraryDirectory);
 			if (contents == null)
 				continue;
-			// Clear out any already-added
+			var i:Int = 0;
 			for (content in contents)
 			{
-				if (all.contains(content))
-					contents.remove(content);
+				contents[i] = libraryDirectory + "/" + content;
+				if (all.contains(contents[i])) // Clear out any already-added
+					contents.splice(i, 1);
+				else
+					i++;
 			}
 			all = all.concat(contents);
 		}

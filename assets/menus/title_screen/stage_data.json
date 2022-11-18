@@ -1,0 +1,16 @@
+{
+    "name": "Title Screen",
+    "elements": [
+        {
+            "name": "Menu Record Accent",
+            "type": "asset_sprite",
+            "x": 0.0,
+            "y": 0.0,
+            "scale": 1.0,
+            "rotation": 0.0,
+            "data": {
+                "id": "menus/title_screen/menu_record_accent"
+            }
+        }
+    ]
+}

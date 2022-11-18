@@ -30,9 +30,11 @@ class AlbumRegistry extends Registry<AlbumData>
 
 	public static function getAsset(id:String):AlbumData
 	{
-		return LibraryManager.getLibraryAsset("albums/" + id, cache);
+		return LibraryManager.getLibraryAsset(id, cache);
 	}
 
+	/** Returns all IDs in a library-relative directory. This does not necessarily
+		return ALL of them in the files, only ones in a specific folder. **/
 	public static function getAllIDs():Array<String>
 	{
 		if (cachedIDs != null)

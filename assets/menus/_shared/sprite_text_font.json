@@ -2,7 +2,7 @@
     "animations": [
         {
             "name": "lowercase",
-            "atlasPrefix": " lowercase instance 1",
+            "atlasPrefix": " lowercase",
             "indices": [],
             "frameRate": 24,
             "looped": true,
@@ -12,7 +12,7 @@
         },
         {
             "name": "uppercase",
-            "atlasPrefix": " uppercase instance 1",
+            "atlasPrefix": " uppercase",
             "indices": [],
             "frameRate": 24,
             "looped": true,
@@ -32,7 +32,7 @@
         },
         {
             "name": "lowercase_bold",
-            "atlasPrefix": " bold instance 1",
+            "atlasPrefix": " bold",
             "indices": [],
             "frameRate": 24,
             "looped": true,
@@ -42,7 +42,7 @@
         },
         {
             "name": "uppercase_bold",
-            "atlasPrefix": " bold instance 1",
+            "atlasPrefix": " bold",
             "indices": [],
             "frameRate": 24,
             "looped": true,
