@@ -1,9 +1,13 @@
-package stages;
+package stage;
 
 import assetManagement.FileManager;
 import assetManagement.LibraryManager;
 import assetManagement.Registry;
+import flixel.FlxCamera;
+import flixel.FlxG;
+import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
+import flixel.math.FlxPoint;
 
 typedef StageData =
 {
@@ -13,11 +17,15 @@ typedef StageData =
 
 typedef StageElementData =
 {
+	// The name is mainly used to identify the sprite for a stage editor
 	name:String,
 	type:String,
 	x:Float,
 	y:Float,
-	scale:Float,
+	scrollFactorX:Float,
+	scrollFactorY:Float,
+	scaleX:Float,
+	scaleY:Float,
 	rotation:Float,
 	data:Dynamic
 }
@@ -57,13 +65,20 @@ class Stage extends FlxSpriteGroup
 {
 	public var data(default, null):StageData;
 
+	public var stageCamera(default, null):FlxCamera;
+
 	/**
 		@param data Data to be loaded on creation.
 		@param id When supplied, the stage data will be retrieved via StageRegistry.getAsset.
 	**/
-	public function new(x:Float, y:Float, ?data:StageData = null, ?id:String = null)
+	public function new(?data:StageData = null, ?id:String = null)
 	{
-		super(x, y);
+		super(0.0, 0.0);
+
+		stageCamera = new FlxCamera();
+		stageCamera.bgColor.alpha = 0;
+		FlxG.cameras.add(stageCamera);
+
 		if (data != null)
 			loadFromData(data);
 		else if (id != null)
@@ -78,7 +93,32 @@ class Stage extends FlxSpriteGroup
 	public function loadFromData(data:StageData)
 	{
 		this.data = data;
+		var sprite:FlxSprite;
+		for (element in data.elements)
+		{
+			// First, find the class for the element using its type
+			var elementClass:Class<Dynamic> = Type.resolveClass("stage.elements." + element.type);
+			if (elementClass == null) // If it wasn't found, don't create it
+				continue;
+			// Create the instance
+			sprite = cast Type.createInstance(elementClass, [element.name, element.data]);
+			// Fill in the rest of the sprite data
+			sprite.setPosition(element.x, element.y);
+
+			sprite.camera = stageCamera;
+			sprite.scrollFactor = new FlxPoint(element.scrollFactorX, element.scrollFactorY);
+
+			sprite.scale = new FlxPoint(element.scaleX, element.scaleY);
+			sprite.updateHitbox();
+			sprite.angle = element.rotation;
+			add(sprite);
+		}
+	}
+
+	/** Returns a member of the given type. **/
+	public function getElement<T>():T
+	{
+		for (member in members) {}
+		return null;
 	}
 }
-
-interface StageElement {}
