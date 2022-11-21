@@ -16,7 +16,7 @@ This is the repository for Friday Night Rewrite, a full code rewrite of the orig
 - Support the full game on Kickstarter: https://www.kickstarter.com/projects/funkin/friday-night-funkin-the-full-ass-game
 
 ## Features
-- Support for custom albums, weeks, stages, songs, characters, and stages without need for scripting!
+- Support for custom albums, weeks, songs, characters, and even STAGES and MENUS without need for scripting!
 - Custom editors for everything you could need in a mod
 - Event notes
 - Dialogue system
@@ -33,6 +33,9 @@ This is the repository for Friday Night Rewrite, a full code rewrite of the orig
 - Custom arrow types
 - **COMmeNTEd cODE?!?!?!?!?!?!?!??!?!?!?!! :scream::scream::scream:**
 - And more!
+
+**Note:**
+- The engine does not currently support LUA scripting (this is a planned feature for the future). Though, it *is* powerful enough on its own to achieve general things without need for scripting.
 
 ## How to Set Up
 1. Go to https://haxe.org/download/ and download Haxe version 4.2.5 **(This is a different version number compared to vanilla FNF!!!!)**
@@ -52,5 +55,4 @@ This is the repository for Friday Night Rewrite, a full code rewrite of the orig
    - Windows SDK (10.0.17763.0)
 
 ## How to Compile
-1. Make sure the active configuration is set to Windows (in Visual Studio Code, this would be done through a button at the bottom)
-2. Just type ```lime test windows``` in the console or use one of the batch files in the root to compile!
+1. Just type ```lime test windows``` in the console to test or use one of the batch files to compile!

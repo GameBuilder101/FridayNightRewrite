@@ -3,60 +3,42 @@
         {
             "name": "lowercase",
             "atlasPrefix": " lowercase",
-            "indices": [],
             "frameRate": 24,
             "looped": true,
-            "flipX": false,
             "offsetX": 5.0,
             "offsetY": 60.0
         },
         {
             "name": "uppercase",
             "atlasPrefix": " uppercase",
-            "indices": [],
             "frameRate": 24,
             "looped": true,
-            "flipX": false,
             "offsetX": 5.0,
             "offsetY": 60.0
         },
         {
             "name": "space",
-            "atlasPrefix": "",
-            "indices": [],
-            "frameRate": 24,
-            "looped": true,
-            "flipX": false,
             "offsetX": 30.0,
             "offsetY": 60.0
         },
         {
             "name": "lowercase_bold",
             "atlasPrefix": " bold",
-            "indices": [],
             "frameRate": 24,
             "looped": true,
-            "flipX": false,
             "offsetX": 8.0,
             "offsetY": 60.0
         },
         {
             "name": "uppercase_bold",
             "atlasPrefix": " bold",
-            "indices": [],
             "frameRate": 24,
             "looped": true,
-            "flipX": false,
             "offsetX": 8.0,
             "offsetY": 60.0
         },
         {
             "name": "space_bold",
-            "atlasPrefix": "",
-            "indices": [],
-            "frameRate": 24,
-            "looped": true,
-            "flipX": false,
             "offsetX": 34.0,
             "offsetY": 60.0
         }

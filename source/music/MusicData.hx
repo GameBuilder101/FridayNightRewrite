@@ -34,11 +34,12 @@ class MusicData
 		return bpm;
 	}
 
-	/** Returns the total number of beats that have passed by the given time. Warning: might be slow.
-		@param time The time in milliseconds. **/
-	public function getBeatAt(time:Float):Int
+	/** Returns the total number/parts of beats that have passed by the given time. Warning: might be slow.
+		@param time The time in milliseconds.
+		@return EX: If 4 beats have passed, returns 4. If 4 beats have passed and it's half-way between beat 4 and 5, returns 4.5. **/
+	public function getBeatAt(time:Float):Float
 	{
-		var beat:Int = 0;
+		var beat:Float = 0;
 		var i:Int = 0;
 		/* We can't just use a simple equation to calculate this, since BPM changes mean you need
 			to account for how many beats passed in previous BPM segments */
@@ -46,10 +47,10 @@ class MusicData
 		{
 			if (change.time >= time || i + 1 >= bpmMap.length)
 				break;
-			beat += Std.int((bpmMap[i + 1].time - change.time) * (change.bpm / 60000.0));
+			beat += (bpmMap[i + 1].time - change.time) * (change.bpm / 60000.0);
 			i++;
 		}
-		beat += Std.int((time - bpmMap[i].time) * (bpmMap[i].bpm / 60000.0));
+		beat += (time - bpmMap[i].time) * (bpmMap[i].bpm / 60000.0);
 		return beat;
 	}
 }
@@ -71,6 +72,10 @@ class MusicRegistry extends Registry<MusicData>
 		var parsed:Dynamic = FileManager.getParsedJson(path);
 		if (parsed == null)
 			return null;
+
+		// Fill in default values if the data is missing
+		if (parsed.volume == null)
+			parsed.volume = 1.0;
 		if (parsed.bpmMap == null || parsed.bpmMap.length <= 0)
 			parsed.bpmMap = [{time: 0.0, bpm: 0.0}];
 

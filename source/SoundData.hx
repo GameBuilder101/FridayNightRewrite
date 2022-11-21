@@ -47,7 +47,7 @@ class SoundRegistry extends Registry<SoundData>
 		var parsed:Dynamic = FileManager.getParsedJson(path);
 		var sound:Sound;
 
-		if (parsed == null || parsed.variants == null) // If JSON data for the sound variants were not supplied, look for a standalone sound file instead
+		if (parsed == null) // If JSON data for the sound variants were not supplied, look for a standalone sound file instead
 		{
 			sound = FileManager.getSound(path);
 			if (sound == null) // If a sound file was also not found, then this sound doesn't exist
@@ -63,6 +63,11 @@ class SoundRegistry extends Registry<SoundData>
 			sound = FileManager.getSound(Registry.getFullPath(directory, variant.soundID));
 			if (sound == null) // If this variant's sound file couldn't be found, don't add it
 				continue;
+
+			// Fill in default variant values if the data is missing
+			if (variant.volume == null)
+				variant.volume = 1.0;
+
 			variants.push({sound: sound, volume: variant.volume});
 		}
 

@@ -1,6 +1,5 @@
 {
     "name": "Friday Night Funkin'",
     "description": "A port of the original Friday Night Funkin'. Probably required for many mods to work",
-    "version": "0.2.7",
-    "dependencies": []
+    "version": "0.2.7"
 }

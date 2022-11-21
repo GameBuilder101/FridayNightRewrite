@@ -42,6 +42,11 @@ class LibraryRegistry extends Registry<Library>
 		var parsed:Dynamic = FileManager.getParsedJson(Registry.getFullPath(directory, id) + "/library");
 		if (parsed == null)
 			return null;
+
+		// Fill in default values if the data is missing
+		if (parsed.dependencies == null)
+			parsed.dependencies = [];
+
 		trace("Loaded library '" + id + "'");
 		return new Library(parsed.name, parsed.description, parsed.version, parsed.dependencies);
 	}

@@ -3,58 +3,51 @@
     "elements": [
         {
             "name": "Background",
-            "type": "AssetSpriteElement",
-            "x": 0.0,
-            "y": 0.0,
-            "scrollFactorX": 0.0,
-            "scrollFactorY": 0.0,
-            "scaleX": 1.0,
-            "scaleY": 1.0,
-            "rotation": 0.0,
+            "type": "general_sprite",
             "data": {
-                "id": "menus/_shared/standard_background"
+                "id": "menus/_shared/standard_background",
+                "recolor": [
+                    30,
+                    14,
+                    65
+                ]
+            }
+        },
+        {
+            "name": "Girlfriend",
+            "type": "general_sprite",
+            "x": 540.0,
+            "y": 720.0,
+            "scaleX": 0.75,
+            "scaleY": 0.75,
+            "data": {
+                "id": "characters/gf/sprite_normal",
+                "beatAnimName": "idle",
+                "beatAnimFrequency": 2
             }
         },
         {
             "name": "Menu Record Accent",
-            "type": "AssetSpriteElement",
-            "x": 0.0,
-            "y": 0.0,
-            "scrollFactorX": 400.0,
-            "scrollFactorY": 0.0,
-            "scaleX": 1.0,
-            "scaleY": 1.0,
-            "rotation": 0.0,
+            "type": "general_sprite",
+            "x": 256.0,
             "data": {
                 "id": "menus/title_screen/menu_record_accent"
             }
         },
         {
             "name": "Menu Record",
-            "type": "AssetSpriteElement",
-            "x": -128.0,
+            "type": "menu_record",
+            "x": -64.0,
             "y": 360.0,
-            "scrollFactorX": 0.0,
-            "scrollFactorY": 0.0,
-            "scaleX": 1.0,
-            "scaleY": 1.0,
-            "rotation": 0.0,
             "data": {
-                "id": "menus/_shared/menu_record"
-            }
-        },
-        {
-            "name": "Menu",
-            "type": "MenuElement",
-            "x": -128.0,
-            "y": 360.0,
-            "scrollFactorX": 0.0,
-            "scrollFactorY": 0.0,
-            "scaleX": 256.0,
-            "scaleY": 256.0,
-            "rotation": 0.0,
-            "data": {
-                "mode": "radial"
+                "id": "menus/_shared/menu_record",
+                "recolor": [
+                    247,
+                    51,
+                    154
+                ],
+                "beatAnimFrequency": 1,
+                "speed": 0.25
             }
         }
     ]

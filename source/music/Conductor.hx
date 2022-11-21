@@ -22,6 +22,7 @@ class Conductor extends FlxGroup
 	{
 		this.music = music;
 		sound.loadEmbedded(music.sound, looped);
+		sound.volume = music.volume;
 		sound.play(true);
 	}
 
@@ -62,10 +63,10 @@ class Conductor extends FlxGroup
 	}
 
 	/** Calculates the current beat. **/
-	public function getCurrentBeat():Int
+	public function getCurrentBeat():Float
 	{
 		if (music == null)
-			return -1;
+			return -1.0;
 		return music.getBeatAt(getTime());
 	}
 }

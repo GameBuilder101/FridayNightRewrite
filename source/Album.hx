@@ -25,6 +25,11 @@ class AlbumRegistry extends Registry<AlbumData>
 		var parsed:Dynamic = FileManager.getParsedJson(Registry.getFullPath(directory, id) + "/album_data");
 		if (parsed == null)
 			return null;
+
+		// Fill in default values if the data is missing
+		if (parsed.credits == null)
+			parsed.credits = [];
+
 		return parsed;
 	}
 

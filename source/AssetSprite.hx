@@ -14,6 +14,7 @@ typedef AssetSpriteData =
 	bitmapData:BitmapData,
 	sparrowAtlas:String,
 	spriteSheetPacker:String,
+	bottomAlign:Bool,
 	animations:Array<AnimationData>,
 	antialiasing:Bool,
 	color:FlxColor,
@@ -48,9 +49,12 @@ class AssetSpriteRegistry extends Registry<AssetSpriteData>
 		var parsed:Dynamic = FileManager.getParsedJson(path);
 		if (parsed == null)
 			parsed = {};
+
 		// Fill in default values if the data is missing
 		if (parsed.animations == null)
 			parsed.animations = [];
+		if (parsed.bottomAlign == null)
+			parsed.bottomAlign = false;
 		if (parsed.antialiasing == null)
 			parsed.antialiasing = true;
 		if (parsed.color == null)
@@ -60,10 +64,30 @@ class AssetSpriteRegistry extends Registry<AssetSpriteData>
 		if (parsed.blend == null)
 			parsed.blend = BlendMode.ALPHA;
 
+		// Fill in default animation values if the data is missing
+		for (animation in cast(parsed.animations, Array<Dynamic>))
+		{
+			if (animation.atlasPrefix == null)
+				animation.atlasPrefix = "";
+			if (animation.indices == null)
+				animation.indices = [];
+			if (animation.frameRate == null)
+				animation.frameRate = 0;
+			if (animation.looped == null)
+				animation.looped = false;
+			if (animation.flipX == null)
+				animation.flipX = false;
+			if (animation.offsetX == null)
+				animation.offsetX = 0.0;
+			if (animation.offsetY == null)
+				animation.offsetY = 0.0;
+		}
+
 		return {
 			bitmapData: bitmapData,
 			sparrowAtlas: FileManager.getXML(path),
 			spriteSheetPacker: FileManager.getText(path),
+			bottomAlign: parsed.bottomAlign,
 			animations: parsed.animations,
 			antialiasing: parsed.antialiasing,
 			color: FlxColor.fromRGB(parsed.color[0], parsed.color[1], parsed.color[2]),
@@ -109,9 +133,9 @@ class AssetSprite extends FlxSprite
 	public function loadFromData(data:AssetSpriteData)
 	{
 		this.data = data;
-		if (data.sparrowAtlas != null && data.sparrowAtlas != "")
+		if (data.sparrowAtlas != null)
 			frames = FlxAtlasFrames.fromSparrow(data.bitmapData, data.sparrowAtlas);
-		else if (data.spriteSheetPacker != null && data.spriteSheetPacker != "")
+		else if (data.spriteSheetPacker != null)
 			frames = FlxAtlasFrames.fromSpriteSheetPacker(data.bitmapData, data.spriteSheetPacker);
 		else
 			loadGraphic(data.bitmapData);
@@ -131,7 +155,7 @@ class AssetSprite extends FlxSprite
 
 	public function loadAnimation(data:AnimationData)
 	{
-		if (data.indices != null && data.indices.length > 0)
+		if (data.indices.length > 0)
 			animation.add(data.name, data.indices, data.frameRate, data.looped, data.flipX);
 		else
 			animation.addByPrefix(data.name, data.atlasPrefix, data.frameRate, data.looped, data.flipX);
@@ -149,6 +173,8 @@ class AssetSprite extends FlxSprite
 				if (animation.curAnim.name == animationData.name)
 				{
 					offset.set(animationData.offsetX, animationData.offsetY);
+					if (data.bottomAlign)
+						offset.y += height;
 					break;
 				}
 			}
