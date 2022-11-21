@@ -14,6 +14,8 @@ typedef AssetSpriteData =
 	bitmapData:BitmapData,
 	sparrowAtlas:String,
 	spriteSheetPacker:String,
+	flipX:Bool,
+	flipY:Bool,
 	bottomAlign:Bool,
 	animations:Array<AnimationData>,
 	antialiasing:Bool,
@@ -29,7 +31,6 @@ typedef AnimationData =
 	indices:Array<Int>,
 	frameRate:Int,
 	looped:Bool,
-	flipX:Bool,
 	offsetX:Float,
 	offsetY:Float
 }
@@ -53,6 +54,10 @@ class AssetSpriteRegistry extends Registry<AssetSpriteData>
 		// Fill in default values if the data is missing
 		if (parsed.animations == null)
 			parsed.animations = [];
+		if (parsed.flipX == null)
+			parsed.flipX = false;
+		if (parsed.flipY == null)
+			parsed.flipY = false;
 		if (parsed.bottomAlign == null)
 			parsed.bottomAlign = false;
 		if (parsed.antialiasing == null)
@@ -75,8 +80,6 @@ class AssetSpriteRegistry extends Registry<AssetSpriteData>
 				animation.frameRate = 0;
 			if (animation.looped == null)
 				animation.looped = false;
-			if (animation.flipX == null)
-				animation.flipX = false;
 			if (animation.offsetX == null)
 				animation.offsetX = 0.0;
 			if (animation.offsetY == null)
@@ -87,6 +90,8 @@ class AssetSpriteRegistry extends Registry<AssetSpriteData>
 			bitmapData: bitmapData,
 			sparrowAtlas: FileManager.getXML(path),
 			spriteSheetPacker: FileManager.getText(path),
+			flipX: parsed.flipX,
+			flipY: parsed.flipY,
 			bottomAlign: parsed.bottomAlign,
 			animations: parsed.animations,
 			antialiasing: parsed.antialiasing,
@@ -156,9 +161,9 @@ class AssetSprite extends FlxSprite
 	public function loadAnimation(data:AnimationData)
 	{
 		if (data.indices.length > 0)
-			animation.add(data.name, data.indices, data.frameRate, data.looped, data.flipX);
+			animation.add(data.name, data.indices, data.frameRate, data.looped);
 		else
-			animation.addByPrefix(data.name, data.atlasPrefix, data.frameRate, data.looped, data.flipX);
+			animation.addByPrefix(data.name, data.atlasPrefix, data.frameRate, data.looped);
 	}
 
 	override public function update(elapsed:Float)
@@ -174,7 +179,7 @@ class AssetSprite extends FlxSprite
 				{
 					offset.set(animationData.offsetX, animationData.offsetY);
 					if (data.bottomAlign)
-						offset.y += height;
+						offset.y += frameHeight * scale.y;
 					break;
 				}
 			}

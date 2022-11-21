@@ -12,10 +12,31 @@ class Conductor extends FlxGroup
 	/** The sound used to play the current music. The timing of music is tied directly to the current time of the sound. **/
 	var sound:FlxSound = new FlxSound();
 
-	public function new()
+	/** The thing to be conducted. **/
+	public var conducted:Conducted;
+
+	var prevWholeBeat:Int = -1;
+
+	public function new(conducted:Conducted)
 	{
 		super();
+		this.conducted = conducted;
 		add(sound);
+	}
+
+	override function update(elapsed:Float)
+	{
+		super.update(elapsed);
+		if (music == null || conducted == null)
+			return;
+		var beat:Float = getCurrentBeat();
+		conducted.updateMusic(getTime(), getCurrentBPM(), beat);
+
+		if (prevWholeBeat != Std.int(beat))
+		{
+			prevWholeBeat = Std.int(beat);
+			conducted.onWholeBeat(prevWholeBeat);
+		}
 	}
 
 	public function play(music:MusicData, looped:Bool)

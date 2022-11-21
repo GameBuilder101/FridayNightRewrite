@@ -6,7 +6,7 @@
             "type": "general_sprite",
             "data": {
                 "id": "menus/_shared/standard_background",
-                "recolor": [
+                "color": [
                     30,
                     14,
                     65
@@ -41,7 +41,7 @@
             "y": 360.0,
             "data": {
                 "id": "menus/_shared/menu_record",
-                "recolor": [
+                "color": [
                     247,
                     51,
                     154

@@ -5,18 +5,22 @@ import music.Conducted;
 
 class GeneralSpriteElement extends AssetSprite implements StageElement implements Conducted
 {
-	var beatAnimName:String;
 	var beatAnimFrequency:Float;
+	var beatAnimName:String;
 
 	public function new(name:String, data:Dynamic)
 	{
 		super(0.0, 0.0, null, data.id);
-		if (data.recolor != null)
-			color = FlxColor.fromRGB(data.recolor[0], data.recolor[1], data.recolor[2]);
+		if (data.flipX != null && data.flipX)
+			flipX = !flipX;
+		if (data.flipY != null && data.flipY)
+			flipY = !flipY;
+		if (data.color != null)
+			color *= FlxColor.fromRGB(data.color[0], data.color[1], data.color[2]);
 		if (data.alpha != null)
-			alpha = data.alpha;
-		beatAnimName = data.beatAnimName;
+			alpha *= data.alpha;
 		beatAnimFrequency = data.beatAnimFrequency;
+		beatAnimName = data.beatAnimName;
 	}
 
 	public function onAddedToStage(stage:Stage) {}

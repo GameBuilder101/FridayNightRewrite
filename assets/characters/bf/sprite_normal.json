@@ -1,18 +1,17 @@
 {
+    "flipX": true,
     "bottomAlign": true,
     "animations": [
         {
             "name": "idle",
             "atlasPrefix": "BF idle dance",
             "frameRate": 24,
-            "flipX": true,
             "offsetX": -5.0
         },
         {
             "name": "sing_left",
             "atlasPrefix": "BF NOTE LEFT",
             "frameRate": 24,
-            "flipX": true,
             "offsetX": 5.0,
             "offsetY": -6.0
         },
@@ -21,7 +20,6 @@
             "atlasPrefix": "BF NOTE LEFT",
             "frameRate": 24,
             "looped": true,
-            "flipX": true,
             "offsetX": 5.0,
             "offsetY": -6.0
         },
@@ -29,7 +27,6 @@
             "name": "sing_down",
             "atlasPrefix": "BF NOTE DOWN",
             "frameRate": 24,
-            "flipX": true,
             "offsetX": -20.0,
             "offsetY": -51.0
         },
@@ -38,7 +35,6 @@
             "atlasPrefix": "BF NOTE DOWN",
             "frameRate": 24,
             "looped": true,
-            "flipX": true,
             "offsetX": -20.0,
             "offsetY": -51.0
         },
@@ -46,7 +42,6 @@
             "name": "sing_up",
             "atlasPrefix": "BF NOTE UP",
             "frameRate": 24,
-            "flipX": true,
             "offsetX": -46.0,
             "offsetY": 27.0
         },
@@ -55,7 +50,6 @@
             "atlasPrefix": "BF NOTE UP",
             "frameRate": 24,
             "looped": true,
-            "flipX": true,
             "offsetX": -46.0,
             "offsetY": 27.0
         },
@@ -63,7 +57,6 @@
             "name": "sing_right",
             "atlasPrefix": "BF NOTE RIGHT",
             "frameRate": 24,
-            "flipX": true,
             "offsetX": -48.0,
             "offsetY": -7.0
         },
@@ -72,7 +65,6 @@
             "atlasPrefix": "BF NOTE RIGHT",
             "frameRate": 24,
             "looped": true,
-            "flipX": true,
             "offsetX": -48.0,
             "offsetY": -7.0
         },
@@ -80,7 +72,6 @@
             "name": "sing_left_miss",
             "atlasPrefix": "BF NOTE LEFT MISS",
             "frameRate": 24,
-            "flipX": true,
             "offsetX": 7.0,
             "offsetY": 19.0
         },
@@ -89,7 +80,6 @@
             "atlasPrefix": "BF NOTE DOWN MISS",
             "frameRate": 24,
             "looped": false,
-            "flipX": true,
             "offsetX": -15.0,
             "offsetY": -19.0
         },
@@ -97,7 +87,6 @@
             "name": "sing_up_miss",
             "atlasPrefix": "BF NOTE UP MISS",
             "frameRate": 24,
-            "flipX": true,
             "offsetX": -46.0,
             "offsetY": 27.0
         },
@@ -105,7 +94,6 @@
             "name": "sing_right_miss",
             "atlasPrefix": "BF NOTE RIGHT MISS",
             "frameRate": 24,
-            "flipX": true,
             "offsetX": -44.0,
             "offsetY": 22.0
         },
@@ -113,7 +101,6 @@
             "name": "hey",
             "atlasPrefix": "BF HEY!!",
             "frameRate": 24,
-            "flipX": true,
             "offsetX": -3.0,
             "offsetY": 5.0
         },
@@ -121,7 +108,6 @@
             "name": "scared",
             "atlasPrefix": "BF idle shaking",
             "frameRate": 24,
-            "flipX": true,
             "offsetX": -4.0
         }
     ]

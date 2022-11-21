@@ -11,12 +11,14 @@ class MusicData
 	public var sound(default, null):Sound;
 	public var volume(default, null):Float;
 	public var bpmMap(default, null):Array<BPMChange>;
+	public var events(default, null):Array<MusicEvent>;
 
-	public function new(sound:Sound, volume:Float, bpmMap:Array<BPMChange>)
+	public function new(sound:Sound, volume:Float, bpmMap:Array<BPMChange>, events:Array<MusicEvent>)
 	{
 		this.sound = sound;
 		this.volume = volume;
 		this.bpmMap = bpmMap;
+		this.events = events;
 	}
 
 	/** @param time The time in milliseconds. **/
@@ -69,6 +71,10 @@ class MusicRegistry extends Registry<MusicData>
 	function loadData(directory:String, id:String):MusicData
 	{
 		var path:String = Registry.getFullPath(directory, id);
+		var sound:Sound = FileManager.getSound(path);
+		if (sound == null)
+			return null;
+
 		var parsed:Dynamic = FileManager.getParsedJson(path);
 		if (parsed == null)
 			return null;
@@ -76,14 +82,17 @@ class MusicRegistry extends Registry<MusicData>
 		// Fill in default values if the data is missing
 		if (parsed.volume == null)
 			parsed.volume = 1.0;
-		if (parsed.bpmMap == null || parsed.bpmMap.length <= 0)
-			parsed.bpmMap = [{time: 0.0, bpm: 0.0}];
+		if (parsed.bpmMap == null)
+			parsed.bpmMap = [];
+		if (parsed.events == null)
+			parsed.events = [];
 
-		var sound:Sound = FileManager.getSound(path);
-		if (sound == null)
-			return null;
+		// Build events from the array in the parsed data
+		var events:Array<MusicEvent> = new Array<MusicEvent>();
+		for (event in cast(parsed.events, Array<Dynamic>))
+			events.push(MusicEventResolver.resolve(event.time, event.type, event.args));
 
-		return new MusicData(sound, parsed.volume, parsed.bpmMap);
+		return new MusicData(sound, parsed.volume, parsed.bpmMap, events);
 	}
 
 	public static function getAsset(id:String):MusicData
