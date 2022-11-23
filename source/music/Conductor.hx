@@ -1,5 +1,6 @@
 package music;
 
+import flixel.FlxG;
 import flixel.group.FlxGroup;
 import flixel.system.FlxSound;
 
@@ -7,10 +8,10 @@ import flixel.system.FlxSound;
 class Conductor extends FlxGroup
 {
 	/** The currently-playing music. **/
-	public var music(default, null):MusicData;
+	public static var currentMusic(default, null):MusicData;
 
-	/** The sound used to play the current music. The timing of music is tied directly to the current time of the sound. **/
-	var sound:FlxSound = new FlxSound();
+	/** The sound used to play the music. The timing of music is tied directly to the current time of the sound. **/
+	static var sound:FlxSound = new FlxSound();
 
 	/** The thing to be conducted. **/
 	public var conducted:Conducted;
@@ -21,73 +22,87 @@ class Conductor extends FlxGroup
 	{
 		super();
 		this.conducted = conducted;
-		add(sound);
 	}
 
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
-		if (music == null || conducted == null)
+		if (currentMusic == null || conducted == null)
 			return;
 		var beat:Float = getCurrentBeat();
-		conducted.updateMusic(getTime(), getCurrentBPM(), beat);
 
 		if (prevWholeBeat != Std.int(beat))
 		{
 			prevWholeBeat = Std.int(beat);
 			conducted.onWholeBeat(prevWholeBeat);
 		}
+
+		conducted.updateMusic(getTime(), getCurrentBPM(), beat);
 	}
 
-	public function play(music:MusicData, looped:Bool)
+	public static function play(music:MusicData, looped:Bool)
 	{
-		this.music = music;
+		currentMusic = music;
+
+		/* Set the FlxG music to the Conductor's sound. This ensures that the music will get
+			paused when the game loses focus */
+		FlxG.sound.music = sound;
 		sound.loadEmbedded(music.sound, looped);
 		sound.volume = music.volume;
 		sound.play(true);
 	}
 
-	public function stop()
+	public static function stop()
 	{
-		music = null;
+		currentMusic = null;
 		sound.stop();
 	}
 
-	public inline function pause()
+	public static inline function pause()
 	{
 		sound.pause();
 	}
 
-	public inline function resume()
+	public static inline function resume()
 	{
 		sound.resume();
 	}
 
 	/** Sets the current playback time of the music. **/
-	public inline function setTime(time:Float)
+	public static inline function setTime(time:Float)
 	{
 		sound.time = time;
 	}
 
 	/** Gets the current playback time of the music. **/
-	public inline function getTime():Float
+	public static inline function getTime():Float
 	{
 		return sound.time;
 	}
 
 	/** Calculates the current BPM. **/
-	public function getCurrentBPM():Float
+	public static function getCurrentBPM():Float
 	{
-		if (music == null)
+		if (currentMusic == null)
 			return 0.0;
-		return music.getBPMAt(getTime());
+		return currentMusic.getBPMAt(getTime());
 	}
 
 	/** Calculates the current beat. **/
-	public function getCurrentBeat():Float
+	public static function getCurrentBeat():Float
 	{
-		if (music == null)
+		if (currentMusic == null)
 			return -1.0;
-		return music.getBeatAt(getTime());
+		return currentMusic.getBeatAt(getTime());
+	}
+
+	public static function fadeIn(duration:Float)
+	{
+		sound.fadeIn(duration, 0.0, currentMusic.volume);
+	}
+
+	public static function fadeOut(duration:Float)
+	{
+		sound.fadeOut(duration);
 	}
 }

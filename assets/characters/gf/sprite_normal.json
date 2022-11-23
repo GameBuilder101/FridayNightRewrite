@@ -1,69 +1,121 @@
 {
-    "bottomAlign": true,
     "animations": [
         {
-            "name": "idle",
-            "atlasPrefix": "GF Dancing Beat",
-            "frameRate": 24
+            "name": "dance_left",
+            "atlasPrefix": "GF Dancing Beat instance 1",
+            "indices": [
+                30,
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14
+            ],
+            "frameRate": 24,
+            "offsetY": -9
+        },
+        {
+            "name": "dance_right",
+            "atlasPrefix": "GF Dancing Beat instance 1",
+            "indices": [
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29
+            ],
+            "frameRate": 24,
+            "offsetY": -9
         },
         {
             "name": "sing_left",
-            "atlasPrefix": "GF left note",
-            "frameRate": 24
+            "atlasPrefix": "GF left note instance 1",
+            "frameRate": 24,
+            "offsetY": -19
         },
         {
             "name": "sing_left_sustain",
-            "atlasPrefix": "GF left note",
+            "atlasPrefix": "GF left note instance 1",
             "frameRate": 24,
-            "looped": true
+            "looped": true,
+            "offsetY": -19
         },
         {
             "name": "sing_down",
-            "atlasPrefix": "GF Down Note",
-            "frameRate": 24
+            "atlasPrefix": "GF Down Note instance 1",
+            "frameRate": 24,
+            "offsetY": -20
         },
         {
             "name": "sing_down_sustain",
-            "atlasPrefix": "GF Down Note",
+            "atlasPrefix": "GF Down Note instance 1",
             "frameRate": 24,
-            "looped": true
+            "looped": true,
+            "offsetY": -20
         },
         {
             "name": "sing_up",
-            "atlasPrefix": "GF Up Note",
-            "frameRate": 24
+            "atlasPrefix": "GF Up Note instance 1",
+            "frameRate": 24,
+            "offsetY": 4
         },
         {
             "name": "sing_up_sustain",
-            "atlasPrefix": "GF Up Note",
+            "atlasPrefix": "GF Up Note instance 1",
             "frameRate": 24,
-            "looped": true
+            "looped": true,
+            "offsetY": 4
         },
         {
             "name": "sing_right",
-            "atlasPrefix": "GF Right Note",
-            "frameRate": 24
+            "atlasPrefix": "GF Right Note instance 1",
+            "frameRate": 24,
+            "offsetY": -20
         },
         {
             "name": "sing_right_sustain",
-            "atlasPrefix": "GF Right Note",
+            "atlasPrefix": "GF Right Note instance 1",
             "frameRate": 24,
-            "looped": true
+            "looped": true,
+            "offsetY": -20
         },
         {
             "name": "hey",
-            "atlasPrefix": "GF Cheer",
-            "frameRate": 24
+            "atlasPrefix": "GF Cheer instance 1",
+            "frameRate": 24,
+            "offsetX": 3
         },
         {
             "name": "scared",
-            "atlasPrefix": "GF FEAR",
+            "atlasPrefix": "GF FEAR instance 1",
             "frameRate": 24
         },
         {
             "name": "sad",
-            "atlasPrefix": "gf sad",
-            "frameRate": 24
+            "atlasPrefix": "gf sad instance 1",
+            "frameRate": 24,
+            "offsetX": -2,
+            "offsetY": -21
         }
     ]
 }

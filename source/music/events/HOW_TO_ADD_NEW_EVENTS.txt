@@ -1,9 +1,0 @@
-1. Copy the "TemplateEvent.hx" file and rename
-2. Rename the class from "TemplateEvent" to the same as the file
-3. Add stuff to the trigger function
-4. IMPORTANT: In the "MusicEventResolver" class, add a new string to the ALL array and a new case to the switch statement for the event!
-
-THINGS TO NOTE:
-    - All events must derive (at some point) from MusicEvent
-    - The MusicEvent class, is meant for generic events that can play anywhere (IE: even in menus). It won't give access to the PlayState
-    - To get access to the PlayState, extend from GameplayMusicEvent!

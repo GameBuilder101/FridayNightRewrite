@@ -51,6 +51,12 @@ class LibraryManager
 		libraries.load("", CORE_ID);
 	}
 
+	/** Returns the loaded core library. **/
+	public static function getCore():Library
+	{
+		return cast libraries.get(CORE_ID).data;
+	}
+
 	/** Returns the first found instance of an asset with the given id.
 		@param cacheRegistry The registry used to cache the type of asset
 	**/

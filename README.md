@@ -32,7 +32,7 @@ This is the repository for Friday Night Rewrite, a full code rewrite of the orig
 - Support for character sprite variants. For instance: Week 5 in FNF loads a christmas version of BF's sprite. With this system though, you could also have a custom character with a christmas version which gets automatically loaded in Week 5 songs
 - Custom arrow types
 - **COMmeNTEd cODE?!?!?!?!?!?!?!??!?!?!?!! :scream::scream::scream:**
-- And more!
+- And much more!
 
 **Note:**
 - The engine does not currently support LUA scripting (this is a planned feature for the future). Though, it *is* powerful enough on its own to achieve general things without need for scripting.
@@ -45,7 +45,6 @@ This is the repository for Friday Night Rewrite, a full code rewrite of the orig
    haxelib install openfl
    haxelib install flixel
    haxelib install flixel-addons
-   haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
    ```
 
 **Note: FNR is only designed to compile to desktop.** It cannot compile to HTML5 (browser mode basically), since it requires direct access to the file system to load assets and mods. Because of this, you also need to do this to compile to Windows:

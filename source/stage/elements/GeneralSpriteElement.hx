@@ -1,14 +1,24 @@
 package stage.elements;
 
+import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import music.Conducted;
 
 class GeneralSpriteElement extends AssetSprite implements StageElement implements Conducted
 {
-	var beatAnimFrequency:Float;
-	var beatAnimName:String;
+	var bopAnimFrequency:Float;
+	var bopLeftAnimName:String;
+	var bopRightAnimName:String;
+	var bopRight:Bool;
 
-	public function new(name:String, data:Dynamic)
+	var bopFrequency:Float;
+	var bopScale:Float;
+	var bopSpeed:Float;
+
+	var originalScaleX:Float;
+	var originalScaleY:Float;
+
+	public function new(data:Dynamic)
 	{
 		super(0.0, 0.0, null, data.id);
 		if (data.flipX != null && data.flipX)
@@ -19,17 +29,49 @@ class GeneralSpriteElement extends AssetSprite implements StageElement implement
 			color *= FlxColor.fromRGB(data.color[0], data.color[1], data.color[2]);
 		if (data.alpha != null)
 			alpha *= data.alpha;
-		beatAnimFrequency = data.beatAnimFrequency;
-		beatAnimName = data.beatAnimName;
+		if (data.shaderType != null)
+			shader = ShaderResolver.resolve(data.shaderType, data.shaderArgs);
+
+		bopAnimFrequency = data.bopAnimFrequency;
+		if (data.bopAnimName != null) // If there is a single bop animation
+		{
+			bopLeftAnimName = data.bopAnimName;
+			bopRightAnimName = data.bopAnimName;
+		}
+		else
+		{
+			bopLeftAnimName = data.bopLeftAnimName;
+			bopRightAnimName = data.bopRightAnimName;
+		}
+
+		bopFrequency = data.bopFrequency;
+		bopScale = data.bopScale;
+		bopSpeed = data.bopSpeed;
 	}
 
-	public function onAddedToStage(stage:Stage) {}
+	public function onAddedToStage(stage:Stage)
+	{
+		originalScaleX = scale.x;
+		originalScaleY = scale.y;
+	}
 
 	public function updateMusic(time:Float, bpm:Float, beat:Float) {}
 
 	public function onWholeBeat(beat:Int)
 	{
-		if (beatAnimName != null && beat % beatAnimFrequency == 0.0)
-			animation.play(beatAnimName, true);
+		if (bopAnimFrequency > 0 && beat % bopAnimFrequency == 0.0)
+		{
+			if (bopRight)
+				animation.play(bopRightAnimName, true);
+			else
+				animation.play(bopLeftAnimName, true);
+			bopRight = !bopRight;
+		}
+
+		if (bopFrequency > 0 && beat % bopFrequency == 0.0)
+		{
+			scale.set(bopScale, bopScale);
+			FlxTween.tween(this, {"scale.x": originalScaleX, "scale.y": originalScaleY}, bopSpeed);
+		}
 	}
 }

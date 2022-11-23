@@ -2,7 +2,9 @@
     "name": "Title Screen",
     "elements": [
         {
-            "name": "Background",
+            "tags": [
+                "background"
+            ],
             "type": "general_sprite",
             "data": {
                 "id": "menus/_shared/standard_background",
@@ -10,34 +12,57 @@
                     30,
                     14,
                     65
-                ]
+                ],
+                "shaderType": "wave",
+                "shaderArgs": {
+                    "type": "VERTICAL",
+                    "amplitude": 0.02,
+                    "frequency": 10.0,
+                    "speed": 1.0
+                }
             }
         },
         {
-            "name": "Girlfriend",
+            "tags": [
+                "menu_character"
+            ],
             "type": "general_sprite",
-            "x": 540.0,
-            "y": 720.0,
+            "x": 530.0,
+            "y": 260.0,
             "scaleX": 0.75,
             "scaleY": 0.75,
             "data": {
-                "id": "characters/gf/sprite_normal",
-                "beatAnimName": "idle",
-                "beatAnimFrequency": 2
+                "id": "menus/title_screen/gf_title",
+                "bopAnimFrequency": 1,
+                "bopLeftAnimName": "dance_left",
+                "bopRightAnimName": "dance_right"
             }
         },
         {
-            "name": "Menu Record Accent",
+            "type": "logo",
+            "x": 760,
+            "y": 120.0,
+            "scaleX": 0.65,
+            "scaleY": 0.65,
+            "data": {
+                "id": "menus/title_screen/logo",
+                "bopFrequency": 1,
+                "bopScale": 0.7,
+                "bopSpeed": 0.2,
+                "swaySpeed": 0.0625,
+                "swayDistance": 8
+            }
+        },
+        {
             "type": "general_sprite",
-            "x": 256.0,
+            "x": 290.0,
             "data": {
                 "id": "menus/title_screen/menu_record_accent"
             }
         },
         {
-            "name": "Menu Record",
             "type": "menu_record",
-            "x": -64.0,
+            "x": -30.0,
             "y": 360.0,
             "data": {
                 "id": "menus/_shared/menu_record",
@@ -46,8 +71,32 @@
                     51,
                     154
                 ],
-                "beatAnimFrequency": 1,
-                "speed": 0.25
+                "bopFrequency": 2,
+                "bopScale": 1.01,
+                "bopSpeed": 0.1,
+                "spinSpeed": 0.25
+            }
+        },
+        {
+            "tags": [
+                "menu"
+            ],
+            "type": "menu",
+            "x": -30.0,
+            "y": 360.0,
+            "data": {
+                "type": "RADIAL",
+                "normalItemColor": [
+                    255,
+                    255,
+                    255
+                ],
+                "selectedItemColor": [
+                    253,
+                    232,
+                    113
+                ],
+                "radius": 240.0
             }
         }
     ]

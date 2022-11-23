@@ -1,6 +1,5 @@
 package stage;
 
-// Important: if the element packages are not imported, they cannot be obtained through reflection!
 import assetManagement.FileManager;
 import assetManagement.LibraryManager;
 import assetManagement.Registry;
@@ -17,8 +16,8 @@ typedef StageData =
 
 typedef StageElementData =
 {
-	// The name is mainly used to identify the sprite for a stage editor
-	name:String,
+	// Tags are used to target specific elements in code
+	tags:Array<String>,
 	type:String,
 	x:Float,
 	y:Float,
@@ -45,6 +44,8 @@ class StageRegistry extends Registry<StageData>
 		// Fill in default element values if the data is missing
 		for (element in cast(parsed.elements, Array<Dynamic>))
 		{
+			if (element.tags == null)
+				element.tags = [];
 			if (element.x == null)
 				element.x = 0.0;
 			if (element.y == null)
@@ -89,6 +90,8 @@ class Stage extends FlxSpriteGroup
 
 	public var stageCamera(default, null):FlxCamera;
 
+	var elements(default, null):Array<ElementInstance> = new Array<ElementInstance>();
+
 	/**
 		@param data Data to be loaded on creation.
 		@param id When supplied, the stage data will be retrieved via StageRegistry.getAsset.
@@ -99,7 +102,7 @@ class Stage extends FlxSpriteGroup
 
 		stageCamera = new FlxCamera();
 		stageCamera.bgColor.alpha = 0;
-		FlxG.cameras.add(stageCamera);
+		FlxG.cameras.add(stageCamera, false);
 
 		if (data != null)
 			loadFromData(data);
@@ -114,24 +117,49 @@ class Stage extends FlxSpriteGroup
 	/** Loads the stage information and creates elements from the provided data. **/
 	public function loadFromData(data:StageData)
 	{
+		if (elements != null)
+		{
+			for (element in elements)
+				remove(element.sprite, true);
+			elements = new Array<ElementInstance>();
+		}
+
 		this.data = data;
 		var sprite:FlxSprite;
 		for (element in data.elements)
 		{
-			sprite = cast StageElementResolver.resolve(element.type, element.name, element.data);
+			sprite = cast StageElementResolver.resolve(element.type, element.data);
 			if (sprite == null) // If the type was invalid, just skip it
 				continue;
 			// Fill in the rest of the sprite data
 			sprite.setPosition(element.x, element.y);
 
-			sprite.camera = stageCamera;
+			sprite.cameras = [stageCamera];
 			sprite.scrollFactor.set(element.scrollFactorX, element.scrollFactorY);
 
 			sprite.scale.set(element.scaleX, element.scaleY);
 			sprite.updateHitbox();
 			sprite.angle = element.rotation;
+			elements.push({sprite: sprite, tags: element.tags});
 			add(sprite);
 			cast(sprite, StageElement).onAddedToStage(this);
 		}
 	}
+
+	public function getElementsWithTag(tag:String):Array<FlxSprite>
+	{
+		var found:Array<FlxSprite> = new Array<FlxSprite>();
+		for (element in elements)
+		{
+			if (element.tags.contains(tag))
+				found.push(element.sprite);
+		}
+		return found;
+	}
+}
+
+typedef ElementInstance =
+{
+	sprite:FlxSprite,
+	tags:Array<String>
 }

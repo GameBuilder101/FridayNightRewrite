@@ -1,9 +1,107 @@
 {
-    "volume": 0.25,
+    "volume": 0.3,
     "bpmMap": [
         {
             "time": 0.0,
             "bpm": 102.0
+        }
+    ],
+    "events": [
+        {
+            "time": 4118.0,
+            "type": "play_anim",
+            "args": {
+                "targetTag": "menu_character",
+                "name": "hey"
+            }
+        },
+        {
+            "time": 13530.0,
+            "type": "play_anim",
+            "args": {
+                "targetTag": "menu_character",
+                "name": "hey"
+            }
+        },
+        {
+            "time": 22942.0,
+            "type": "play_anim",
+            "args": {
+                "targetTag": "menu_character",
+                "name": "hey"
+            }
+        },
+        {
+            "time": 32351.0,
+            "type": "play_anim",
+            "args": {
+                "targetTag": "menu_character",
+                "name": "hey"
+            }
+        },
+        {
+            "time": 41765.0,
+            "type": "play_anim",
+            "args": {
+                "targetTag": "menu_character",
+                "name": "hey"
+            }
+        },
+        {
+            "time": 51177.0,
+            "type": "play_anim",
+            "args": {
+                "targetTag": "menu_character",
+                "name": "hey"
+            }
+        },
+        {
+            "time": 60589.0,
+            "type": "play_anim",
+            "args": {
+                "targetTag": "menu_character",
+                "name": "hey"
+            }
+        },
+        {
+            "time": 70000.0,
+            "type": "play_anim",
+            "args": {
+                "targetTag": "menu_character",
+                "name": "hey"
+            }
+        },
+        {
+            "time": 79412.0,
+            "type": "play_anim",
+            "args": {
+                "targetTag": "menu_character",
+                "name": "hey"
+            }
+        },
+        {
+            "time": 88824.0,
+            "type": "play_anim",
+            "args": {
+                "targetTag": "menu_character",
+                "name": "hey"
+            }
+        },
+        {
+            "time": 98236.0,
+            "type": "play_anim",
+            "args": {
+                "targetTag": "menu_character",
+                "name": "hey"
+            }
+        },
+        {
+            "time": 107648.0,
+            "type": "play_anim",
+            "args": {
+                "targetTag": "menu_character",
+                "name": "hey"
+            }
         }
     ]
 }

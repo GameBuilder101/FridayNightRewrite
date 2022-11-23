@@ -16,12 +16,12 @@ typedef AssetSpriteData =
 	spriteSheetPacker:String,
 	flipX:Bool,
 	flipY:Bool,
-	bottomAlign:Bool,
 	animations:Array<AnimationData>,
 	antialiasing:Bool,
 	color:FlxColor,
 	alpha:Float,
-	blend:BlendMode
+	shaderType:String,
+	shaderArgs:Dynamic
 }
 
 typedef AnimationData =
@@ -58,16 +58,12 @@ class AssetSpriteRegistry extends Registry<AssetSpriteData>
 			parsed.flipX = false;
 		if (parsed.flipY == null)
 			parsed.flipY = false;
-		if (parsed.bottomAlign == null)
-			parsed.bottomAlign = false;
 		if (parsed.antialiasing == null)
 			parsed.antialiasing = true;
 		if (parsed.color == null)
 			parsed.color = [255, 255, 255];
 		if (parsed.alpha == null)
 			parsed.alpha = 1.0;
-		if (parsed.blend == null)
-			parsed.blend = BlendMode.ALPHA;
 
 		// Fill in default animation values if the data is missing
 		for (animation in cast(parsed.animations, Array<Dynamic>))
@@ -92,12 +88,12 @@ class AssetSpriteRegistry extends Registry<AssetSpriteData>
 			spriteSheetPacker: FileManager.getText(path),
 			flipX: parsed.flipX,
 			flipY: parsed.flipY,
-			bottomAlign: parsed.bottomAlign,
 			animations: parsed.animations,
 			antialiasing: parsed.antialiasing,
 			color: FlxColor.fromRGB(parsed.color[0], parsed.color[1], parsed.color[2]),
 			alpha: parsed.alpha,
-			blend: parsed.blend
+			shaderType: parsed.shaderType,
+			shaderArgs: parsed.shaderArgs
 		};
 	}
 
@@ -155,13 +151,14 @@ class AssetSprite extends FlxSprite
 		antialiasing = data.antialiasing;
 		color = data.color;
 		alpha = data.alpha;
-		blend = data.blend;
+		if (data.shaderType != null)
+			shader = ShaderResolver.resolve(data.shaderType, data.shaderArgs);
 	}
 
 	public function loadAnimation(data:AnimationData)
 	{
 		if (data.indices.length > 0)
-			animation.add(data.name, data.indices, data.frameRate, data.looped);
+			animation.addByIndices(data.name, data.atlasPrefix, data.indices, "", data.frameRate, data.looped);
 		else
 			animation.addByPrefix(data.name, data.atlasPrefix, data.frameRate, data.looped);
 	}
@@ -177,12 +174,14 @@ class AssetSprite extends FlxSprite
 			{
 				if (animation.curAnim.name == animationData.name)
 				{
-					offset.set(animationData.offsetX, animationData.offsetY);
-					if (data.bottomAlign)
-						offset.y += frameHeight * scale.y;
+					offset.set(animationData.offsetX * scale.x, animationData.offsetY * scale.y);
 					break;
 				}
 			}
 		}
+
+		// Update the shader if it supports the functionality
+		if (shader != null && shader is UpdatableShader)
+			cast(shader, UpdatableShader).update(elapsed);
 	}
 }

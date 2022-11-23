@@ -36,6 +36,12 @@ class MusicData
 		return bpm;
 	}
 
+	/** Returns the number of beats within a BPM change. **/
+	public static inline function getBeatsIn(change:BPMChange, endTime:Float)
+	{
+		return (endTime - change.time) * (change.bpm / 60000.0);
+	}
+
 	/** Returns the total number/parts of beats that have passed by the given time. Warning: might be slow.
 		@param time The time in milliseconds.
 		@return EX: If 4 beats have passed, returns 4. If 4 beats have passed and it's half-way between beat 4 and 5, returns 4.5. **/
@@ -47,13 +53,37 @@ class MusicData
 			to account for how many beats passed in previous BPM segments */
 		for (change in bpmMap)
 		{
-			if (change.time >= time || i + 1 >= bpmMap.length)
+			if (i + 1 >= bpmMap.length || change.time >= time)
 				break;
-			beat += (bpmMap[i + 1].time - change.time) * (change.bpm / 60000.0);
+			beat += getBeatsIn(change, bpmMap[i + 1].time);
 			i++;
 		}
-		beat += (time - bpmMap[i].time) * (bpmMap[i].bpm / 60000.0);
+		// Add all beats between the latest BPM change and the current time
+		beat += getBeatsIn(bpmMap[i], time);
 		return beat;
+	}
+
+	/** Returns the time at which a beat plays. **/
+	public function getTimeAt(beat:Float):Float
+	{
+		var time:Float = 0;
+		var i:Int = 0;
+		var iBeats:Float = 0; // Used to track beats counted
+		/* We can't just use a simple equation to calculate this, since BPM changes mean you need
+			to account for how many beats passed in previous BPM segments */
+		for (change in bpmMap)
+		{
+			if (i + 1 >= bpmMap.length)
+				break;
+			iBeats += getBeatsIn(change, bpmMap[i + 1].time);
+			if (iBeats >= beat)
+				break;
+			time += bpmMap[i + 1].time - change.time;
+			i++;
+		}
+		// Add all time between the latest BPM change and the current beat
+		time += (beat - iBeats) / (bpmMap[i].bpm / 60000.0);
+		return time;
 	}
 }
 
