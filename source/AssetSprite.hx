@@ -7,7 +7,6 @@ import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.util.FlxColor;
 import openfl.display.BitmapData;
-import openfl.display.BlendMode;
 
 typedef AssetSpriteData =
 {
@@ -100,6 +99,12 @@ class AssetSpriteRegistry extends Registry<AssetSpriteData>
 	public static function getAsset(id:String):AssetSpriteData
 	{
 		return LibraryManager.getLibraryAsset(id, cache);
+	}
+
+	/** Resets the cache. **/
+	public static function reset()
+	{
+		cache.clear();
 	}
 }
 

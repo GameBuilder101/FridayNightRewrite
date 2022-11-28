@@ -1,5 +1,5 @@
 # ◄ ▼ Friday Night Rewrite ▲ ►
-An engine for Friday Night Funkin' rewritten from the ground-up!
+An engine for Friday Night Funkin' reprogrammed completely from the ground-up!
 
 ### This site is for accessing the project's source code. If you want to download Friday Night Rewrite normally, do so here:
 

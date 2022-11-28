@@ -52,6 +52,9 @@ class FileManager
 	{
 		if (FileSystem.exists(path + ".mp3"))
 			return Sound.fromFile(path + ".mp3");
-		return Sound.fromFile(path + ".ogg");
+		else if (FileSystem.exists(path + ".ogg"))
+			return Sound.fromFile(path + ".ogg");
+		else
+			return null;
 	}
 }

@@ -1,0 +1,33 @@
+{
+    "animations": [
+        {
+            "name": "idle_off",
+            "atlasPrefix": "checkbox idle",
+            "frameRate": 24,
+            "looped": true,
+            "offsetY": 2.0
+        },
+        {
+            "name": "turning_on",
+            "atlasPrefix": "checkbox anim forward",
+            "frameRate": 24,
+            "offsetX": 34.0,
+            "offsetY": 25.0
+        },
+        {
+            "name": "idle_on",
+            "atlasPrefix": "checkbox finish",
+            "frameRate": 24,
+            "looped": true,
+            "offsetX": 3.0,
+            "offsetY": 12.0
+        },
+        {
+            "name": "turning_off",
+            "atlasPrefix": "checkbox anim reverse",
+            "frameRate": 24,
+            "offsetX": 25.0,
+            "offsetY": 28.0
+        }
+    ]
+}

@@ -1,7 +1,12 @@
 package assetManagement;
 
+import Album;
+import AssetSprite;
+import SoundData;
 import assetManagement.Library;
 import assetManagement.Registry;
+import music.MusicData;
+import stage.Stage;
 import sys.FileSystem;
 
 /** Handles the loading, storing, and retrieving of data from libraries. **/
@@ -98,5 +103,41 @@ class LibraryManager
 			all = all.concat(contents);
 		}
 		return all;
+	}
+
+	/** Loads in all assets from preload JSON files. **/
+	public static function preload()
+	{
+		var libraryPath:String;
+		for (library in libraries.entries)
+		{
+			libraryPath = Registry.getFullPath(library.directory, library.id);
+			preloadFromJSON(libraryPath, "preload_sprites", AssetSpriteRegistry.getAsset);
+			preloadFromJSON(libraryPath, "preload_sounds", SoundRegistry.getAsset);
+			preloadFromJSON(libraryPath, "preload_music", MusicRegistry.getAsset);
+		}
+	}
+
+	static inline function preloadFromJSON(libraryPath:String, jsonID:String, loadFunction:String->Void)
+	{
+		var parsed:Dynamic = FileManager.getParsedJson(Registry.getFullPath(libraryPath, jsonID));
+		if (parsed == null)
+			return;
+		for (id in cast(parsed, Array<Dynamic>))
+			loadFunction(id);
+	}
+
+	/** Performs a full reload of all libraries and registries. **/
+	public static function fullReload()
+	{
+		trace("Performing full library reload!");
+		reloadLibraries();
+		// New registries should get added here!
+		ParsedJSONRegistry.reset();
+		AssetSpriteRegistry.reset();
+		SoundRegistry.reset();
+		MusicRegistry.reset();
+		StageRegistry.reset();
+		AlbumRegistry.reset();
 	}
 }

@@ -26,7 +26,7 @@
             "atlasPrefix": " bold instance 1",
             "frameRate": 24,
             "looped": true,
-            "offsetX": 8.0,
+            "offsetX": 1.0,
             "offsetY": 60.0
         },
         {
@@ -34,12 +34,12 @@
             "atlasPrefix": " bold instance 1",
             "frameRate": 24,
             "looped": true,
-            "offsetX": 8.0,
+            "offsetX": 1.0,
             "offsetY": 60.0
         },
         {
             "name": "space_bold",
-            "offsetX": 34.0,
+            "offsetX": 28.0,
             "offsetY": 60.0
         }
     ]

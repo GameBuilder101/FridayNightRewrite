@@ -1,7 +1,6 @@
 package;
 
 import AssetSprite;
-import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
@@ -89,7 +88,24 @@ class SpriteText extends FlxSpriteGroup
 	public inline function setTextAlign(textAlign:FlxTextAlign)
 	{
 		this.textAlign = textAlign;
-		updateText();
+		updateTextAlign();
+	}
+
+	function updateTextAlign()
+	{
+		// The offset must be set individually for every member. Setting it using the group will cause all y-offsets to be reset
+		for (member in members)
+		{
+			switch (textAlign)
+			{
+				case LEFT:
+					member.offset.x = 0.0;
+				case RIGHT:
+					member.offset.x = width;
+				default:
+					member.offset.x = width / 2.0;
+			}
+		}
 	}
 
 	public inline function setBold(value:Bool)
@@ -104,17 +120,24 @@ class SpriteText extends FlxSpriteGroup
 		/* First, we need to make sure we have the right amount of sprites. Calculate the
 			target number and add or subtract sprites until we have the right amount */
 		var targetSpriteCount:Int = getSpriteCount(text);
-		var sprite:FlxSprite;
-		var assetSprite:AssetSprite;
-		while (members.length > targetSpriteCount)
+		var i:Int = 0;
+		for (member in members)
 		{
-			sprite = members[members.length - 1];
-			remove(sprite, true);
-			sprite.destroy();
+			member.offset.set(0.0, 0.0);
+			member.x = x;
+			member.y = y;
+
+			if (i >= targetSpriteCount)
+				member.kill(); // Kill un-used characters
+			else
+				member.revive(); // Revive old but needed characters
+			i++;
 		}
+		var assetSprite:AssetSprite;
+		// Add characters if there is not currently enough
 		while (members.length < targetSpriteCount)
 		{
-			assetSprite = new AssetSprite(0.0, 0.0);
+			assetSprite = new AssetSprite(x, y);
 			assetSprite.useAnimDataOffsets = false; // We don't want the character to set its own offsets
 			add(assetSprite);
 		}
@@ -147,26 +170,18 @@ class SpriteText extends FlxSpriteGroup
 			assetSprite.animation.play("idle"); // Play the animation that was added
 
 			// Animation x-offset is treated like kerning
-			assetSprite.setPosition(charX + this.x, this.y);
+			assetSprite.setPosition(charX + x, y);
 			// Scale and position the sprite
 			assetSprite.scale = new FlxPoint(fontSize, fontSize);
 			assetSprite.updateHitbox();
 			// Set the character's height
-			assetSprite.offset = new FlxPoint(0.0, (assetSprite.height - (newAnimation.offsetY * fontSize)) * getCharAlignment(char));
-			charX += assetSprite.width + newAnimation.offsetX * fontSize; // Shift over to update the next character sprite
+			assetSprite.offset.set(0.0, (assetSprite.height - (newAnimation.offsetY * fontSize)) * getCharAlignment(char));
 
+			charX += assetSprite.width + newAnimation.offsetX * fontSize; // Shift over to update the next character sprite
 			spriteIndex++;
 		}
 
-		switch (textAlign)
-		{
-			case LEFT:
-				offset.x = 0.0;
-			case RIGHT:
-				offset.x = width;
-			default:
-				offset.x = width / 2.0;
-		}
+		updateTextAlign();
 	}
 
 	/** Returns the number of sprites that will be needed to display the string. **/
@@ -253,7 +268,7 @@ class SpriteText extends FlxSpriteGroup
 			if (waveAmplitude != 0.0)
 				sprite.y = FlxMath.fastSin((wavePos + (i * waveFrequency)) * waveSpeed) * waveAmplitude * fontSize + this.y;
 			else
-				sprite.y = this.y;
+				sprite.y = y;
 			i++;
 		}
 		wavePos += elapsed;

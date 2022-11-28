@@ -14,4 +14,10 @@ class ParsedJSONRegistry extends Registry<Dynamic>
 	{
 		return LibraryManager.getLibraryAsset(id, cache);
 	}
+
+	/** Resets the cache. **/
+	public static function reset()
+	{
+		cache.clear();
+	}
 }

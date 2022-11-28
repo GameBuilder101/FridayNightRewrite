@@ -81,6 +81,12 @@ class StageRegistry extends Registry<StageData>
 		cachedIDs = LibraryManager.getAllIDs("stages");
 		return cachedIDs;
 	}
+
+	/** Resets the cache. **/
+	public static function reset()
+	{
+		cache.clear();
+	}
 }
 
 /** Stages are collections of stage elements put together from a JSON file. They are used for backgrounds in things like songs and menus. **/
@@ -117,12 +123,13 @@ class Stage extends FlxSpriteGroup
 	/** Loads the stage information and creates elements from the provided data. **/
 	public function loadFromData(data:StageData)
 	{
-		if (elements != null)
+		// Reset any existing elements
+		for (element in elements)
 		{
-			for (element in elements)
-				remove(element.sprite, true);
-			elements = new Array<ElementInstance>();
+			remove(element.sprite, true);
+			element.sprite.destroy();
 		}
+		elements = [];
 
 		this.data = data;
 		var sprite:FlxSprite;

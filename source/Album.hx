@@ -47,4 +47,10 @@ class AlbumRegistry extends Registry<AlbumData>
 		cachedIDs = LibraryManager.getAllIDs("albums");
 		return cachedIDs;
 	}
+
+	/** Resets the cache. **/
+	public static function reset()
+	{
+		cache.clear();
+	}
 }

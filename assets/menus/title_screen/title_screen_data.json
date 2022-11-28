@@ -1,6 +1,62 @@
 {
     "musicID": "menus/_shared/standard_menu_theme",
-    "introComments": [
+    "introBeats": [
+        {
+            "beat": 1,
+            "line1": "GameBuilder101"
+        },
+        {
+            "beat": 3,
+            "line2": "presents"
+        },
+        {
+            "beat": 4,
+            "clear": true
+        },
+        {
+            "beat": 5,
+            "line0": "(not) associated",
+            "line1": "with"
+        },
+        {
+            "beat": 7,
+            "line2": "Newgrounds",
+            "displayImageID": "menus/title_screen/newgrounds_logo"
+        },
+        {
+            "beat": 8,
+            "clear": true
+        },
+        {
+            "beat": 9,
+            "flavorTextLine0": 1
+        },
+        {
+            "beat": 11,
+            "flavorTextLine1": 2
+        },
+        {
+            "beat": 12,
+            "clear": true
+        },
+        {
+            "beat": 13,
+            "line1": "Friday"
+        },
+        {
+            "beat": 14,
+            "line2": "Night"
+        },
+        {
+            "beat": 15,
+            "line3": "Rewrite"
+        },
+        {
+            "beat": 16,
+            "end": true
+        }
+    ],
+    "introFlavorText": [
         [
             "will he ever",
             "get freaky?"
@@ -8,10 +64,6 @@
         [
             "Silly Billy",
             "Vs. Boyfriend"
-        ],
-        [
-            "also try",
-            "FNF"
         ],
         [
             "Friday",
@@ -32,10 +84,6 @@
         [
             "IDFK",
             "what crochet is"
-        ],
-        [
-            "rawr",
-            "UwU"
         ],
         [
             "also try",
@@ -78,8 +126,8 @@
             "dingle"
         ],
         [
-            "pico",
-            "voice appreciation"
+            "Pico",
+            "de gallo"
         ],
         [
             "do you got",

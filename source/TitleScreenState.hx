@@ -1,11 +1,14 @@
 package;
 
-import assetManagement.LibraryManager;
+import AssetSprite;
 import assetManagement.ParsedJSONRegistry;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.group.FlxSpriteGroup;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import menu.Menu;
+import menu.SpriteTextMenuItem;
 import music.ConductedState;
 import music.Conductor;
 import music.MusicData;
@@ -16,52 +19,138 @@ class TitleScreenState extends ConductedState
 	/** The title screen data obtained from a JSON. **/
 	var data:Dynamic;
 
+	var menu:Menu;
+
+	var versionText:FlxText;
+
 	var playingIntro:Bool;
+	var introBeats:Array<Dynamic>;
 
 	/** The randomized flavor text used in the intro. **/
-	var introComment:Array<String>;
+	var introFlavorText:Array<String>;
 
 	public static var playedIntro(default, null):Bool;
 
 	var introDarken:FlxSprite;
 	var introLines:Array<SpriteText> = new Array<SpriteText>();
 
-	/** The Newgrounds logo used in the intro. **/
-	var newgroundsLogo:AssetSprite;
+	/** Used for things such as the Newgrounds logo in the intro. **/
+	var introImage:AssetSprite;
 
-	var versionText:FlxText;
+	var outdatedWarning:FlxSpriteGroup;
 
 	override public function create()
 	{
 		super.create();
 		data = ParsedJSONRegistry.getAsset("menus/title_screen/title_screen_data");
 
-		Conductor.play(MusicRegistry.getAsset(data.musicID), true);
-		Conductor.fadeIn(0.5);
+		introBeats = cast(data.introBeats, Array<Dynamic>);
+
+		// Get the main menu and add the menu options
+		var menus:Array<FlxSprite> = stage.getElementsWithTag("menu");
+		if (menus.length > 0)
+		{
+			menu = cast menus[menus.length - 1];
+			menu.createItems([
+				{
+					skin: SpriteTextMenuItem,
+					type: BUTTON,
+					label: "Story Mode",
+					iconID: "characters/bf/icon",
+					onSelected: null,
+					onInteracted: null
+				},
+				{
+					skin: SpriteTextMenuItem,
+					type: BUTTON,
+					label: "Freeplay",
+					iconID: null,
+					onSelected: null,
+					onInteracted: null
+				},
+				#if ENABLE_CHARACTER_SELECT
+				{
+					skin: SpriteTextMenuItem,
+					type: BUTTON,
+					label: "Character",
+					iconID: null,
+					onSelected: null,
+					onInteracted: null
+				},
+				#end
+				#if ENABLE_ACHIEVEMENTS
+				{
+					skin: SpriteTextMenuItem,
+					type: BUTTON,
+					label: "Awards",
+					iconID: null,
+					onSelected: null,
+					onInteracted: null
+				},
+				#end
+				#if ENABLE_MODS
+				{
+					skin: SpriteTextMenuItem,
+					type: BUTTON,
+					label: "Mods",
+					iconID: null,
+					onSelected: null,
+					onInteracted: null
+				},
+				#end
+				{
+					skin: SpriteTextMenuItem,
+					type: BUTTON,
+					label: "Settings",
+					iconID: null,
+					onSelected: null,
+					onInteracted: null
+				}
+			]);
+		}
+
+		// Add the engine version text
+		versionText = new FlxText(16.0, 16.0, FlxG.width - 32.0, "Friday Night Rewrite v" + Main.currentVersion);
+		versionText.setFormat("Jann Script Bold", 14, FlxColor.WHITE, RIGHT);
+		versionText.alpha = 0.4;
+		add(versionText);
 
 		introDarken = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-		introDarken.visible = false;
 		add(introDarken);
+		introDarken.kill();
 
 		// Create the intro lines (which will get re-used for multiple intro things)
 		for (i in 0...5)
 		{
 			introLines.push(new SpriteText(FlxG.width / 2.0, FlxG.height / 2.0 - (2.5 - i) * 64.0, "", 0.9, CENTER, true));
 			add(introLines[introLines.length - 1]);
+			introLines[introLines.length - 1].kill();
 		}
 
-		newgroundsLogo = new AssetSprite(0.0, 0.0, "menus/title_screen/newgrounds_logo");
-		newgroundsLogo.scale.set(0.8, 0.8);
-		newgroundsLogo.updateHitbox();
-		newgroundsLogo.screenCenter();
-		newgroundsLogo.y += 170.0;
-		newgroundsLogo.visible = false;
-		add(newgroundsLogo);
+		// Add the newgrounds logo for the intro
+		introImage = new AssetSprite(0.0, 0.0);
+		introImage.scale.set(0.8, 0.8);
+		add(introImage);
+		introImage.kill();
 
-		versionText = new FlxText(16.0, 16.0, FlxG.width - 32.0, "Friday Night Rewrite v" + LibraryManager.getCore().version);
-		versionText.setFormat("Jann Script Bold", 14, FlxColor.WHITE, RIGHT);
-		versionText.alpha = 0.4;
-		add(versionText);
+		outdatedWarning = new FlxSpriteGroup();
+		var outdatedBack:FlxSprite = new FlxSprite().makeGraphic(512, 170, FlxColor.BLACK);
+		outdatedBack.alpha = 0.6;
+		outdatedWarning.add(outdatedBack);
+		var outdatedTitle:FlxText = new FlxText(16.0, 16.0, 480.0, "WARNING: YOU ARE USING AN OUTDATED VERSION OF FRIDAY NIGHT REWRITE!");
+		outdatedTitle.setFormat("Jann Script Bold", 17, FlxColor.RED);
+		outdatedWarning.add(outdatedTitle);
+		var outdatedVersion:FlxText = new FlxText(16.0, 80.0, 480.0, "Your version: " + Main.currentVersion + "    Latest version: " + Main.latestVersion);
+		outdatedVersion.setFormat("Jann Script Bold", 14, FlxColor.GRAY);
+		outdatedWarning.add(outdatedVersion);
+		var outdatedDownload:FlxText = new FlxText(16.0, 110.0, 480.0, "Press 'U' to download the latest version!");
+		outdatedDownload.setFormat("Jann Script Bold", 14);
+		outdatedWarning.add(outdatedDownload);
+		add(outdatedWarning);
+		outdatedWarning.kill();
+
+		Conductor.play(MusicRegistry.getAsset(data.musicID), true);
+		Conductor.fadeIn(0.5);
 
 		if (!playedIntro)
 			playIntro();
@@ -70,6 +159,19 @@ class TitleScreenState extends ConductedState
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+
+		#if ENABLE_OUTDATED_WARNING
+		if (Main.outdated)
+		{
+			if (FlxG.keys.justPressed.U)
+				FlxG.openURL("https://github.com/GameBuilder101/FridayNightRewrite/releases");
+
+			// Show the outdated warning if outdated
+			if (!outdatedWarning.exists)
+				outdatedWarning.revive();
+		}
+		#end
+
 		if (FlxG.keys.justPressed.ENTER)
 			skipIntro();
 	}
@@ -79,24 +181,25 @@ class TitleScreenState extends ConductedState
 		return new Stage("menus/title_screen");
 	}
 
-	function playIntro()
+	public function playIntro()
 	{
 		if (playingIntro)
 			return;
 		playingIntro = true;
 
 		// Obtain a random flavor text comment to be used in the intro
-		var comments:Array<Dynamic> = cast(data.introComments, Array<Dynamic>);
-		introComment = comments[FlxG.random.int(0, comments.length - 1)];
+		var allFlavorText:Array<Dynamic> = cast(data.introFlavorText, Array<Dynamic>);
+		introFlavorText = allFlavorText[FlxG.random.int(0, allFlavorText.length - 1)];
 
-		introDarken.visible = true;
+		introDarken.revive();
 	}
 
-	function skipIntro()
+	public function skipIntro()
 	{
 		if (!playingIntro)
 			return;
-		Conductor.setTime(Conductor.currentMusic.getTimeAt(16.0));
+		// Jump to the ending beat
+		Conductor.setTime(Conductor.currentMusic.getTimeAt(introBeats[introBeats.length - 1].beat));
 		endIntro();
 	}
 
@@ -105,9 +208,8 @@ class TitleScreenState extends ConductedState
 		playingIntro = false;
 		playedIntro = true;
 
-		resetIntroLines();
-		introDarken.visible = false;
-		newgroundsLogo.visible = false;
+		introClear();
+		introDarken.kill();
 
 		FlxG.cameras.flash();
 	}
@@ -119,52 +221,55 @@ class TitleScreenState extends ConductedState
 			return;
 
 		// Play the intro stuff each beat
-		switch (beat)
+		for (introBeat in introBeats)
 		{
-			case 1:
-				displayIntroLine(0, "ninjamuffin99");
-				displayIntroLine(1, "PhantomArcade");
-				displayIntroLine(2, "KawaiSprite");
-				displayIntroLine(3, "evilsk8r");
-			case 3:
-				displayIntroLine(4, "present");
-			case 4:
-				resetIntroLines();
-			case 5:
-				displayIntroLine(0, "in association");
-				displayIntroLine(1, "with");
-			case 7:
-				displayIntroLine(2, "Newgrounds");
-				newgroundsLogo.visible = true;
-			case 8:
-				resetIntroLines();
-				newgroundsLogo.visible = false;
-			case 9:
-				displayIntroLine(1, introComment[0]);
-			case 11:
-				displayIntroLine(2, introComment[1]);
-			case 12:
-				resetIntroLines();
-			case 13:
-				displayIntroLine(1, "Friday");
-			case 14:
-				displayIntroLine(2, "Night");
-			case 15:
-				displayIntroLine(3, "Funkin'");
-			case 16:
+			// Only play the intro-beat if it should on this beat
+			if (introBeat.beat != beat)
+				continue;
+
+			if (introBeat.line0 != null)
+				displayIntroLine(0, introBeat.line0);
+			if (introBeat.line1 != null)
+				displayIntroLine(1, introBeat.line1);
+			if (introBeat.line2 != null)
+				displayIntroLine(2, introBeat.line2);
+			if (introBeat.line3 != null)
+				displayIntroLine(3, introBeat.line3);
+
+			if (introBeat.flavorTextLine0 != null)
+				displayIntroLine(introBeat.flavorTextLine0, introFlavorText[0]);
+			if (introBeat.flavorTextLine1 != null)
+				displayIntroLine(introBeat.flavorTextLine1, introFlavorText[1]);
+			if (introBeat.displayImageID != null)
+				displayIntroImage(introBeat.displayImageID);
+
+			if (introBeat.clear != null && introBeat.clear)
+				introClear();
+
+			if (introBeat.end != null && introBeat.end)
 				endIntro();
 		}
 	}
 
 	function displayIntroLine(index:Int, text:String)
 	{
+		introLines[index].revive();
 		introLines[index].setText(text);
-		introLines[index].visible = true;
 	}
 
-	function resetIntroLines()
+	function introClear()
 	{
 		for (introLine in introLines)
-			introLine.visible = false;
+			introLine.kill();
+		introImage.kill();
+	}
+
+	function displayIntroImage(id:String)
+	{
+		introImage.loadFromData(AssetSpriteRegistry.getAsset(id));
+		introImage.updateHitbox();
+		introImage.screenCenter();
+		introImage.y += 170.0;
+		introImage.revive();
 	}
 }

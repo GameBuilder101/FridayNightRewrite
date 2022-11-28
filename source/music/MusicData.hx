@@ -129,4 +129,10 @@ class MusicRegistry extends Registry<MusicData>
 	{
 		return LibraryManager.getLibraryAsset(id, cache);
 	}
+
+	/** Resets the cache. **/
+	public static function reset()
+	{
+		cache.clear();
+	}
 }

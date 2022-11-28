@@ -47,13 +47,16 @@ class SoundRegistry extends Registry<SoundData>
 		var parsed:Dynamic = FileManager.getParsedJson(path);
 		var sound:Sound;
 
-		if (parsed == null) // If JSON data for the sound variants were not supplied, look for a standalone sound file instead
+		if (parsed == null || parsed.variants == null) // If JSON data for the sound variants were not supplied, look for a standalone sound file instead
 		{
 			sound = FileManager.getSound(path);
 			if (sound == null) // If a sound file was also not found, then this sound doesn't exist
 				return null;
+			var volume:Float = 1.0;
+			if (parsed != null)
+				volume = parsed.volume;
 			// Since no JSON data was given, we just have to assume the volume is 1
-			return new SoundData([{sound: sound, volume: 1.0}]);
+			return new SoundData([{sound: sound, volume: volume}]);
 		}
 
 		// Construct the variants array from the parsed data's variants
@@ -79,5 +82,11 @@ class SoundRegistry extends Registry<SoundData>
 	public static function getAsset(id:String):SoundData
 	{
 		return LibraryManager.getLibraryAsset(id, cache);
+	}
+
+	/** Resets the cache. **/
+	public static function reset()
+	{
+		cache.clear();
 	}
 }

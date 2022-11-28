@@ -1,0 +1,6 @@
+[
+    "menus/_shared/menu_select",
+    "menus/_shared/menu_confirm",
+    "menus/_shared/menu_cancel",
+    "menus/_shared/menu_error"
+]

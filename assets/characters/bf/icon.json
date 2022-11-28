@@ -11,6 +11,10 @@
         {
             "name": "winning",
             "atlasPrefix": "normal"
+        },
+        {
+            "name": "menu_idle",
+            "atlasPrefix": "normal"
         }
     ]
 }
