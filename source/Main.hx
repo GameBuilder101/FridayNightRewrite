@@ -40,7 +40,7 @@ class Main extends Sprite
 	{
 		trace("Checking for GitHub version...");
 
-		var http:Http = new Http("https://gist.githubusercontent.com/GameBuilder101/74d21f1ca9199eb550531df2cab42111/raw/410d043422ff81ffcdff189e21f330d023c31217/fnr_library_placeholder.json"); // https://raw.githubusercontent.com/GameBuilder101/FridayNightRewrite/main/assets/library.json
+		var http:Http = new Http("https://raw.githubusercontent.com/GameBuilder101/FridayNightRewrite/main/assets/library.json");
 		http.onData = function(data:String)
 		{
 			var parsed:Dynamic = Json.parse(data);

@@ -186,6 +186,7 @@ class TitleScreenState extends ConductedState
 		if (playingIntro)
 			return;
 		playingIntro = true;
+		menu.interactable = false;
 
 		// Obtain a random flavor text comment to be used in the intro
 		var allFlavorText:Array<Dynamic> = cast(data.introFlavorText, Array<Dynamic>);
@@ -207,6 +208,7 @@ class TitleScreenState extends ConductedState
 	{
 		playingIntro = false;
 		playedIntro = true;
+		menu.interactable = true;
 
 		introClear();
 		introDarken.kill();

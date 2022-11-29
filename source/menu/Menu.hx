@@ -18,6 +18,9 @@ class Menu extends FlxSpriteGroup
 	/** The index of the currently-selected/hovered item. **/
 	public var selectedItem(default, null):Int;
 
+	/** Whether the whole menu should be interactable. **/
+	public var interactable:Bool = true;
+
 	public var spacing:Float;
 
 	/** Used for radial and diagonal menus. **/
@@ -146,7 +149,7 @@ class Menu extends FlxSpriteGroup
 	}
 
 	/** Either enables or disables interaction with a menu item. **/
-	public function setInteractable(itemIndex:Int, interactable:Bool)
+	public function setItemInteractable(itemIndex:Int, interactable:Bool)
 	{
 		items[itemIndex].interactable = interactable;
 	}

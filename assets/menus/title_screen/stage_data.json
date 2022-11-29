@@ -3,7 +3,7 @@
     "elements": [
         {
             "tags": [
-                "background"
+                "menu_background"
             ],
             "type": "general_sprite",
             "data": {
