@@ -54,6 +54,8 @@ class LibraryManager
 		}
 
 		libraries.load("", CORE_ID);
+
+		preload();
 	}
 
 	/** Returns the loaded core library. **/
@@ -130,7 +132,7 @@ class LibraryManager
 	/** Performs a full reload of all libraries and registries. **/
 	public static function fullReload()
 	{
-		trace("Performing full library reload!");
+		trace("Performing full library reload...");
 		reloadLibraries();
 		// New registries should get added here!
 		ParsedJSONRegistry.reset();
