@@ -7,6 +7,7 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import menu.MenuItem;
+import stage.Stage;
 
 class Menu extends FlxSpriteGroup
 {
@@ -46,19 +47,26 @@ class Menu extends FlxSpriteGroup
 	public var cancelSound:SoundData;
 	public var errorSound:SoundData;
 
-	public function new(x:Float, y:Float, menuType:MenuType = LIST)
+	/** The stage this menu is associated with. Used for visual effects such as flashing when a button is pressed. **/
+	public var stage(default, null):Stage;
+
+	public function new(x:Float, y:Float, menuType:MenuType = LIST, stage:Stage = null)
 	{
 		super(x, y);
 		this.menuType = menuType;
+		this.stage = stage;
 	}
 
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
-		if (FlxG.keys.justPressed.UP)
-			moveSelection(-1);
-		if (FlxG.keys.justPressed.DOWN)
-			moveSelection(1);
+		if (interactable)
+		{
+			if (FlxG.keys.justPressed.UP)
+				moveSelection(-1);
+			else if (FlxG.keys.justPressed.DOWN)
+				moveSelection(1);
+		}
 	}
 
 	/** Destroys any existing items and creates menus items from the given array. **/
@@ -76,7 +84,7 @@ class Menu extends FlxSpriteGroup
 		// Create the menu items
 		for (itemData in itemDatas)
 		{
-			items.push(Type.createInstance(itemData.skin, [this, i, itemData]));
+			items.push(Type.createInstance(itemData.type, [this, i, itemData]));
 			add(items[items.length - 1]);
 			i++;
 		}
@@ -87,21 +95,11 @@ class Menu extends FlxSpriteGroup
 	/** Moves the selected item in the given direction. **/
 	public function moveSelection(dir:Int)
 	{
-		var value:Int = cast(dir / Math.abs(dir));
-		selectedItem += value;
+		selectedItem += dir;
 		if (selectedItem < 0)
 			selectedItem = items.length - 1;
 		if (selectedItem >= items.length)
 			selectedItem = 0;
-		// Make it so labels are skipped and not selected
-		while (items[selectedItem].getItemType() == LABEL)
-		{
-			selectedItem += value;
-			if (selectedItem < 0)
-				selectedItem = items.length - 1;
-			if (selectedItem >= items.length)
-				selectedItem = 0;
-		}
 		tweenItems();
 	}
 

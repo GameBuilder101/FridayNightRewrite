@@ -23,11 +23,6 @@ abstract class MenuItem extends FlxSpriteGroup
 		this.data = data;
 	}
 
-	public inline function getItemType():MenuItemType
-	{
-		return data.type;
-	}
-
 	inline function getIsSelected():Bool
 	{
 		return index == menu.selectedItem;
@@ -36,23 +31,13 @@ abstract class MenuItem extends FlxSpriteGroup
 	/** True when selected and interactable. **/
 	inline function getIsInteractTarget():Bool
 	{
-		return getIsSelected() && interactable;
+		return getIsSelected() && interactable && menu.interactable;
 	}
-}
-
-enum MenuItemType
-{
-	LABEL;
-	BUTTON;
-	TOGGLE;
-	SELECTION;
-	CONTROL_SCHEME;
 }
 
 typedef MenuItemData =
 {
-	skin:Class<MenuItem>,
-	type:MenuItemType,
+	type:Class<MenuItem>,
 	label:String,
 	iconID:String,
 	onSelected:Void->Void,

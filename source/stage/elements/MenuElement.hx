@@ -39,5 +39,8 @@ class MenuElement extends Menu implements StageElement
 			errorSound = SoundRegistry.getAsset(data.errorSoundID);
 	}
 
-	public function onAddedToStage(stage:Stage) {}
+	public function onAddedToStage(stage:Stage)
+	{
+		this.stage = stage;
+	}
 }

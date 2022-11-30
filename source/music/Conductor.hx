@@ -22,6 +22,7 @@ class Conductor extends FlxGroup
 	{
 		super();
 		this.conducted = conducted;
+		sound.persist = true;
 	}
 
 	override function update(elapsed:Float)

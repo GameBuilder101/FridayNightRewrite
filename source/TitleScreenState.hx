@@ -4,11 +4,13 @@ import AssetSprite;
 import assetManagement.ParsedJSONRegistry;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.FlxState;
 import flixel.group.FlxSpriteGroup;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
 import menu.Menu;
-import menu.SpriteTextMenuItem;
+import menu.items.FlashingButtonMenuItem;
 import music.ConductedState;
 import music.Conductor;
 import music.MusicData;
@@ -53,16 +55,17 @@ class TitleScreenState extends ConductedState
 			menu = cast menus[menus.length - 1];
 			menu.createItems([
 				{
-					skin: SpriteTextMenuItem,
-					type: BUTTON,
+					type: FlashingButtonMenuItem,
 					label: "Story Mode",
-					iconID: "characters/bf/icon",
+					iconID: null,
 					onSelected: null,
-					onInteracted: null
+					onInteracted: function(data:Dynamic)
+					{
+						transition(new PlayState());
+					}
 				},
 				{
-					skin: SpriteTextMenuItem,
-					type: BUTTON,
+					type: FlashingButtonMenuItem,
 					label: "Freeplay",
 					iconID: null,
 					onSelected: null,
@@ -70,8 +73,7 @@ class TitleScreenState extends ConductedState
 				},
 				#if ENABLE_CHARACTER_SELECT
 				{
-					skin: SpriteTextMenuItem,
-					type: BUTTON,
+					type: FlashingButtonMenuItem,
 					label: "Character",
 					iconID: null,
 					onSelected: null,
@@ -80,8 +82,7 @@ class TitleScreenState extends ConductedState
 				#end
 				#if ENABLE_ACHIEVEMENTS
 				{
-					skin: SpriteTextMenuItem,
-					type: BUTTON,
+					type: FlashingButtonMenuItem,
 					label: "Awards",
 					iconID: null,
 					onSelected: null,
@@ -90,8 +91,7 @@ class TitleScreenState extends ConductedState
 				#end
 				#if ENABLE_MODS
 				{
-					skin: SpriteTextMenuItem,
-					type: BUTTON,
+					type: FlashingButtonMenuItem,
 					label: "Mods",
 					iconID: null,
 					onSelected: null,
@@ -99,8 +99,7 @@ class TitleScreenState extends ConductedState
 				},
 				#end
 				{
-					skin: SpriteTextMenuItem,
-					type: BUTTON,
+					type: FlashingButtonMenuItem,
 					label: "Settings",
 					iconID: null,
 					onSelected: null,
@@ -179,6 +178,15 @@ class TitleScreenState extends ConductedState
 	function createStage():Stage
 	{
 		return new Stage("menus/title_screen");
+	}
+
+	function transition(state:FlxState)
+	{
+		menu.interactable = false;
+		new FlxTimer().start(0.8, function(timer:FlxTimer)
+		{
+			FlxG.switchState(state);
+		});
 	}
 
 	public function playIntro()

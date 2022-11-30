@@ -245,7 +245,7 @@ class SpriteText extends FlxSpriteGroup
 	}
 
 	/** Makes the text play an up/down wave animation. **/
-	public function playWaveAnimation(amplitude:Float = 5.0, frequency:Float = 1.0, speed:Float = 2.0)
+	public inline function playWaveAnimation(amplitude:Float = 5.0, frequency:Float = 1.0, speed:Float = 2.0)
 	{
 		waveAmplitude = amplitude;
 		waveFrequency = frequency;
@@ -253,9 +253,14 @@ class SpriteText extends FlxSpriteGroup
 		wavePos = 0.0;
 	}
 
-	public function resetWaveAnimation()
+	public inline function resetWaveAnimation()
 	{
 		waveAmplitude = 0.0;
+	}
+
+	public inline function getIsWaving():Bool
+	{
+		return waveAmplitude > 0.0;
 	}
 
 	override function update(elapsed:Float)
@@ -265,7 +270,7 @@ class SpriteText extends FlxSpriteGroup
 		var i:Int = 0;
 		for (sprite in members)
 		{
-			if (waveAmplitude != 0.0)
+			if (getIsWaving())
 				sprite.y = FlxMath.fastSin((wavePos + (i * waveFrequency)) * waveSpeed) * waveAmplitude * fontSize + this.y;
 			else
 				sprite.y = y;
