@@ -1,11 +1,9 @@
 package menu.items;
 
-import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.math.FlxMath;
 import flixel.util.FlxColor;
 import menu.MenuItem;
-import music.ConductedState;
 
 /** A button menu item which flashes the background when selected. **/
 class FlashingButtonMenuItem extends ButtonMenuItem

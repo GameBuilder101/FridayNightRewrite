@@ -23,7 +23,7 @@ class LabelMenuItem extends MenuItem
 
 		if (data.iconID != null && data.iconID != "")
 		{
-			icon = new AssetSprite(x, y + label.height / 2.0, data.iconID);
+			icon = new AssetSprite(0.0, label.height / 2.0, data.iconID);
 			if (icon.animation.exists("menu_idle"))
 				icon.animation.play("menu_idle");
 			icon.scale.set(label.height * 1.5, label.height * 1.5);

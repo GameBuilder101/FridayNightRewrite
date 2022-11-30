@@ -1,6 +1,7 @@
 package menu;
 
 import flixel.FlxG;
+import flixel.addons.transition.TransitionEffect;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
 import flixel.tweens.FlxEase;
@@ -149,7 +150,7 @@ class Menu extends FlxSpriteGroup
 	/** Either enables or disables interaction with a menu item. **/
 	public function setItemInteractable(itemIndex:Int, interactable:Bool)
 	{
-		items[itemIndex].interactable = interactable;
+		items[itemIndex].interactable = interactable && !(FlxG.state.subState is TransitionEffect);
 	}
 }
 

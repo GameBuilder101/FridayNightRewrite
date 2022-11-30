@@ -1,11 +1,7 @@
 package menu.items;
 
 import flixel.FlxG;
-import flixel.FlxSprite;
-import flixel.math.FlxMath;
-import flixel.util.FlxColor;
 import menu.MenuItem;
-import music.ConductedState;
 
 class ButtonMenuItem extends LabelMenuItem
 {
