@@ -2,9 +2,9 @@ package stage.elements;
 
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
-import music.Conducted;
+import music.IConducted;
 
-class GeneralSpriteElement extends AssetSprite implements StageElement implements Conducted
+class GeneralSpriteElement extends AssetSprite implements IStageElement implements IConducted
 {
 	var bopAnimFrequency:Float;
 	var bopLeftAnimName:String;

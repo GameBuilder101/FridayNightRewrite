@@ -149,7 +149,7 @@ class Stage extends FlxSpriteGroup
 			sprite.angle = element.rotation;
 			elements.push({sprite: sprite, tags: element.tags});
 			add(sprite);
-			cast(sprite, StageElement).onAddedToStage(this);
+			cast(sprite, IStageElement).onAddedToStage(this);
 		}
 	}
 

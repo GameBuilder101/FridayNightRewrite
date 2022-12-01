@@ -1,6 +1,6 @@
 package stage;
 
-interface StageElement
+interface IStageElement
 {
 	public function onAddedToStage(stage:Stage):Void;
 }

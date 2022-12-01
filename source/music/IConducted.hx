@@ -1,6 +1,6 @@
 package music;
 
-interface Conducted
+interface IConducted
 {
 	public function updateMusic(time:Float, bpm:Float, beat:Float):Void;
 

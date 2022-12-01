@@ -5,7 +5,7 @@ import flixel.util.FlxColor;
 import menu.Menu;
 
 /** A menu element only defines the look of a menu. The options of a menu are hard-coded and defined by the corresponding menu state. **/
-class MenuElement extends Menu implements StageElement
+class MenuElement extends Menu implements IStageElement
 {
 	public function new(data:Dynamic)
 	{

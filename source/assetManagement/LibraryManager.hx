@@ -78,6 +78,7 @@ class LibraryManager
 			if (entry != null)
 				return entry.data;
 		}
+		trace("Could not locate library asset '" + id + "'!");
 		return null;
 	}
 

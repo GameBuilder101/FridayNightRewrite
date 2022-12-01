@@ -1,6 +1,6 @@
 package;
 
-interface UpdatableShader
+interface IUpdatableShader
 {
 	public function update(elapsed:Float):Void;
 }

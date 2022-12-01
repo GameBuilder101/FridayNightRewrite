@@ -31,7 +31,7 @@ class ButtonMenuItem extends LabelMenuItem
 		var isInteractTarget:Bool = getIsInteractTarget();
 
 		// Make the buttons visible and update their colors if selected
-		leftmostArrow.visible = isInteractTarget;
+		leftmostArrow.visible = isInteractTarget && icon == null; // Make sure the left arrow doesn't overlap the icon
 		leftmostArrow.color = label.color;
 		rightmostArrow.visible = isInteractTarget;
 		rightmostArrow.color = label.color;

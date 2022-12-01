@@ -14,11 +14,11 @@ class Conductor extends FlxGroup
 	static var sound:FlxSound = new FlxSound();
 
 	/** The thing to be conducted. **/
-	public var conducted:Conducted;
+	public var conducted:IConducted;
 
 	var prevWholeBeat:Int = -1;
 
-	public function new(conducted:Conducted)
+	public function new(conducted:IConducted)
 	{
 		super();
 		this.conducted = conducted;

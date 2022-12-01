@@ -186,7 +186,7 @@ class AssetSprite extends FlxSprite
 		}
 
 		// Update the shader if it supports the functionality
-		if (shader != null && shader is UpdatableShader)
-			cast(shader, UpdatableShader).update(elapsed);
+		if (shader != null && shader is IUpdatableShader)
+			cast(shader, IUpdatableShader).update(elapsed);
 	}
 }

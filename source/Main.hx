@@ -13,7 +13,7 @@ class Main extends Sprite
 	/** The latest version of the engine. Obtained from GitHub. **/
 	public static var latestVersion(default, null):String;
 
-	/** Whether the core library version is up-to-date with the latest version. **/
+	/** Whether the core version is up-to-date with the latest version. **/
 	public static var outdated(default, null):Bool;
 
 	public function new()

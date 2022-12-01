@@ -9,7 +9,7 @@ class StageElementResolver
 	public static final ALL:Array<String> = ["general_sprite", "menu", "menu_record", "logo"];
 
 	/** Creates a new element from the provided type name and returns it. **/
-	public static function resolve(type:String, data:Dynamic):StageElement
+	public static function resolve(type:String, data:Dynamic):IStageElement
 	{
 		switch (type)
 		{

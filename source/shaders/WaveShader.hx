@@ -2,7 +2,7 @@ package shaders;
 
 import flixel.system.FlxAssets.FlxShader;
 
-class WaveShader extends FlxShader implements UpdatableShader
+class WaveShader extends FlxShader implements IUpdatableShader
 {
 	// This code was originally written by Gama11 on GitHub! https://github.com/HaxeFlixel/flixel-demos/blob/dev/Effects/BlendModeShaders/source/openfl8/effects/WiggleEffect.hx
 	@:glFragmentSource('

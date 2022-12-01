@@ -9,7 +9,7 @@ import flixel.addons.transition.TransitionData;
 import flixel.util.FlxColor;
 import stage.Stage;
 
-abstract class ConductedState extends FlxTransitionableState implements Conducted
+abstract class ConductedState extends FlxTransitionableState implements IConducted
 {
 	public var conductor(default, null):Conductor;
 
@@ -47,8 +47,8 @@ abstract class ConductedState extends FlxTransitionableState implements Conducte
 		// Call on members
 		forEach(function(member:FlxBasic)
 		{
-			if (member is Conducted)
-				cast(member, Conducted).updateMusic(time, bpm, beat);
+			if (member is IConducted)
+				cast(member, IConducted).updateMusic(time, bpm, beat);
 		}, true);
 
 		/* Trigger all events which occured between the previous time and the current time */
@@ -65,8 +65,8 @@ abstract class ConductedState extends FlxTransitionableState implements Conducte
 		// Call on members
 		forEach(function(member:FlxBasic)
 		{
-			if (member is Conducted)
-				cast(member, Conducted).onWholeBeat(beat);
+			if (member is IConducted)
+				cast(member, IConducted).onWholeBeat(beat);
 		}, true);
 	}
 }
