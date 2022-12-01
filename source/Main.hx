@@ -6,6 +6,7 @@ import haxe.Http;
 import haxe.Json;
 import openfl.display.Sprite;
 
+/** Handles initialization, versions, and other core features. **/
 class Main extends Sprite
 {
 	public static var currentVersion(default, null):String;
@@ -29,6 +30,8 @@ class Main extends Sprite
 			latestVersion = version;
 			outdated = currentVersion != latestVersion;
 		});
+
+		Controls.initialize();
 
 		addChild(new FlxGame(0, 0, TitleScreenState, -1.0, 60, 60, true, false));
 	}
