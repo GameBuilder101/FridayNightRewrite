@@ -4,7 +4,6 @@ import assetManagement.ParsedJSONRegistry;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
-import flixel.addons.transition.FlxTransitionableState;
 import flixel.util.FlxTimer;
 import menu.Menu;
 import menu.MenuItem;
@@ -25,13 +24,6 @@ abstract class MenuState extends ConductedState
 	override public function create()
 	{
 		super.create();
-
-		// Must be done after FlxG has a chance to initialize or else it throws an error
-		Controls.initialize();
-		// Must be called somewhere in a state (after initialization), since graphics (such as the transition tile) can't be obtained before then
-		TransitionManager.updateDefaultTrans();
-		transIn = FlxTransitionableState.defaultTransIn;
-		transOut = FlxTransitionableState.defaultTransOut;
 
 		// Get the primary menu and add the menu options
 		var menus:Array<FlxSprite> = stage.getElementsWithTag("menu");

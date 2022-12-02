@@ -6,7 +6,7 @@ import stage.elements.*;
 class StageElementResolver
 {
 	/** A list of all valid types of elements. **/
-	public static final ALL:Array<String> = ["general_sprite", "menu", "menu_record", "logo"];
+	public static final ALL:Array<String> = ["general_sprite", "spinning_sprite", "menu", "logo"];
 
 	/** Creates a new element from the provided type name and returns it. **/
 	public static function resolve(type:String, data:Dynamic):IStageElement
@@ -15,10 +15,10 @@ class StageElementResolver
 		{
 			case "general_sprite":
 				return new GeneralSpriteElement(data);
+			case "spinning_sprite":
+				return new SpinningSpriteElement(data);
 			case "menu":
 				return new MenuElement(data);
-			case "menu_record":
-				return new MenuRecordElement(data);
 			case "logo":
 				return new LogoElement(data);
 		}

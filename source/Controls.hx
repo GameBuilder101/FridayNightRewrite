@@ -1,5 +1,8 @@
 package;
 
+import flixel.input.gamepad.FlxGamepadInputID;
+import flixel.input.keyboard.FlxKey;
+import flixel.input.actions.FlxActionInput;
 import flixel.FlxG;
 import flixel.input.actions.FlxAction;
 import flixel.input.actions.FlxActionManager;
@@ -71,6 +74,10 @@ class Controls
 		input.addSet(new FlxActionSet("note", [noteLeft, noteDown, noteUp, noteRight]));
 
 		FlxG.inputs.add(input);
+		// Volume-changing input is handled manually
+		FlxG.sound.volumeUpKeys = null;
+		FlxG.sound.volumeDownKeys = null;
+		FlxG.sound.muteKeys = null;
 	}
 
 	static function mapDefaultInputs()
@@ -121,5 +128,40 @@ class Controls
 		noteRight.addKey(D, PRESSED);
 		noteRight.addGamepad(LEFT_STICK_DIGITAL_RIGHT, PRESSED);
 		noteRight.addGamepad(RIGHT_STICK_DIGITAL_RIGHT, PRESSED);
+	}
+
+	/** Updates the volume/mute actions. **/
+	public static function updateSoundActions()
+	{
+		if (volumeUp.check())
+			FlxG.sound.changeVolume(0.125);
+		if (volumeDown.check())
+			FlxG.sound.changeVolume(-0.125);
+		if (mute.check())
+			FlxG.sound.toggleMuted();
+	}
+}
+
+class OverridableAction
+{
+	public var name(default, null):String;
+	public var defaultKeyBinds(default, null):Array<FlxKey>;
+	public var defaultGamepadBinds(default, null):Array<FlxGamepadInputID>;
+
+	var overrideKeyBinds:Array<FlxKey>;
+	var overrideGamepadBinds:Array<FlxGamepadInputID>;
+
+	var action:FlxAction;
+
+	public function new(name:String, type:FlxInputType, defaultKeyBinds:Array<FlxKey>, defaultGamepadBinds:Array<FlxGamepadInputID>)
+	{
+		if (type == ANALOG)
+			action = new FlxActionAnalog(name);
+		else
+			action = new FlxActionDigital(name);
+
+		this.name = name;
+		this.defaultKeyBinds = defaultKeyBinds;
+		this.defaultGamepadBinds = defaultGamepadBinds;
 	}
 }

@@ -1,6 +1,6 @@
 package stage.elements;
 
-class MenuRecordElement extends GeneralSpriteElement
+class SpinningSpriteElement extends GeneralSpriteElement
 {
 	/** Indicates how much of a full 360-rotation should occur per beat. **/
 	public var spinSpeed:Float;

@@ -20,6 +20,13 @@ abstract class ConductedState extends FlxTransitionableState implements IConduct
 	{
 		super.create();
 
+		// Must be done after FlxG has a chance to initialize or else it throws an error
+		Controls.initialize();
+		// Must be called somewhere in a state (after initialization), since graphics (such as the transition tile) can't be obtained before then
+		TransitionManager.updateDefaultTrans();
+		transIn = FlxTransitionableState.defaultTransIn;
+		transOut = FlxTransitionableState.defaultTransOut;
+
 		conductor = new Conductor(this);
 		add(conductor);
 
@@ -30,6 +37,12 @@ abstract class ConductedState extends FlxTransitionableState implements IConduct
 		stage = createStage();
 		if (stage != null)
 			add(stage);
+	}
+
+	override function update(elapsed:Float)
+	{
+		super.update(elapsed);
+		Controls.updateSoundActions();
 	}
 
 	abstract function createStage():Stage;
