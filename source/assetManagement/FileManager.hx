@@ -1,5 +1,6 @@
 package assetManagement;
 
+import flixel.graphics.FlxGraphic;
 import haxe.Json;
 import openfl.display.BitmapData;
 import openfl.media.Sound;
@@ -42,9 +43,14 @@ class FileManager
 	}
 
 	/** @param path The path excluding the file extension. **/
-	public static inline function getBitmapData(path:String):BitmapData
+	public static inline function getGraphic(path:String):FlxGraphic
 	{
-		return BitmapData.fromFile(path + ".png");
+		var source:BitmapData = BitmapData.fromFile(path + ".png");
+		if (source == null)
+			return null;
+		var graphic:FlxGraphic = FlxGraphic.fromBitmapData(source, true, path, false);
+		graphic.persist = true;
+		return graphic;
 	}
 
 	/** @param path The path excluding the file extension. **/

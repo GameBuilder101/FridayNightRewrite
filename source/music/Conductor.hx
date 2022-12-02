@@ -41,8 +41,13 @@ class Conductor extends FlxGroup
 		conducted.updateMusic(getTime(), getCurrentBPM(), beat);
 	}
 
-	public static function play(music:MusicData, looped:Bool)
+	/** Plays the music.
+		@param restart When true, will re-start the music even if it is already playing.
+	**/
+	public static function play(music:MusicData, looped:Bool, restart:Bool = true)
 	{
+		if (currentMusic == music && !restart)
+			return;
 		currentMusic = music;
 
 		/* Set the FlxG music to the Conductor's sound. This ensures that the music will get

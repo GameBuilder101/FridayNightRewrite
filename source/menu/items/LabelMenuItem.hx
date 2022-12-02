@@ -18,7 +18,8 @@ class LabelMenuItem extends MenuItem
 		// Prevent the select sound from playing if this is the initially-selected menu item
 		playedSelectSound = true;
 
-		label = new SpriteText(x, y, data.label, menu.fontSize, menu.menuType == RADIAL ? LEFT : CENTER, true);
+		label = new SpriteText(x, y, data.label, menu.fontSize, menu.menuType == RADIAL
+			|| menu.menuType == LIST_DIAGONAL ? LEFT : CENTER, true);
 		add(label);
 
 		if (data.iconID != null && data.iconID != "")
@@ -51,7 +52,7 @@ class LabelMenuItem extends MenuItem
 
 		if (isSelected && !playedSelectSound && menu.selectSound != null)
 		{
-			menu.selectSound.play();
+			menu.playSelectSound();
 			playedSelectSound = true;
 		}
 		else if (!isSelected)

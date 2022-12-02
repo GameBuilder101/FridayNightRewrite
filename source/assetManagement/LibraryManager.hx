@@ -135,6 +135,7 @@ class LibraryManager
 	{
 		trace("Performing full library reload...");
 		reloadLibraries();
+
 		// New registries should get added here!
 		ParsedJSONRegistry.reset();
 		AssetSpriteRegistry.reset();
@@ -142,5 +143,7 @@ class LibraryManager
 		MusicRegistry.reset();
 		StageRegistry.reset();
 		AlbumRegistry.reset();
+
+		TransitionManager.updateDefaultTrans();
 	}
 }

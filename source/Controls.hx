@@ -3,6 +3,7 @@ package;
 import flixel.FlxG;
 import flixel.input.actions.FlxAction;
 import flixel.input.actions.FlxActionManager;
+import flixel.input.actions.FlxActionSet;
 
 /** Used to access and manage game-specific controls. **/
 class Controls
@@ -44,30 +45,30 @@ class Controls
 		// Volume-related actions
 		volumeUp = new FlxActionDigital("volume_up");
 		volumeDown = new FlxActionDigital("volume_down");
-		input.addActions(cast [volumeUp, volumeDown]);
+		input.addSet(new FlxActionSet("volume", [volumeUp, volumeDown]));
 
 		mute = new FlxActionDigital("mute");
-		input.addAction(cast [mute], 1);
+		input.addSet(new FlxActionSet("mute", [mute]));
 
 		// UI-related actions
 		uiLeft = new FlxActionDigital("ui_left");
 		uiDown = new FlxActionDigital("ui_down");
 		uiUp = new FlxActionDigital("ui_up");
 		uiRight = new FlxActionDigital("ui_right");
-		input.addAction(cast [uiLeft, uiDown, uiUp, uiRight]);
+		input.addSet(new FlxActionSet("ui", [uiLeft, uiDown, uiUp, uiRight]));
 
 		accept = new FlxActionDigital("accept");
-		input.addAction(cast [accept]);
+		input.addSet(new FlxActionSet("accept", [accept]));
 
 		cancel = new FlxActionDigital("cancel");
-		input.addAction(cast [cancel]);
+		input.addSet(new FlxActionSet("cancel", [cancel]));
 
 		// Gameplay-related actions
 		noteLeft = new FlxActionDigital("note_left");
 		noteDown = new FlxActionDigital("note_down");
 		noteUp = new FlxActionDigital("note_up");
 		noteRight = new FlxActionDigital("note_right");
-		input.addAction(cast [noteLeft, noteDown, noteUp, noteRight]);
+		input.addSet(new FlxActionSet("note", [noteLeft, noteDown, noteUp, noteRight]));
 
 		FlxG.inputs.add(input);
 	}
@@ -76,28 +77,49 @@ class Controls
 	{
 		// Volume-related actions
 		volumeUp.addKey(PLUS, JUST_PRESSED);
+
 		volumeDown.addKey(MINUS, JUST_PRESSED);
 
 		mute.addKey(ZERO, JUST_PRESSED);
 
 		// UI-related actions
 		uiLeft.addKey(LEFT, JUST_PRESSED);
+		uiLeft.addGamepad(LEFT_STICK_DIGITAL_LEFT, JUST_PRESSED);
+
 		uiDown.addKey(DOWN, JUST_PRESSED);
+		uiDown.addGamepad(LEFT_STICK_DIGITAL_DOWN, JUST_PRESSED);
+
 		uiUp.addKey(UP, JUST_PRESSED);
+		uiUp.addGamepad(LEFT_STICK_DIGITAL_UP, JUST_PRESSED);
+
 		uiRight.addKey(RIGHT, JUST_PRESSED);
+		uiRight.addGamepad(LEFT_STICK_DIGITAL_RIGHT, JUST_PRESSED);
 
 		accept.addKey(ENTER, JUST_PRESSED);
+		accept.addGamepad(A, JUST_PRESSED);
 
 		cancel.addKey(ESCAPE, JUST_PRESSED);
+		accept.addGamepad(B, JUST_PRESSED);
 
 		// Gameplay-related actions
 		noteLeft.addKey(LEFT, PRESSED);
 		noteLeft.addKey(A, PRESSED);
+		noteLeft.addGamepad(LEFT_STICK_DIGITAL_LEFT, PRESSED);
+		noteLeft.addGamepad(RIGHT_STICK_DIGITAL_LEFT, PRESSED);
+
 		noteDown.addKey(DOWN, PRESSED);
 		noteDown.addKey(S, PRESSED);
+		noteDown.addGamepad(LEFT_STICK_DIGITAL_DOWN, PRESSED);
+		noteDown.addGamepad(RIGHT_STICK_DIGITAL_DOWN, PRESSED);
+
 		noteUp.addKey(UP, PRESSED);
-		noteDown.addKey(W, PRESSED);
+		noteUp.addKey(W, PRESSED);
+		noteUp.addGamepad(LEFT_STICK_DIGITAL_UP, PRESSED);
+		noteUp.addGamepad(RIGHT_STICK_DIGITAL_UP, PRESSED);
+
 		noteRight.addKey(RIGHT, PRESSED);
-		noteDown.addKey(D, PRESSED);
+		noteRight.addKey(D, PRESSED);
+		noteRight.addGamepad(LEFT_STICK_DIGITAL_RIGHT, PRESSED);
+		noteRight.addGamepad(RIGHT_STICK_DIGITAL_RIGHT, PRESSED);
 	}
 }

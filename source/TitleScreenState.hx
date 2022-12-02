@@ -1,28 +1,18 @@
 package;
 
 import AssetSprite;
-import assetManagement.ParsedJSONRegistry;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.FlxState;
 import flixel.group.FlxSpriteGroup;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
-import flixel.util.FlxTimer;
-import menu.Menu;
+import menu.MenuItem;
+import menu.MenuState;
 import menu.items.FlashingButtonMenuItem;
-import music.ConductedState;
 import music.Conductor;
-import music.MusicData;
-import stage.Stage;
 
-class TitleScreenState extends ConductedState
+class TitleScreenState extends MenuState
 {
-	/** The title screen data obtained from a JSON. **/
-	var data:Dynamic;
-
-	var menu:Menu;
-
 	var versionText:FlxText;
 
 	var playingIntro:Bool;
@@ -44,69 +34,7 @@ class TitleScreenState extends ConductedState
 	override public function create()
 	{
 		super.create();
-		data = ParsedJSONRegistry.getAsset("menus/title_screen/title_screen_data");
-
 		introBeats = cast(data.introBeats, Array<Dynamic>);
-
-		// Get the main menu and add the menu options
-		var menus:Array<FlxSprite> = stage.getElementsWithTag("menu");
-		if (menus.length > 0)
-		{
-			menu = cast menus[menus.length - 1];
-			menu.createItems([
-				{
-					type: FlashingButtonMenuItem,
-					label: "Story Mode",
-					iconID: null,
-					onSelected: null,
-					onInteracted: function(data:Dynamic)
-					{
-						transition(new PlayState());
-					}
-				},
-				{
-					type: FlashingButtonMenuItem,
-					label: "Freeplay",
-					iconID: null,
-					onSelected: null,
-					onInteracted: null
-				},
-				#if ENABLE_CHARACTER_SELECT
-				{
-					type: FlashingButtonMenuItem,
-					label: "Character",
-					iconID: null,
-					onSelected: null,
-					onInteracted: null
-				},
-				#end
-				#if ENABLE_ACHIEVEMENTS
-				{
-					type: FlashingButtonMenuItem,
-					label: "Awards",
-					iconID: null,
-					onSelected: null,
-					onInteracted: null
-				},
-				#end
-				#if ENABLE_MODS
-				{
-					type: FlashingButtonMenuItem,
-					label: "Mods",
-					iconID: null,
-					onSelected: null,
-					onInteracted: null
-				},
-				#end
-				{
-					type: FlashingButtonMenuItem,
-					label: "Settings",
-					iconID: null,
-					onSelected: null,
-					onInteracted: null
-				}
-			]);
-		}
 
 		// Add the engine version text
 		versionText = new FlxText(16.0, 16.0, FlxG.width - 32.0, "Friday Night Rewrite v" + Main.currentVersion);
@@ -148,9 +76,6 @@ class TitleScreenState extends ConductedState
 		add(outdatedWarning);
 		outdatedWarning.kill();
 
-		Conductor.play(MusicRegistry.getAsset(data.musicID), true);
-		Conductor.fadeIn(0.5);
-
 		if (!playedIntro)
 			playIntro();
 	}
@@ -162,6 +87,7 @@ class TitleScreenState extends ConductedState
 		#if ENABLE_OUTDATED_WARNING
 		if (Main.outdated)
 		{
+			// It doesn't make sense to bother adding a whole FlxAction-based control for this
 			if (FlxG.keys.justPressed.U)
 				FlxG.openURL("https://github.com/GameBuilder101/FridayNightRewrite/releases");
 
@@ -171,22 +97,53 @@ class TitleScreenState extends ConductedState
 		}
 		#end
 
-		if (FlxG.keys.justPressed.ENTER)
+		if (Controls.accept.check())
 			skipIntro();
 	}
 
-	function createStage():Stage
+	function getMenuID():String
 	{
-		return new Stage("menus/title_screen");
+		return "title_screen";
 	}
 
-	function transition(state:FlxState)
+	override function getMenuItems():Array<MenuItemData>
 	{
-		menu.interactable = false;
-		new FlxTimer().start(0.8, function(timer:FlxTimer)
-		{
-			FlxG.switchState(state);
-		});
+		return [
+			{
+				type: FlashingButtonMenuItem,
+				label: "Story Mode"
+			},
+			{
+				type: FlashingButtonMenuItem,
+				label: "Freeplay"
+			},
+			#if ENABLE_CHARACTER_SELECT
+			{
+				type: FlashingButtonMenuItem,
+				label: "Character"
+			},
+			#end
+			#if ENABLE_ACHIEVEMENTS
+			{
+				type: FlashingButtonMenuItem,
+				label: "Awards"
+			},
+			#end
+			#if ENABLE_MODS
+			{
+				type: FlashingButtonMenuItem,
+				label: "Mods"
+			},
+			#end
+			{
+				type: FlashingButtonMenuItem,
+				label: "Settings",
+				onInteracted: function(data:Dynamic)
+				{
+					specialTransition(new SettingsState());
+				}
+			}
+		];
 	}
 
 	public function playIntro()
@@ -194,7 +151,8 @@ class TitleScreenState extends ConductedState
 		if (playingIntro)
 			return;
 		playingIntro = true;
-		menu.interactable = false;
+		if (menu != null)
+			menu.interactable = false;
 
 		// Obtain a random flavor text comment to be used in the intro
 		var allFlavorText:Array<Dynamic> = cast(data.introFlavorText, Array<Dynamic>);
@@ -216,7 +174,8 @@ class TitleScreenState extends ConductedState
 	{
 		playingIntro = false;
 		playedIntro = true;
-		menu.interactable = true;
+		if (menu != null)
+			menu.interactable = true;
 
 		introClear();
 		introDarken.kill();

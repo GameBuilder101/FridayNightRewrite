@@ -4,6 +4,7 @@ import assetManagement.FileManager;
 import assetManagement.LibraryManager;
 import assetManagement.Registry;
 import flixel.FlxG;
+import flixel.system.FlxSound;
 import openfl.media.Sound;
 
 /** Sound data is used to store sounds with variations. **/
@@ -27,6 +28,15 @@ class SoundData
 	{
 		var variant:SoundVariant = getRandom();
 		FlxG.sound.play(variant.sound, variant.volume);
+	}
+
+	/** Plays a random sound variant using the provided FlxSound. **/
+	public function playOn(sound:FlxSound)
+	{
+		var variant:SoundVariant = getRandom();
+		sound.loadEmbedded(variant.sound);
+		sound.volume = variant.volume;
+		sound.play(true);
 	}
 }
 

@@ -1,12 +1,9 @@
 package music;
 
-import AssetSprite;
 import flixel.FlxBasic;
 import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.addons.transition.FlxTransitionableState;
-import flixel.addons.transition.TransitionData;
-import flixel.util.FlxColor;
 import stage.Stage;
 
 abstract class ConductedState extends FlxTransitionableState implements IConducted
@@ -33,11 +30,6 @@ abstract class ConductedState extends FlxTransitionableState implements IConduct
 		stage = createStage();
 		if (stage != null)
 			add(stage);
-
-		var spriteData:AssetSpriteData = AssetSpriteRegistry.getAsset("menus/_shared/transition_tile");
-		if (spriteData != null)
-			transIn = new TransitionData(TILES, FlxColor.BLACK, 1.0, null, {asset: spriteData.bitmapData, width: 64, height: 128});
-		transOut = transIn;
 	}
 
 	abstract function createStage():Stage;

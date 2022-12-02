@@ -1,0 +1,60 @@
+{
+    "name": "Settings",
+    "elements": [
+        {
+            "tags": [
+                "menu_background"
+            ],
+            "type": "general_sprite",
+            "data": {
+                "id": "menus/_shared/standard_background",
+                "color": [
+                    30,
+                    14,
+                    65
+                ],
+                "shaderType": "wave",
+                "shaderArgs": {
+                    "type": "VERTICAL",
+                    "amplitude": 0.01,
+                    "frequency": 10.0,
+                    "speed": 1.0
+                }
+            }
+        },
+        {
+            "tags": [
+                "menu"
+            ],
+            "type": "menu",
+            "x": 150.0,
+            "y": 360.0,
+            "data": {
+                "type": "LIST_DIAGONAL",
+                "spacing": 120.0,
+                "radius": 50.0,
+                "fontSize": 0.9,
+                "normalItemColor": [
+                    255,
+                    255,
+                    255
+                ],
+                "selectedItemColor": [
+                    253,
+                    232,
+                    113
+                ],
+                "disabledItemColor": [
+                    128,
+                    128,
+                    128
+                ],
+                "minimumAlpha": 0.35,
+                "selectSoundID": "menus/_shared/menu_select",
+                "confirmSoundID": "menus/_shared/menu_select",
+                "cancelSoundID": "menus/_shared/menu_cancel",
+                "errorSoundID": "menus/_shared/menu_error"
+            }
+        }
+    ]
+}

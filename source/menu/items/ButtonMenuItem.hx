@@ -36,15 +36,19 @@ class ButtonMenuItem extends LabelMenuItem
 		rightmostArrow.visible = isInteractTarget;
 		rightmostArrow.color = label.color;
 
-		if (getIsSelected() && FlxG.keys.justPressed.ENTER)
+		if ((getIsSelected() && Controls.accept.check())
+			|| (data.isCancelItem && interactable && menu.interactable && Controls.cancel.check())) // Cancel items can also be interacted with using cancel input
 		{
 			if (!interactable)
-				menu.errorSound.play(); // Play the error sound if not interactable
-			else if (isInteractTarget)
+				menu.playErrorSound(); // Play the error sound if not interactable
+			else if (isInteractTarget || data.isCancelItem)
 			{
 				if (data.onInteracted != null)
 					data.onInteracted(null); // Call the interact function
-				menu.confirmSound.play();
+				if (data.isCancelItem)
+					menu.playCancelSound();
+				else
+					menu.playConfirmSound();
 				onInteracted();
 			}
 		}

@@ -21,6 +21,8 @@ abstract class MenuItem extends FlxSpriteGroup
 		this.menu = menu;
 		this.index = index;
 		this.data = data;
+		if (data.isCancelItem == null)
+			data.isCancelItem = false;
 	}
 
 	inline function getIsSelected():Bool
@@ -39,7 +41,8 @@ typedef MenuItemData =
 {
 	type:Class<MenuItem>,
 	label:String,
-	iconID:String,
-	onSelected:Void->Void,
-	onInteracted:Dynamic->Void
+	?iconID:String,
+	?onSelected:Void->Void,
+	?onInteracted:Dynamic->Void,
+	?isCancelItem:Bool
 }

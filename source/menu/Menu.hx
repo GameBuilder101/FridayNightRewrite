@@ -1,9 +1,8 @@
 package menu;
 
-import flixel.FlxG;
-import flixel.addons.transition.TransitionEffect;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
+import flixel.system.FlxSound;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
@@ -48,6 +47,8 @@ class Menu extends FlxSpriteGroup
 	public var cancelSound:SoundData;
 	public var errorSound:SoundData;
 
+	var menuSounds:FlxSound = new FlxSound();
+
 	/** The stage this menu is associated with. Used for visual effects such as flashing when a button is pressed. **/
 	public var stage(default, null):Stage;
 
@@ -61,11 +62,20 @@ class Menu extends FlxSpriteGroup
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
-		if (interactable)
+		if (!interactable)
+			return;
+		if (menuType == LIST_HORIZONTAL)
 		{
-			if (FlxG.keys.justPressed.UP)
+			if (Controls.uiLeft.check())
 				moveSelection(-1);
-			else if (FlxG.keys.justPressed.DOWN)
+			else if (Controls.uiRight.check())
+				moveSelection(1);
+		}
+		else
+		{
+			if (Controls.uiUp.check())
+				moveSelection(-1);
+			else if (Controls.uiDown.check())
 				moveSelection(1);
 		}
 	}
@@ -135,7 +145,7 @@ class Menu extends FlxSpriteGroup
 					targetX += FlxMath.fastCos(offsetFromSelected * spacing * Math.PI) * radius;
 					targetY += FlxMath.fastSin(offsetFromSelected * spacing * Math.PI) * radius;
 			}
-			FlxTween.linearMotion(item, item.x, item.y, targetX, targetY, 0.2, {ease: FlxEase.smoothStepOut});
+			FlxTween.linearMotion(item, item.x, item.y, targetX, targetY, 0.2, {ease: FlxEase.smootherStepOut});
 
 			// Make items fade out as they move away from the selected item
 			targetAlpha = 1.0 - Math.abs(offsetFromSelected) * 0.5;
@@ -148,9 +158,29 @@ class Menu extends FlxSpriteGroup
 	}
 
 	/** Either enables or disables interaction with a menu item. **/
-	public function setItemInteractable(itemIndex:Int, interactable:Bool)
+	public inline function setItemInteractable(itemIndex:Int, interactable:Bool)
 	{
-		items[itemIndex].interactable = interactable && !(FlxG.state.subState is TransitionEffect);
+		items[itemIndex].interactable = interactable;
+	}
+
+	public inline function playSelectSound()
+	{
+		selectSound.playOn(menuSounds);
+	}
+
+	public inline function playConfirmSound()
+	{
+		confirmSound.playOn(menuSounds);
+	}
+
+	public inline function playCancelSound()
+	{
+		cancelSound.playOn(menuSounds);
+	}
+
+	public inline function playErrorSound()
+	{
+		errorSound.playOn(menuSounds);
 	}
 }
 

@@ -4,13 +4,13 @@ import assetManagement.FileManager;
 import assetManagement.LibraryManager;
 import assetManagement.Registry;
 import flixel.FlxSprite;
+import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.util.FlxColor;
-import openfl.display.BitmapData;
 
 typedef AssetSpriteData =
 {
-	bitmapData:BitmapData,
+	graphic:FlxGraphic,
 	sparrowAtlas:String,
 	spriteSheetPacker:String,
 	flipX:Bool,
@@ -42,8 +42,8 @@ class AssetSpriteRegistry extends Registry<AssetSpriteData>
 	function loadData(directory:String, id:String):AssetSpriteData
 	{
 		var path:String = Registry.getFullPath(directory, id);
-		var bitmapData:BitmapData = FileManager.getBitmapData(path);
-		if (bitmapData == null) // If the graphic doesn't exist, then don't add asset sprite data for it
+		var graphic:FlxGraphic = FileManager.getGraphic(path);
+		if (graphic == null) // If the graphic doesn't exist, then don't add asset sprite data for it
 			return null;
 
 		var parsed:Dynamic = FileManager.getParsedJson(path);
@@ -82,7 +82,7 @@ class AssetSpriteRegistry extends Registry<AssetSpriteData>
 		}
 
 		return {
-			bitmapData: bitmapData,
+			graphic: graphic,
 			sparrowAtlas: FileManager.getXML(path),
 			spriteSheetPacker: FileManager.getText(path),
 			flipX: parsed.flipX,
@@ -140,11 +140,11 @@ class AssetSprite extends FlxSprite
 	{
 		this.data = data;
 		if (data.sparrowAtlas != null)
-			frames = FlxAtlasFrames.fromSparrow(data.bitmapData, data.sparrowAtlas);
+			frames = FlxAtlasFrames.fromSparrow(data.graphic, data.sparrowAtlas);
 		else if (data.spriteSheetPacker != null)
-			frames = FlxAtlasFrames.fromSpriteSheetPacker(data.bitmapData, data.spriteSheetPacker);
+			frames = FlxAtlasFrames.fromSpriteSheetPacker(data.graphic, data.spriteSheetPacker);
 		else
-			loadGraphic(data.bitmapData);
+			loadGraphic(data.graphic);
 
 		// Remove any existing animations
 		for (anim in animation.getAnimationList())
