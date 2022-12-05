@@ -91,6 +91,9 @@ class Menu extends FlxSpriteGroup
 		}
 		items = [];
 
+		if (itemDatas == null || itemDatas.length <= 0)
+			return;
+
 		var i:Int = 0;
 		// Create the menu items
 		for (itemData in itemDatas)
@@ -99,18 +102,28 @@ class Menu extends FlxSpriteGroup
 			add(items[items.length - 1]);
 			i++;
 		}
-		selectedItem = 0;
-		tweenItems();
+		// Start with the first item selected
+		selectItem(0);
 	}
 
 	/** Moves the selected item in the given direction. **/
 	public function moveSelection(dir:Int)
 	{
-		selectedItem += dir;
-		if (selectedItem < 0)
-			selectedItem = items.length - 1;
-		if (selectedItem >= items.length)
-			selectedItem = 0;
+		var index:Int = selectedItem + dir;
+		if (index < 0)
+			index = items.length - 1;
+		if (index >= items.length)
+			index = 0;
+		selectItem(index);
+	}
+
+	function selectItem(index:Int)
+	{
+		// Deselect the current item
+		getSelectedItem().onDeselected();
+		// Move to and select the next item
+		selectedItem = index;
+		getSelectedItem().onSelected();
 		tweenItems();
 	}
 
@@ -157,6 +170,11 @@ class Menu extends FlxSpriteGroup
 		}
 	}
 
+	public inline function getSelectedItem():MenuItem
+	{
+		return items[selectedItem];
+	}
+
 	/** Either enables or disables interaction with a menu item. **/
 	public inline function setItemInteractable(itemIndex:Int, interactable:Bool)
 	{
@@ -165,21 +183,29 @@ class Menu extends FlxSpriteGroup
 
 	public inline function playSelectSound()
 	{
+		if (selectSound == null)
+			return;
 		selectSound.playOn(menuSounds);
 	}
 
 	public inline function playConfirmSound()
 	{
+		if (confirmSound == null)
+			return;
 		confirmSound.playOn(menuSounds);
 	}
 
 	public inline function playCancelSound()
 	{
+		if (cancelSound == null)
+			return;
 		cancelSound.playOn(menuSounds);
 	}
 
 	public inline function playErrorSound()
 	{
+		if (errorSound == null)
+			return;
 		errorSound.playOn(menuSounds);
 	}
 }

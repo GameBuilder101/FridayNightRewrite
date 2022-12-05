@@ -134,9 +134,9 @@ class Controls
 	public static function updateSoundActions()
 	{
 		if (volumeUp.check())
-			FlxG.sound.changeVolume(0.125);
+			FlxG.sound.changeVolume(0.1);
 		if (volumeDown.check())
-			FlxG.sound.changeVolume(-0.125);
+			FlxG.sound.changeVolume(-0.1);
 		if (mute.check())
 			FlxG.sound.toggleMuted();
 	}

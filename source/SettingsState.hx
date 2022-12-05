@@ -30,12 +30,17 @@ class SettingsState extends MenuState
 			{
 				type: ButtonMenuItem,
 				label: "Back",
-				onInteracted: function(data:Dynamic)
+				onInteracted: function(value:Dynamic)
 				{
 					FlxG.switchState(new TitleScreenState());
 				},
 				isCancelItem: true
 			}
 		];
+	}
+
+	override function getTitle():String
+	{
+		return stage.data.name;
 	}
 }

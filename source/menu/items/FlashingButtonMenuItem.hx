@@ -35,12 +35,20 @@ class FlashingButtonMenuItem extends ButtonMenuItem
 			label.color = FlxMath.fastSin(flashingTime * 24.0) <= 0.0 ? menu.normalItemColor : menu.selectedItemColor;
 			if (background != null)
 				background.color = label.color;
+			leftmostArrow.color = label.color;
+			rightmostArrow.color = label.color;
 		}
 	}
 
-	override function onInteracted()
+	override function onDeselected()
 	{
-		super.onInteracted();
+		super.onDeselected();
+		stopFlashing();
+	}
+
+	override function onInteracted(value:Dynamic)
+	{
+		super.onInteracted(value);
 		playFlashing();
 	}
 

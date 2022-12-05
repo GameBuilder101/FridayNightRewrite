@@ -2,9 +2,9 @@ package stage.elements;
 
 import flixel.math.FlxMath;
 
-class LogoElement extends GeneralSpriteElement
+class SwayingSpriteElement extends GeneralSpriteElement
 {
-	/** When 1, the logo will sway back and forth once within a single beat. **/
+	/** When 1, the sprite will sway back and forth once within a single beat. **/
 	public var swaySpeed:Float;
 
 	public var swayDistance:Float;
@@ -19,8 +19,6 @@ class LogoElement extends GeneralSpriteElement
 	override public function onAddedToStage(stage:Stage)
 	{
 		super.onAddedToStage(stage);
-		// Has to be done here since updateHitbox() is called by the stage
-		offset.set(width / 2.0, height / 2.0);
 	}
 
 	override public function updateMusic(time:Float, bpm:Float, beat:Float)

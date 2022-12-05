@@ -28,31 +28,31 @@ class ButtonMenuItem extends LabelMenuItem
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+		var isSelected:Bool = getIsSelected();
 		var isInteractTarget:Bool = getIsInteractTarget();
 
 		// Make the buttons visible and update their colors if selected
-		leftmostArrow.visible = isInteractTarget && icon == null; // Make sure the left arrow doesn't overlap the icon
+		leftmostArrow.visible = isSelected && isInteractTarget && icon == null; // Make sure the left arrow doesn't overlap the icon
 		leftmostArrow.color = label.color;
-		rightmostArrow.visible = isInteractTarget;
+		rightmostArrow.visible = isSelected && isInteractTarget;
 		rightmostArrow.color = label.color;
 
-		if ((getIsSelected() && Controls.accept.check())
-			|| (data.isCancelItem && interactable && menu.interactable && Controls.cancel.check())) // Cancel items can also be interacted with using cancel input
+		if ((isSelected && menu.interactable && Controls.accept.check())
+			|| (data.isCancelItem && menu.interactable && Controls.cancel.check())) // Cancel items can also be interacted with using cancel input
 		{
 			if (!interactable)
-				menu.playErrorSound(); // Play the error sound if not interactable
-			else if (isInteractTarget || data.isCancelItem)
-			{
-				if (data.onInteracted != null)
-					data.onInteracted(null); // Call the interact function
-				if (data.isCancelItem)
-					menu.playCancelSound();
-				else
-					menu.playConfirmSound();
-				onInteracted();
-			}
+				menu.playErrorSound(); // Play the error sound if the item itself is not interactable
+			else
+				onInteracted(null);
 		}
 	}
 
-	function onInteracted() {}
+	override function onInteracted(value:Dynamic)
+	{
+		super.onInteracted(value);
+		if (data.isCancelItem)
+			menu.playCancelSound();
+		else
+			menu.playConfirmSound();
+	}
 }

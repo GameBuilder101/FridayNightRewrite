@@ -14,8 +14,6 @@ class SpinningSpriteElement extends GeneralSpriteElement
 	override public function onAddedToStage(stage:Stage)
 	{
 		super.onAddedToStage(stage);
-		// Has to be done here since updateHitbox() is called by the stage
-		offset.set(width / 2.0, height / 2.0);
 	}
 
 	override public function updateMusic(time:Float, bpm:Float, beat:Float)

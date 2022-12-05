@@ -10,13 +10,13 @@ class LabelMenuItem extends MenuItem
 
 	public var icon(default, null):AssetSprite;
 
-	var playedSelectSound:Bool;
+	var tempDisableSelectSound:Bool;
 
 	public function new(menu:Menu, index:Int, data:MenuItemData)
 	{
 		super(menu, index, data);
 		// Prevent the select sound from playing if this is the initially-selected menu item
-		playedSelectSound = true;
+		tempDisableSelectSound = true;
 
 		label = new SpriteText(x, y, data.label, menu.fontSize, menu.menuType == RADIAL
 			|| menu.menuType == LIST_DIAGONAL ? LEFT : CENTER, true);
@@ -35,27 +35,28 @@ class LabelMenuItem extends MenuItem
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+		tempDisableSelectSound = false;
+
 		var isSelected:Bool = getIsSelected();
 		var isInteractTarget:Bool = getIsInteractTarget();
 
 		if (!interactable)
 			label.color = menu.disabledItemColor;
-		else if (isInteractTarget)
+		else if (isSelected && isInteractTarget)
 			label.color = menu.selectedItemColor;
 		else
 			label.color = menu.normalItemColor;
 
-		if (menu.waveSelectedItem && isInteractTarget && !label.getIsWaving())
+		if (menu.waveSelectedItem && isSelected && isInteractTarget && !label.getIsWaving())
 			label.playWaveAnimation(3.0, 0.4);
-		else if (!menu.waveSelectedItem || !isInteractTarget)
+		else if (!menu.waveSelectedItem || !isSelected || !isInteractTarget)
 			label.resetWaveAnimation();
+	}
 
-		if (isSelected && !playedSelectSound && menu.selectSound != null)
-		{
+	public override function onSelected()
+	{
+		super.onSelected();
+		if (!tempDisableSelectSound)
 			menu.playSelectSound();
-			playedSelectSound = true;
-		}
-		else if (!isSelected)
-			playedSelectSound = false;
 	}
 }

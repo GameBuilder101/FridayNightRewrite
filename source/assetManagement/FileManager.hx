@@ -56,9 +56,7 @@ class FileManager
 	/** @param path The path excluding the file extension. **/
 	public static inline function getSound(path:String):Sound
 	{
-		if (FileSystem.exists(path + ".mp3"))
-			return Sound.fromFile(path + ".mp3");
-		else if (FileSystem.exists(path + ".ogg"))
+		if (FileSystem.exists(path + ".ogg"))
 			return Sound.fromFile(path + ".ogg");
 		else
 			return null;

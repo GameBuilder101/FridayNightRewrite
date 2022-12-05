@@ -138,7 +138,7 @@ class TitleScreenState extends MenuState
 			{
 				type: FlashingButtonMenuItem,
 				label: "Settings",
-				onInteracted: function(data:Dynamic)
+				onInteracted: function(value:Dynamic)
 				{
 					specialTransition(new SettingsState());
 				}
