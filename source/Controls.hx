@@ -1,31 +1,39 @@
 package;
 
-import flixel.input.gamepad.FlxGamepadInputID;
-import flixel.input.keyboard.FlxKey;
-import flixel.input.actions.FlxActionInput;
 import flixel.FlxG;
+import flixel.input.FlxInput;
 import flixel.input.actions.FlxAction;
 import flixel.input.actions.FlxActionManager;
-import flixel.input.actions.FlxActionSet;
+import flixel.input.gamepad.FlxGamepadInputID;
+import flixel.input.keyboard.FlxKey;
 
-/** Used to access and manage game-specific controls. **/
+/** Used to access and manage game-specific controls. A big and ugly class with lots of hard-coded action data. **/
 class Controls
 {
-	public static var volumeUp:FlxActionDigital;
-	public static var volumeDown:FlxActionDigital;
-	public static var mute:FlxActionDigital;
+	// Volume-related actions
+	public static var volumeUp:OverridableAction = new OverridableAction("volume_up", JUST_PRESSED, 1, [PLUS], []);
+	public static var volumeDown:OverridableAction = new OverridableAction("volume_down", JUST_PRESSED, 1, [MINUS], []);
+	public static var mute:OverridableAction = new OverridableAction("mute", JUST_PRESSED, 1, [ZERO], []);
 
-	public static var uiLeft:FlxActionDigital;
-	public static var uiDown:FlxActionDigital;
-	public static var uiUp:FlxActionDigital;
-	public static var uiRight:FlxActionDigital;
-	public static var accept:FlxActionDigital;
-	public static var cancel:FlxActionDigital;
+	// UI-related actions
+	public static var uiLeft:OverridableAction = new OverridableAction("ui_left", JUST_PRESSED, 2, [LEFT, A],
+		[LEFT_STICK_DIGITAL_LEFT, RIGHT_STICK_DIGITAL_LEFT]);
+	public static var uiDown:OverridableAction = new OverridableAction("ui_down", JUST_PRESSED, 2, [DOWN, S],
+		[LEFT_STICK_DIGITAL_DOWN, RIGHT_STICK_DIGITAL_DOWN]);
+	public static var uiUp:OverridableAction = new OverridableAction("ui_up", JUST_PRESSED, 2, [UP, W], [LEFT_STICK_DIGITAL_UP, RIGHT_STICK_DIGITAL_UP]);
+	public static var uiRight:OverridableAction = new OverridableAction("ui_right", JUST_PRESSED, 2, [RIGHT, D],
+		[LEFT_STICK_DIGITAL_RIGHT, RIGHT_STICK_DIGITAL_RIGHT]);
+	public static var accept:OverridableAction = new OverridableAction("accept", JUST_PRESSED, 1, [ENTER], [A]);
+	public static var cancel:OverridableAction = new OverridableAction("cancel", JUST_PRESSED, 1, [ESCAPE], [B]);
 
-	public static var noteLeft:FlxActionDigital;
-	public static var noteDown:FlxActionDigital;
-	public static var noteUp:FlxActionDigital;
-	public static var noteRight:FlxActionDigital;
+	// Note-related actions
+	public static var noteLeft:OverridableAction = new OverridableAction("note_left", PRESSED, 2, [LEFT, A],
+		[LEFT_STICK_DIGITAL_LEFT, RIGHT_STICK_DIGITAL_LEFT]);
+	public static var noteDown:OverridableAction = new OverridableAction("note_down", PRESSED, 2, [DOWN, S],
+		[LEFT_STICK_DIGITAL_DOWN, RIGHT_STICK_DIGITAL_DOWN]);
+	public static var noteUp:OverridableAction = new OverridableAction("note_up", PRESSED, 2, [UP, W], [LEFT_STICK_DIGITAL_UP, RIGHT_STICK_DIGITAL_UP]);
+	public static var noteRight:OverridableAction = new OverridableAction("note_right", PRESSED, 2, [RIGHT, D],
+		[LEFT_STICK_DIGITAL_RIGHT, RIGHT_STICK_DIGITAL_RIGHT]);
 
 	static var initialized:Bool;
 	static var input:FlxActionManager;
@@ -35,99 +43,33 @@ class Controls
 		if (initialized)
 			return;
 		initialized = true;
-
-		createInput();
-		mapDefaultInputs();
-	}
-
-	/** Creates all actions and adds them to the action manager. **/
-	static function createInput()
-	{
 		input = new FlxActionManager();
 
-		// Volume-related actions
-		volumeUp = new FlxActionDigital("volume_up");
-		volumeDown = new FlxActionDigital("volume_down");
-		input.addSet(new FlxActionSet("volume", [volumeUp, volumeDown]));
+		// Add volume-related actions
+		volumeUp.addTo(input);
+		volumeDown.addTo(input);
+		mute.addTo(input);
 
-		mute = new FlxActionDigital("mute");
-		input.addSet(new FlxActionSet("mute", [mute]));
+		// Add UI-related actions
+		uiLeft.addTo(input);
+		uiDown.addTo(input);
+		uiUp.addTo(input);
+		uiRight.addTo(input);
+		accept.addTo(input);
+		cancel.addTo(input);
 
-		// UI-related actions
-		uiLeft = new FlxActionDigital("ui_left");
-		uiDown = new FlxActionDigital("ui_down");
-		uiUp = new FlxActionDigital("ui_up");
-		uiRight = new FlxActionDigital("ui_right");
-		input.addSet(new FlxActionSet("ui", [uiLeft, uiDown, uiUp, uiRight]));
-
-		accept = new FlxActionDigital("accept");
-		input.addSet(new FlxActionSet("accept", [accept]));
-
-		cancel = new FlxActionDigital("cancel");
-		input.addSet(new FlxActionSet("cancel", [cancel]));
-
-		// Gameplay-related actions
-		noteLeft = new FlxActionDigital("note_left");
-		noteDown = new FlxActionDigital("note_down");
-		noteUp = new FlxActionDigital("note_up");
-		noteRight = new FlxActionDigital("note_right");
-		input.addSet(new FlxActionSet("note", [noteLeft, noteDown, noteUp, noteRight]));
+		// Add note-related actions
+		noteLeft.addTo(input);
+		noteDown.addTo(input);
+		noteUp.addTo(input);
+		noteRight.addTo(input);
 
 		FlxG.inputs.add(input);
+
 		// Volume-changing input is handled manually
 		FlxG.sound.volumeUpKeys = null;
 		FlxG.sound.volumeDownKeys = null;
 		FlxG.sound.muteKeys = null;
-	}
-
-	static function mapDefaultInputs()
-	{
-		// Volume-related actions
-		volumeUp.addKey(PLUS, JUST_PRESSED);
-
-		volumeDown.addKey(MINUS, JUST_PRESSED);
-
-		mute.addKey(ZERO, JUST_PRESSED);
-
-		// UI-related actions
-		uiLeft.addKey(LEFT, JUST_PRESSED);
-		uiLeft.addGamepad(LEFT_STICK_DIGITAL_LEFT, JUST_PRESSED);
-
-		uiDown.addKey(DOWN, JUST_PRESSED);
-		uiDown.addGamepad(LEFT_STICK_DIGITAL_DOWN, JUST_PRESSED);
-
-		uiUp.addKey(UP, JUST_PRESSED);
-		uiUp.addGamepad(LEFT_STICK_DIGITAL_UP, JUST_PRESSED);
-
-		uiRight.addKey(RIGHT, JUST_PRESSED);
-		uiRight.addGamepad(LEFT_STICK_DIGITAL_RIGHT, JUST_PRESSED);
-
-		accept.addKey(ENTER, JUST_PRESSED);
-		accept.addGamepad(A, JUST_PRESSED);
-
-		cancel.addKey(ESCAPE, JUST_PRESSED);
-		accept.addGamepad(B, JUST_PRESSED);
-
-		// Gameplay-related actions
-		noteLeft.addKey(LEFT, PRESSED);
-		noteLeft.addKey(A, PRESSED);
-		noteLeft.addGamepad(LEFT_STICK_DIGITAL_LEFT, PRESSED);
-		noteLeft.addGamepad(RIGHT_STICK_DIGITAL_LEFT, PRESSED);
-
-		noteDown.addKey(DOWN, PRESSED);
-		noteDown.addKey(S, PRESSED);
-		noteDown.addGamepad(LEFT_STICK_DIGITAL_DOWN, PRESSED);
-		noteDown.addGamepad(RIGHT_STICK_DIGITAL_DOWN, PRESSED);
-
-		noteUp.addKey(UP, PRESSED);
-		noteUp.addKey(W, PRESSED);
-		noteUp.addGamepad(LEFT_STICK_DIGITAL_UP, PRESSED);
-		noteUp.addGamepad(RIGHT_STICK_DIGITAL_UP, PRESSED);
-
-		noteRight.addKey(RIGHT, PRESSED);
-		noteRight.addKey(D, PRESSED);
-		noteRight.addGamepad(LEFT_STICK_DIGITAL_RIGHT, PRESSED);
-		noteRight.addGamepad(RIGHT_STICK_DIGITAL_RIGHT, PRESSED);
 	}
 
 	/** Updates the volume/mute actions. **/
@@ -140,28 +82,117 @@ class Controls
 		if (mute.check())
 			FlxG.sound.toggleMuted();
 	}
+
+	/** Loads the action data from parsed JSON. **/
+	public static function loadParsedJSON(parsed:Dynamic) {}
 }
 
+/** A wrapper to help simplify action management and adding binding overrides. **/
 class OverridableAction
 {
 	public var name(default, null):String;
+	public var state(default, null):FlxInputState;
+
+	/** How many binds can this action can contain. **/
+	public var maxBinds(default, null):Int;
+
 	public var defaultKeyBinds(default, null):Array<FlxKey>;
 	public var defaultGamepadBinds(default, null):Array<FlxGamepadInputID>;
 
-	var overrideKeyBinds:Array<FlxKey>;
-	var overrideGamepadBinds:Array<FlxGamepadInputID>;
+	var overrideKeyBinds:Array<FlxKey> = new Array<FlxKey>();
+	var overrideGamepadBinds:Array<FlxGamepadInputID> = new Array<FlxGamepadInputID>();
 
-	var action:FlxAction;
+	var action:FlxActionDigital;
 
-	public function new(name:String, type:FlxInputType, defaultKeyBinds:Array<FlxKey>, defaultGamepadBinds:Array<FlxGamepadInputID>)
+	public function new(name:String, state:FlxInputState, maxBinds:Int, defaultKeyBinds:Array<FlxKey>, defaultGamepadBinds:Array<FlxGamepadInputID>)
 	{
-		if (type == ANALOG)
-			action = new FlxActionAnalog(name);
-		else
-			action = new FlxActionDigital(name);
-
 		this.name = name;
+		this.state = state;
+		this.maxBinds = maxBinds;
+
 		this.defaultKeyBinds = defaultKeyBinds;
+		// Make sure the bind arrays are always both at the max length
+		while (defaultKeyBinds.length < maxBinds)
+			defaultKeyBinds.push(NONE);
+		while (overrideKeyBinds.length < maxBinds)
+			overrideKeyBinds.push(NONE);
+
 		this.defaultGamepadBinds = defaultGamepadBinds;
+		// Make sure the bind arrays are always both at the max length
+		while (defaultGamepadBinds.length < maxBinds)
+			defaultGamepadBinds.push(NONE);
+		while (overrideGamepadBinds.length < maxBinds)
+			overrideGamepadBinds.push(NONE);
+
+		action = new FlxActionDigital(name);
+		updateAction();
+	}
+
+	/** Returns the current binding for the input at index. **/
+	public function getKeyBind(index:Int)
+	{
+		if (overrideKeyBinds[index] != NONE)
+			return overrideKeyBinds[index];
+		return defaultKeyBinds[index];
+	}
+
+	/** Returns the current binding for the input at index. **/
+	public function getGamepadBind(index:Int)
+	{
+		if (overrideGamepadBinds[index] != NONE)
+			return overrideGamepadBinds[index];
+		return defaultGamepadBinds[index];
+	}
+
+	public function overrideKey(index:Int, bind:FlxKey)
+	{
+		overrideKeyBinds[index] = bind;
+		updateAction();
+	}
+
+	public function overrideGamepad(index:Int, bind:FlxGamepadInputID)
+	{
+		overrideGamepadBinds[index] = bind;
+		updateAction();
+	}
+
+	public function resetOverrides()
+	{
+		for (i in 0...maxBinds)
+		{
+			overrideKeyBinds[i] = NONE;
+			overrideGamepadBinds[i] = NONE;
+		}
+		updateAction();
+	}
+
+	/** Updates the action inputs using the current bindings. **/
+	function updateAction()
+	{
+		action.removeAll();
+
+		var keyBind:FlxKey;
+		var gamepadBind:FlxGamepadInputID;
+		for (i in 0...maxBinds)
+		{
+			keyBind = getKeyBind(i);
+			if (keyBind != NONE)
+				action.addKey(keyBind, state);
+
+			gamepadBind = getGamepadBind(i);
+			if (gamepadBind != NONE)
+				action.addGamepad(gamepadBind, state);
+		}
+	}
+
+	/** Returns true if the action is triggered. **/
+	public inline function check():Bool
+	{
+		return action.check();
+	}
+
+	public inline function addTo(input:FlxActionManager)
+	{
+		input.addAction(action);
 	}
 }
