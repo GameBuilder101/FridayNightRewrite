@@ -1,11 +1,15 @@
 package;
 
+import assetManagement.FileManager;
 import flixel.FlxG;
 import flixel.input.FlxInput;
 import flixel.input.actions.FlxAction;
 import flixel.input.actions.FlxActionManager;
+import flixel.input.actions.FlxActionSet;
 import flixel.input.gamepad.FlxGamepadInputID;
 import flixel.input.keyboard.FlxKey;
+import haxe.Json;
+import sys.io.File;
 
 /** Used to access and manage game-specific controls. A big and ugly class with lots of hard-coded action data. **/
 class Controls
@@ -45,24 +49,22 @@ class Controls
 		initialized = true;
 		input = new FlxActionManager();
 
-		// Add volume-related actions
-		volumeUp.addTo(input);
-		volumeDown.addTo(input);
-		mute.addTo(input);
+		// Volume-related actions
+		input.addSet(new FlxActionSet("volume", [volumeUp.action, volumeDown.action]));
+		input.addSet(new FlxActionSet("mute", [mute.action]));
 
-		// Add UI-related actions
-		uiLeft.addTo(input);
-		uiDown.addTo(input);
-		uiUp.addTo(input);
-		uiRight.addTo(input);
-		accept.addTo(input);
-		cancel.addTo(input);
+		// UI-related actions
+		input.addSet(new FlxActionSet("ui", [uiLeft.action, uiDown.action, uiUp.action, uiRight.action]));
+		input.addSet(new FlxActionSet("accept", [accept.action]));
+		input.addSet(new FlxActionSet("cancel", [cancel.action]));
 
-		// Add note-related actions
-		noteLeft.addTo(input);
-		noteDown.addTo(input);
-		noteUp.addTo(input);
-		noteRight.addTo(input);
+		// Note-related actions
+		input.addSet(new FlxActionSet("note", [noteLeft.action, noteDown.action, noteUp.action, noteRight.action]));
+
+		// Load from the controls data
+		var parsed:Dynamic = FileManager.getParsedJson("controls");
+		if (parsed != null)
+			loadParsedJSON(parsed);
 
 		FlxG.inputs.add(input);
 
@@ -83,8 +85,62 @@ class Controls
 			FlxG.sound.toggleMuted();
 	}
 
-	/** Loads the action data from parsed JSON. **/
-	public static function loadParsedJSON(parsed:Dynamic) {}
+	/** Converts the action data overrides to a Dynamic which can be used for JSON. **/
+	public static function toStringifiableJSON():Dynamic
+	{
+		var stringifiable:Dynamic = {};
+
+		// Volume-related actions
+		stringifiable.volumeUp = volumeUp.toStringifiableJSON();
+		stringifiable.volumeDown = volumeDown.toStringifiableJSON();
+		stringifiable.mute = mute.toStringifiableJSON();
+
+		// UI-related actions
+		stringifiable.uiLeft = uiLeft.toStringifiableJSON();
+		stringifiable.uiDown = uiDown.toStringifiableJSON();
+		stringifiable.uiUp = uiUp.toStringifiableJSON();
+		stringifiable.uiRight = uiRight.toStringifiableJSON();
+		stringifiable.accept = accept.toStringifiableJSON();
+		stringifiable.cancel = cancel.toStringifiableJSON();
+
+		// Note-related actions
+		stringifiable.noteLeft = noteLeft.toStringifiableJSON();
+		stringifiable.noteDown = noteDown.toStringifiableJSON();
+		stringifiable.noteUp = noteUp.toStringifiableJSON();
+		stringifiable.noteRight = noteRight.toStringifiableJSON();
+
+		return stringifiable;
+	}
+
+	/** Loads the action data overrides from parsed JSON. **/
+	public static function loadParsedJSON(parsed:Dynamic)
+	{
+		// Volume-related actions
+		volumeUp.loadParsedJSON(parsed.volumeUp);
+		volumeDown.loadParsedJSON(parsed.volumeDown);
+		mute.loadParsedJSON(parsed.mute);
+
+		// UI-related actions
+		uiLeft.loadParsedJSON(parsed.uiLeft);
+		uiDown.loadParsedJSON(parsed.uiDown);
+		uiUp.loadParsedJSON(parsed.uiUp);
+		uiRight.loadParsedJSON(parsed.uiRight);
+		accept.loadParsedJSON(parsed.accept);
+		cancel.loadParsedJSON(parsed.cancel);
+
+		// Note-related actions
+		noteLeft.loadParsedJSON(parsed.noteLeft);
+		noteDown.loadParsedJSON(parsed.noteDown);
+		noteUp.loadParsedJSON(parsed.noteUp);
+		noteRight.loadParsedJSON(parsed.noteRight);
+	}
+
+	/** Saves the controls to a JSON which can be loaded when starting up the game. **/
+	public static function saveToJSON()
+	{
+		var json:String = Json.stringify(toStringifiableJSON());
+		File.write("controls.json").writeString(json);
+	}
 }
 
 /** A wrapper to help simplify action management and adding binding overrides. **/
@@ -102,7 +158,7 @@ class OverridableAction
 	var overrideKeyBinds:Array<FlxKey> = new Array<FlxKey>();
 	var overrideGamepadBinds:Array<FlxGamepadInputID> = new Array<FlxGamepadInputID>();
 
-	var action:FlxActionDigital;
+	public var action(default, null):FlxActionDigital;
 
 	public function new(name:String, state:FlxInputState, maxBinds:Int, defaultKeyBinds:Array<FlxKey>, defaultGamepadBinds:Array<FlxGamepadInputID>)
 	{
@@ -191,8 +247,35 @@ class OverridableAction
 		return action.check();
 	}
 
-	public inline function addTo(input:FlxActionManager)
+	public function toStringifiableJSON():Dynamic
 	{
-		input.addAction(action);
+		var stringifiable:Dynamic = {};
+
+		stringifiable.overrideKeyBinds = new Array<String>();
+		for (bind in overrideKeyBinds)
+			stringifiable.overrideKeyBinds.push(bind.toString());
+
+		stringifiable.overrideGamepadBinds = new Array<String>();
+		for (bind in overrideGamepadBinds)
+			stringifiable.overrideGamepadBinds.push(bind.toString());
+
+		return stringifiable;
+	}
+
+	public function loadParsedJSON(parsed:Dynamic)
+	{
+		var i:Int = 0;
+		for (bind in cast(parsed.overrideKeyBinds, Array<Dynamic>))
+		{
+			overrideKey(i, FlxKey.fromString(bind));
+			i++;
+		}
+
+		i = 0;
+		for (bind in cast(parsed.overrideGamepadBinds, Array<Dynamic>))
+		{
+			overrideGamepad(i, FlxGamepadInputID.fromString(bind));
+			i++;
+		}
 	}
 }
