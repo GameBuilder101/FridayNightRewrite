@@ -32,7 +32,6 @@ class SettingsState extends MenuState
 				label: "Back",
 				onInteracted: function(value:Dynamic)
 				{
-					Controls.saveToJSON();
 					FlxG.switchState(new TitleScreenState());
 				},
 				isCancelItem: true
