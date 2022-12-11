@@ -59,6 +59,10 @@
 	<define name="ENABLE_MODS" />
 	<define name="ENABLE_ACHIEVEMENTS" />
 	<define name="ENABLE_CHARACTER_SELECT" />
+
+	<!--Whether to expose progress as an easily-modified JSON file or to keep it hidden from the player-->
+	<define name="EXPOSE_PROGRESS" />
+
 	<define name="ENABLE_SHADER_TOGGLE" />
-	<!--<define name="FORCE_DISABLE_GHOST_TAPPING" />-->
+	<define name="ALLOW_GHOST_TAPPING" />
 </project>

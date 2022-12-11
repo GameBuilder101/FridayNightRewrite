@@ -1,12 +1,13 @@
 package;
 
-import haxe.Json;
-import sys.io.File;
+import Saver;
 
 typedef GraphicsSettings =
 {
 	antialiasing:Bool,
-	flashingLights:Bool
+	shaders:Bool,
+	flashingLights:Bool,
+	cameraBop:Bool
 }
 
 typedef SoundSettings =
@@ -21,51 +22,33 @@ typedef GameplaySettings =
 }
 
 /** Used to manage various game-wide settings. **/
-class Settings
+class Settings extends Saver
 {
-	public static var graphics:GraphicsSettings;
-	public static var sound:SoundSettings;
-	public static var gameplay:GameplaySettings;
+	public static var graphics:GraphicsSettings = {
+		antialiasing: true,
+		shaders: true,
+		flashingLights: true,
+		cameraBop: true
+	};
+	public static var sound:SoundSettings = {missSoundVolume: 1.0};
+	public static var gameplay:GameplaySettings = {downscroll: false, ghostTapping: true};
 
-	var initialized:Bool;
-
-	public static function initialize()
+	function getSaverID():String
 	{
-		if (initialized)
-			return;
-		initialized = true;
-
-		// Assign default values
-		graphics.antialiasing = true;
-		graphics.flashingLights = true;
-
-		sound.missSoundVolume = 0.5;
-
-		gameplay.ghostTapping = true;
+		return "settings";
 	}
 
-	/** Converts the settings to a Dynamic which can be used for JSON. **/
-	public static function toStringifiableJSON():Dynamic
+	function getSaverMethod():SaverMethod
 	{
-		var stringifiable:Dynamic = {};
-		stringifiable.graphics = graphics;
-		stringifiable.sound = sound;
-		stringifiable.gameplay = gameplay;
-		return stringifiable;
+		return JSON;
 	}
 
-	/** Loads the setings from parsed JSON. **/
-	public static function loadParsedJSON(parsed:Dynamic)
+	function getInitialData():Map<String, Dynamic>
 	{
-		graphics = parsed.graphics;
-		sound = parsed.sound;
-		gameplay = parsed.gameplay;
-	}
-
-	/** Saves the settings to a JSON which can be loaded when starting up the game. **/
-	public static function saveToJSON()
-	{
-		var json:String = Json.stringify(toStringifiableJSON());
-		File.write("settings.json").writeString(json);
+		var data:Map<String, Dynamic> = new Map<String, Dynamic>();
+		data.set("graphics", graphics);
+		data.set("sound", sound);
+		data.set("gameplay", gameplay);
+		return data;
 	}
 }
