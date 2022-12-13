@@ -153,10 +153,17 @@ class AssetSprite extends FlxSprite
 		for (animationData in data.animations)
 			loadAnimation(animationData);
 
-		antialiasing = data.antialiasing;
+		// Only allow antialiasing if enabled in settings
+		if (Settings.getAntialiasing())
+			antialiasing = data.antialiasing;
+		else
+			antialiasing = false;
+
 		color = data.color;
 		alpha = data.alpha;
-		if (data.shaderType != null)
+
+		// Only allow shaders if enabled in settings
+		if (data.shaderType != null && Settings.getShaders())
 			shader = ShaderResolver.resolve(data.shaderType, data.shaderArgs);
 	}
 

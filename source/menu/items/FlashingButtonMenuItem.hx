@@ -32,7 +32,8 @@ class FlashingButtonMenuItem extends ButtonMenuItem
 		{
 			flashingTime += elapsed;
 			// Make the label and background flash
-			label.color = FlxMath.fastSin(flashingTime * 24.0) <= 0.0 ? menu.normalItemColor : menu.selectedItemColor;
+			if (Settings.getFlashingLights())
+				label.color = FlxMath.fastSin(flashingTime * 24.0) <= 0.0 ? menu.normalItemColor : menu.selectedItemColor;
 			if (background != null)
 				background.color = label.color;
 			leftmostArrow.color = label.color;

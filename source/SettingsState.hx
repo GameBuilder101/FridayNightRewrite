@@ -14,18 +14,40 @@ class SettingsState extends MenuState
 
 	override function getMenuItems():Array<MenuItemData>
 	{
+		return getMainMenuItems();
+	}
+
+	override function getTitle():String
+	{
+		return stage.data.name;
+	}
+
+	function getMainMenuItems():Array<MenuItemData>
+	{
 		return [
 			{
 				type: ButtonMenuItem,
-				label: "Controls"
+				label: "Controls",
+				onInteracted: function(value:Dynamic)
+				{
+					menu.createItems(getControlsMenuItems());
+				}
 			},
 			{
 				type: ButtonMenuItem,
-				label: "Graphics & Sound"
+				label: "Graphics & Sound",
+				onInteracted: function(value:Dynamic)
+				{
+					menu.createItems(getGraphicsMenuItems());
+				}
 			},
 			{
 				type: ButtonMenuItem,
-				label: "Gameplay"
+				label: "Gameplay",
+				onInteracted: function(value:Dynamic)
+				{
+					menu.createItems(getGameplayMenuItems());
+				}
 			},
 			{
 				type: ButtonMenuItem,
@@ -39,8 +61,63 @@ class SettingsState extends MenuState
 		];
 	}
 
-	override function getTitle():String
+	function getControlsMenuItems():Array<MenuItemData>
 	{
-		return stage.data.name;
+		return [
+			{
+				type: ButtonMenuItem,
+				label: "Back",
+				onSelected: function()
+				{
+					currentHint = "";
+				},
+				onInteracted: function(value:Dynamic)
+				{
+					menu.createItems(getMainMenuItems());
+					currentHint = "";
+				},
+				isCancelItem: true
+			}
+		];
+	}
+
+	function getGraphicsMenuItems():Array<MenuItemData>
+	{
+		return [
+			{
+				type: ButtonMenuItem,
+				label: "Back",
+				onSelected: function()
+				{
+					currentHint = "";
+				},
+				onInteracted: function(value:Dynamic)
+				{
+					menu.createItems(getMainMenuItems());
+					currentHint = "";
+				},
+				isCancelItem: true
+			}
+		];
+	}
+
+	function getGameplayMenuItems():Array<MenuItemData>
+	{
+		return [
+			{
+				type: ButtonMenuItem,
+				label: "Back",
+				onSelected: function()
+				{
+					currentHint = "";
+				},
+				onInteracted: function(value:Dynamic)
+				{
+					menu.createItems(getMainMenuItems());
+					currentHint = "";
+				},
+				isCancelItem: true
+			}
+		];
 	}
 }

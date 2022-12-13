@@ -180,7 +180,8 @@ class TitleScreenState extends MenuState
 		introClear();
 		introDarken.kill();
 
-		FlxG.cameras.flash();
+		if (Settings.getFlashingLights())
+			FlxG.cameras.flash();
 	}
 
 	override function onWholeBeat(beat:Int)

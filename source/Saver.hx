@@ -10,10 +10,7 @@ abstract class Saver
 {
 	var data:Map<String, Dynamic>;
 
-	public function new()
-	{
-		data = getInitialData();
-	}
+	public function new() {}
 
 	/** The save ID is either used for the field name when using FlxG.save or the file name when using JSON. **/
 	abstract function getSaverID():String;
@@ -21,7 +18,16 @@ abstract class Saver
 	/** Returns the method to use when saving. **/
 	abstract function getSaverMethod():SaverMethod;
 
-	abstract function getInitialData():Map<String, Dynamic>;
+	/** Return the initial/default data array. **/
+	abstract function getDefaultData():Map<String, Dynamic>;
+
+	/** Returns a savable item with the given key. **/
+	public inline function get(key:String):Dynamic
+	{
+		if (!data.exists(key))
+			return null;
+		return data[key];
+	}
 
 	/** Saves the data to be re-loaded the next time the game is started. **/
 	public function save()
@@ -29,9 +35,7 @@ abstract class Saver
 		// Convert the data into a savable array
 		var savable:Array<Dynamic> = new Array<Dynamic>();
 		for (key in data.keys())
-		{
 			savable.push({key: key, value: data[key]});
-		}
 
 		switch (getSaverMethod())
 		{
