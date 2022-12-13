@@ -12,7 +12,7 @@ class SettingsState extends MenuState
 		return "settings";
 	}
 
-	override function getMenuItems():Array<MenuItemData>
+	override function getMenuItems():Array<MenuItem>
 	{
 		return getMainMenuItems();
 	}
@@ -22,7 +22,7 @@ class SettingsState extends MenuState
 		return stage.data.name;
 	}
 
-	function getMainMenuItems():Array<MenuItemData>
+	function getMainMenuItems():Array<MenuItem>
 	{
 		return [
 			{
@@ -61,7 +61,7 @@ class SettingsState extends MenuState
 		];
 	}
 
-	function getControlsMenuItems():Array<MenuItemData>
+	function getControlsMenuItems():Array<MenuItem>
 	{
 		return [
 			{
@@ -81,7 +81,7 @@ class SettingsState extends MenuState
 		];
 	}
 
-	function getGraphicsMenuItems():Array<MenuItemData>
+	function getGraphicsMenuItems():Array<MenuItem>
 	{
 		return [
 			{
@@ -101,7 +101,7 @@ class SettingsState extends MenuState
 		];
 	}
 
-	function getGameplayMenuItems():Array<MenuItemData>
+	function getGameplayMenuItems():Array<MenuItem>
 	{
 		return [
 			{

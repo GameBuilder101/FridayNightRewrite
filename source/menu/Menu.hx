@@ -80,26 +80,28 @@ class Menu extends FlxSpriteGroup
 		}
 	}
 
-	/** Destroys any existing items and creates menus items from the given array. **/
-	public function createItems(itemDatas:Array<MenuItemData>)
+	/** Destroys any existing items and adds menus items from the given array. **/
+	public function addItems(items:Array<MenuItem>)
 	{
 		// Reset any existing items
-		for (item in items)
+		for (item in this.items)
 		{
 			remove(item, true);
 			item.destroy();
 		}
-		items = [];
+		this.items = [];
 
-		if (itemDatas == null || itemDatas.length <= 0)
+		if (items == null || items.length <= 0)
 			return;
 
 		var i:Int = 0;
 		// Create the menu items
-		for (itemData in itemDatas)
+		for (item in items)
 		{
-			items.push(Type.createInstance(itemData.type, [this, i, itemData]));
-			add(items[items.length - 1]);
+			item.menu = this;
+			item.index = i;
+			add(item);
+			this.items.push(item);
 			i++;
 		}
 		// Start with the first item selected

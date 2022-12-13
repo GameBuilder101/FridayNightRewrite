@@ -1,6 +1,5 @@
 package menu.items;
 
-import flixel.FlxG;
 import menu.MenuItem;
 
 class ButtonMenuItem extends LabelMenuItem
@@ -8,9 +7,13 @@ class ButtonMenuItem extends LabelMenuItem
 	public var leftmostArrow(default, null):AssetSprite;
 	public var rightmostArrow(default, null):AssetSprite;
 
-	public function new(menu:Menu, index:Int, data:MenuItemData)
+	/** When true, this item can be interacted with using the cancel input. **/
+	var useCancel:Bool;
+
+	public function new(functions:MenuItemFunctions, ?labelText:String, ?iconID:String, useCancel:Bool = false)
 	{
-		super(menu, index, data);
+		super(functions, labelText, iconID);
+		this.useCancel = useCancel;
 
 		leftmostArrow = new AssetSprite(x - 16.0, y, "menus/_shared/arrow");
 		leftmostArrow.updateHitbox();
@@ -38,7 +41,7 @@ class ButtonMenuItem extends LabelMenuItem
 		rightmostArrow.color = label.color;
 
 		if ((isSelected && menu.interactable && Controls.accept.check())
-			|| (data.isCancelItem && menu.interactable && Controls.cancel.check())) // Cancel items can also be interacted with using cancel input
+			|| (useCancel && menu.interactable && Controls.cancel.check())) // Cancel items can also be interacted with using cancel input
 		{
 			if (!interactable)
 				menu.playErrorSound(); // Play the error sound if the item itself is not interactable
@@ -50,7 +53,7 @@ class ButtonMenuItem extends LabelMenuItem
 	override function onInteracted(value:Dynamic)
 	{
 		super.onInteracted(value);
-		if (data.isCancelItem)
+		if (useCancel)
 			menu.playCancelSound();
 		else
 			menu.playConfirmSound();

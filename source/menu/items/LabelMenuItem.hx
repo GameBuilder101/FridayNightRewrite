@@ -12,19 +12,19 @@ class LabelMenuItem extends MenuItem
 
 	var tempDisableSelectSound:Bool;
 
-	public function new(menu:Menu, index:Int, data:MenuItemData)
+	public function new(functions:MenuItemFunctions, ?labelText:String, ?iconID:String)
 	{
-		super(menu, index, data);
+		super(functions);
 		// Prevent the select sound from playing if this is the initially-selected menu item
 		tempDisableSelectSound = true;
 
-		label = new SpriteText(x, y, data.label, menu.fontSize, menu.menuType == RADIAL
+		label = new SpriteText(x, y, labelText, menu.fontSize, menu.menuType == RADIAL
 			|| menu.menuType == LIST_DIAGONAL ? LEFT : CENTER, true);
 		add(label);
 
-		if (data.iconID != null && data.iconID != "")
+		if (iconID != null && iconID != "")
 		{
-			icon = new AssetSprite(x, y, data.iconID);
+			icon = new AssetSprite(x, y, iconID);
 			if (icon.animation.exists("menu_idle"))
 				icon.animation.play("menu_idle");
 			icon.updateHitbox();

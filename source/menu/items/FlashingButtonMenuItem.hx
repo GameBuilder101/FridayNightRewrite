@@ -13,9 +13,9 @@ class FlashingButtonMenuItem extends ButtonMenuItem
 	var background:FlxSprite;
 	var origBackgroundColor:FlxColor;
 
-	public function new(menu:Menu, index:Int, data:MenuItemData)
+	public function new(functions:MenuItemFunctions, ?labelText:String, ?iconID:String, useCancel:Bool = false)
 	{
-		super(menu, index, data);
+		super(functions, labelText, iconID);
 		// Get the background to animate
 		if (menu.stage != null)
 		{

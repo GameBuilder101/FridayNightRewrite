@@ -106,43 +106,26 @@ class TitleScreenState extends MenuState
 		return "title_screen";
 	}
 
-	override function getMenuItems():Array<MenuItemData>
+	override function getMenuItems():Array<MenuItem>
 	{
 		return [
-			{
-				type: FlashingButtonMenuItem,
-				label: "Story Mode"
-			},
-			{
-				type: FlashingButtonMenuItem,
-				label: "Freeplay"
-			},
+			new FlashingButtonMenuItem({}, "Story Mode"),
+			new FlashingButtonMenuItem({}, "Freeplay"),
 			#if ENABLE_CHARACTER_SELECT
-			{
-				type: FlashingButtonMenuItem,
-				label: "Character"
-			},
+			new FlashingButtonMenuItem({}, "Character"),
 			#end
 			#if ENABLE_ACHIEVEMENTS
-			{
-				type: FlashingButtonMenuItem,
-				label: "Awards"
-			},
+			new FlashingButtonMenuItem({}, "Awards"),
 			#end
 			#if ENABLE_MODS
-			{
-				type: FlashingButtonMenuItem,
-				label: "Mods"
-			},
+			new FlashingButtonMenuItem({}, "Mods"),
 			#end
-			{
-				type: FlashingButtonMenuItem,
-				label: "Settings",
+			new FlashingButtonMenuItem({
 				onInteracted: function(value:Dynamic)
 				{
 					specialTransition(new SettingsState());
 				}
-			}
+			}, "Settings")
 		];
 	}
 

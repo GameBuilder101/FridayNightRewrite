@@ -41,7 +41,7 @@ abstract class MenuState extends ConductedState
 		if (menus.length > 0 && menus[0] is Menu)
 		{
 			menu = cast menus[0];
-			menu.createItems(getMenuItems());
+			menu.addItems(getMenuItems());
 		}
 
 		data = ParsedJSONRegistry.getAsset("menus/" + getMenuID() + "/menu_state_data");
@@ -79,7 +79,7 @@ abstract class MenuState extends ConductedState
 	abstract function getMenuID():String;
 
 	/** Return a list of menu items to add if a menu is found. **/
-	function getMenuItems():Array<MenuItemData>
+	function getMenuItems():Array<MenuItem>
 	{
 		return [];
 	}

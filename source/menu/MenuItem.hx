@@ -4,43 +4,39 @@ import flixel.group.FlxSpriteGroup;
 
 abstract class MenuItem extends FlxSpriteGroup
 {
-	var menu:Menu;
+	/** The associated menu. **/
+	public var menu:Menu;
 
 	/** The item's index in the menu. **/
-	var index:Int;
-
-	/** The data for the menu item. **/
-	var data:MenuItemData;
+	public var index:Int;
 
 	/** Whether the menu item should be interactable. **/
 	public var interactable:Bool = true;
 
-	public function new(menu:Menu, index:Int, data:MenuItemData)
+	var functions:MenuItemFunctions;
+
+	public function new(functions:MenuItemFunctions)
 	{
 		super(0.0, 0.0);
-		this.menu = menu;
-		this.index = index;
-		this.data = data;
-		if (data.isCancelItem == null)
-			data.isCancelItem = false;
+		this.functions = functions;
 	}
 
 	public function onSelected()
 	{
-		if (data.onSelected != null)
-			data.onSelected();
+		if (functions.onSelected != null)
+			functions.onSelected();
 	}
 
 	public function onDeselected()
 	{
-		if (data.onDeselected != null)
-			data.onDeselected();
+		if (functions.onDeselected != null)
+			functions.onDeselected();
 	}
 
 	public function onInteracted(value:Dynamic)
 	{
-		if (data.onInteracted != null)
-			data.onInteracted(value);
+		if (functions.onInteracted != null)
+			functions.onInteracted(value);
 	}
 
 	inline function getIsSelected():Bool
@@ -55,13 +51,10 @@ abstract class MenuItem extends FlxSpriteGroup
 	}
 }
 
-typedef MenuItemData =
+/** Common menu item functions. **/
+typedef MenuItemFunctions =
 {
-	type:Class<MenuItem>,
-	label:String,
-	?iconID:String,
 	?onSelected:Void->Void,
 	?onDeselected:Void->Void,
-	?onInteracted:Dynamic->Void,
-	?isCancelItem:Bool
+	?onInteracted:Dynamic->Void
 }
