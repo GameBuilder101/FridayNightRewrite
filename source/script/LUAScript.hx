@@ -155,10 +155,6 @@ class LUAScript
 				return FlxG.game;
 			case "STATE":
 				return FlxG.state;
-			case "CONTROLS":
-				return Controls.instance;
-			case "SETTINGS":
-				return Settings.instance;
 			default:
 				return null;
 		}
@@ -315,8 +311,6 @@ class LUAScript
 
 		setLUAVariable("currentVersion", Main.currentVersion);
 		setLUAVariable("latestVersion", Main.latestVersion);
-
-		setLUAVariable("loadedLibraryCount", LibraryManager.libraries.entries.length);
 	}
 
 	function initCallbacks()
@@ -353,6 +347,88 @@ class LUAScript
 		addLUACallback("removeFromState", function(objectName:String)
 		{
 			FlxG.state.remove(toTargetObject(objectName), true);
+		});
+
+		addLUACallback("controlVolumeUp", function():Bool
+		{
+			return Controls.volumeUp.check();
+		});
+		addLUACallback("controlVolumeDown", function():Bool
+		{
+			return Controls.volumeDown.check();
+		});
+		addLUACallback("controlMute", function():Bool
+		{
+			return Controls.mute.check();
+		});
+		addLUACallback("controlUILeft", function():Bool
+		{
+			return Controls.uiLeft.check();
+		});
+		addLUACallback("controlUIDown", function():Bool
+		{
+			return Controls.uiDown.check();
+		});
+		addLUACallback("controlUIUp", function():Bool
+		{
+			return Controls.uiUp.check();
+		});
+		addLUACallback("controlUIRight", function():Bool
+		{
+			return Controls.uiRight.check();
+		});
+		addLUACallback("controlAccept", function():Bool
+		{
+			return Controls.accept.check();
+		});
+		addLUACallback("controlCancel", function():Bool
+		{
+			return Controls.cancel.check();
+		});
+		addLUACallback("controlNoteLeft", function():Bool
+		{
+			return Controls.noteLeft.check();
+		});
+		addLUACallback("controlNoteDown", function():Bool
+		{
+			return Controls.noteDown.check();
+		});
+		addLUACallback("controlNoteUp", function():Bool
+		{
+			return Controls.noteUp.check();
+		});
+		addLUACallback("controlNoteRight", function():Bool
+		{
+			return Controls.noteRight.check();
+		});
+
+		addLUACallback("settingAntialiasing", function():Bool
+		{
+			return Settings.getAntialiasing();
+		});
+		addLUACallback("settingShaders", function():Bool
+		{
+			return Settings.getShaders();
+		});
+		addLUACallback("settingFlashingLights", function():Bool
+		{
+			return Settings.getFlashingLights();
+		});
+		addLUACallback("settingCameraBop", function():Bool
+		{
+			return Settings.getCameraBop();
+		});
+		addLUACallback("settingMissSoundVolume", function():Float
+		{
+			return Settings.getMissSoundVolume();
+		});
+		addLUACallback("settingDownscroll", function():Bool
+		{
+			return Settings.getDownscroll();
+		});
+		addLUACallback("settingGhostTapping", function():Bool
+		{
+			return Settings.getGhostTapping();
 		});
 	}
 }

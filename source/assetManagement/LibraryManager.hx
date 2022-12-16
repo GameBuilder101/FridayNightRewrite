@@ -83,22 +83,26 @@ class LibraryManager
 	}
 
 	/** Returns the IDs of all registry entries from all libraries in the given library-relative directory. **/
-	public static function getAllIDs(libraryDirectory:String):Array<String>
+	public static function getAllIDs(libraryDirectory:String, includeLibrary:Bool = true):Array<String>
 	{
 		var all:Array<String> = new Array<String>();
+		var fullPath:String;
 		var contents:Array<String>;
 		// Go through every library
 		for (libraryEntry in libraries.entries)
 		{
 			// Get every file in the provided directory of that library
-			contents = FileSystem.readDirectory(Registry.getFullPath(libraryEntry.directory, libraryEntry.id) + "/" + libraryDirectory);
+			fullPath = Registry.getFullPath(libraryEntry.directory, libraryEntry.id);
+			contents = FileSystem.readDirectory(fullPath + "/" + libraryDirectory);
 			if (contents == null)
 				continue;
 			var i:Int = 0;
 			for (content in contents)
 			{
 				contents[i] = libraryDirectory + "/" + content;
-				if (all.contains(contents[i])) // Clear out any already-added
+				if (includeLibrary)
+					contents[i] = fullPath + "/" + contents[i];
+				if (all.contains(contents[i])) // Clear out any already-added/duplicates
 					contents.splice(i, 1);
 				else
 					i++;
