@@ -39,12 +39,13 @@ This is the repository for Friday Night Rewrite, a full code rewrite of the orig
 
 ## How to Set Up
 1. Go to https://haxe.org/download/ and download Haxe version 4.2.5 **(This is a different version number compared to vanilla FNF!!!!)**
-2. Open Command Prompt with administrator privileges and enter the following (you need the most up-to-date version of these libraries!):
+2. Open Command Prompt with administrator privileges and enter the following (you need the most up-to-date version of these libraries):
    ```
    haxelib install lime
    haxelib install openfl
    haxelib install flixel
    haxelib install flixel-addons
+   haxelib install linc_luajit
    ```
 
 **Note: FNR is only designed to compile to desktop.** It cannot compile to HTML5 (browser mode basically), since it requires direct access to the file system to load assets and mods. Because of this, you also need to do this to compile to Windows:

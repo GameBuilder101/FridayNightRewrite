@@ -25,99 +25,83 @@ class SettingsState extends MenuState
 	function getMainMenuItems():Array<MenuItem>
 	{
 		return [
-			{
-				type: ButtonMenuItem,
-				label: "Controls",
+			new ButtonMenuItem({
 				onInteracted: function(value:Dynamic)
 				{
-					menu.createItems(getControlsMenuItems());
+					menu.addItems(getControlsMenuItems());
 				}
-			},
-			{
-				type: ButtonMenuItem,
-				label: "Graphics & Sound",
+			}, "Controls"),
+			new ButtonMenuItem({
 				onInteracted: function(value:Dynamic)
 				{
-					menu.createItems(getGraphicsMenuItems());
+					menu.addItems(getGraphicsMenuItems());
 				}
-			},
-			{
-				type: ButtonMenuItem,
-				label: "Gameplay",
+			}, "Graphics & Sound"),
+			new ButtonMenuItem({
 				onInteracted: function(value:Dynamic)
 				{
-					menu.createItems(getGameplayMenuItems());
+					menu.addItems(getGameplayMenuItems());
 				}
-			},
-			{
-				type: ButtonMenuItem,
-				label: "Back",
+			}, "Gameplay"),
+			new ButtonMenuItem({
 				onInteracted: function(value:Dynamic)
 				{
+					Controls.instance.save();
+					Settings.instance.save();
 					FlxG.switchState(new TitleScreenState());
-				},
-				isCancelItem: true
-			}
+				}
+			}, "Back", "", true)
 		];
 	}
 
 	function getControlsMenuItems():Array<MenuItem>
 	{
 		return [
-			{
-				type: ButtonMenuItem,
-				label: "Back",
+			new ButtonMenuItem({
 				onSelected: function()
 				{
-					currentHint = "";
+					currentHint = null;
 				},
 				onInteracted: function(value:Dynamic)
 				{
-					menu.createItems(getMainMenuItems());
-					currentHint = "";
-				},
-				isCancelItem: true
-			}
+					menu.addItems(getMainMenuItems());
+					currentHint = null;
+				}
+			}, "Back", "", true)
 		];
 	}
 
 	function getGraphicsMenuItems():Array<MenuItem>
 	{
 		return [
-			{
-				type: ButtonMenuItem,
-				label: "Back",
+			new ButtonMenuItem({
 				onSelected: function()
 				{
-					currentHint = "";
+					currentHint = null;
 				},
 				onInteracted: function(value:Dynamic)
 				{
-					menu.createItems(getMainMenuItems());
-					currentHint = "";
-				},
-				isCancelItem: true
-			}
+					menu.addItems(getMainMenuItems());
+					currentHint = null;
+				}
+			}, "Back", "", true)
 		];
 	}
 
 	function getGameplayMenuItems():Array<MenuItem>
 	{
 		return [
-			{
-				type: ButtonMenuItem,
-				label: "Back",
+			new ButtonMenuItem({
 				onSelected: function()
 				{
-					currentHint = "";
+					currentHint = null;
 				},
 				onInteracted: function(value:Dynamic)
 				{
-					menu.createItems(getMainMenuItems());
-					currentHint = "";
-				},
-				isCancelItem: true
-			}
+					menu.addItems(getMainMenuItems());
+					currentHint = null;
+				}
+			}, "Back", "", true)
 		];
 	}
 }

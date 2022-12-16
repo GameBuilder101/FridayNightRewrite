@@ -13,31 +13,30 @@ class FlashingButtonMenuItem extends ButtonMenuItem
 	var background:FlxSprite;
 	var origBackgroundColor:FlxColor;
 
-	public function new(functions:MenuItemFunctions, ?labelText:String, ?iconID:String, useCancel:Bool = false)
+	override function update(elapsed:Float)
 	{
-		super(functions, labelText, iconID);
+		super.update(elapsed);
+		if (flashingTime >= 0.0 && Settings.getFlashingLights()) // If playing flash animation
+		{
+			flashingTime += elapsed;
+			// Make the label and background flash
+			label.color = FlxMath.fastSin(flashingTime * 24.0) <= 0.0 ? menu.normalItemColor : menu.selectedItemColor;
+			if (background != null)
+				background.color = label.color;
+			leftmostArrow.color = label.color;
+			rightmostArrow.color = label.color;
+		}
+	}
+
+	override function addToMenu(menu:Menu, index:Int)
+	{
+		super.addToMenu(menu, index);
 		// Get the background to animate
 		if (menu.stage != null)
 		{
 			var backgrounds:Array<FlxSprite> = menu.stage.getElementsWithTag("menu_background");
 			if (backgrounds != null)
 				background = backgrounds[0];
-		}
-	}
-
-	override function update(elapsed:Float)
-	{
-		super.update(elapsed);
-		if (flashingTime >= 0.0) // If playing flash animation
-		{
-			flashingTime += elapsed;
-			// Make the label and background flash
-			if (Settings.getFlashingLights())
-				label.color = FlxMath.fastSin(flashingTime * 24.0) <= 0.0 ? menu.normalItemColor : menu.selectedItemColor;
-			if (background != null)
-				background.color = label.color;
-			leftmostArrow.color = label.color;
-			rightmostArrow.color = label.color;
 		}
 	}
 

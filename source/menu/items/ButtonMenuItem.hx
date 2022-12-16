@@ -10,22 +10,10 @@ class ButtonMenuItem extends LabelMenuItem
 	/** When true, this item can be interacted with using the cancel input. **/
 	var useCancel:Bool;
 
-	public function new(functions:MenuItemFunctions, ?labelText:String, ?iconID:String, useCancel:Bool = false)
+	public function new(functions:MenuItemFunctions, labelText:String, iconID:String = "", useCancel:Bool = false)
 	{
 		super(functions, labelText, iconID);
 		this.useCancel = useCancel;
-
-		leftmostArrow = new AssetSprite(x - 16.0, y, "menus/_shared/arrow");
-		leftmostArrow.updateHitbox();
-		leftmostArrow.offset.set(leftmostArrow.width, 0.0);
-		leftmostArrow.visible = false;
-		add(leftmostArrow);
-
-		rightmostArrow = new AssetSprite(x + label.width + 16.0, y, "menus/_shared/arrow");
-		rightmostArrow.updateHitbox();
-		rightmostArrow.flipX = true;
-		rightmostArrow.visible = false;
-		add(rightmostArrow);
 	}
 
 	override function update(elapsed:Float)
@@ -48,6 +36,24 @@ class ButtonMenuItem extends LabelMenuItem
 			else
 				onInteracted(null);
 		}
+	}
+
+	override function addToMenu(menu:Menu, index:Int)
+	{
+		super.addToMenu(menu, index);
+
+		// Create this in addToMenu so the width is correctly calculated with the font size obtained from menu
+		leftmostArrow = new AssetSprite(x - 16.0, y, "menus/_shared/arrow");
+		leftmostArrow.updateHitbox();
+		leftmostArrow.offset.set(leftmostArrow.width, 0.0);
+		leftmostArrow.visible = false;
+		add(leftmostArrow);
+
+		rightmostArrow = new AssetSprite(x + label.width + 16.0, y, "menus/_shared/arrow");
+		rightmostArrow.updateHitbox();
+		rightmostArrow.flipX = true;
+		rightmostArrow.visible = false;
+		add(rightmostArrow);
 	}
 
 	override function onInteracted(value:Dynamic)

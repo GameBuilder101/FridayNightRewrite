@@ -1,7 +1,5 @@
 package menu.items;
 
-import menu.MenuItem;
-
 class ToggleMenuItem extends LabelMenuItem
 {
 	/** Whether the toggle is on or off. **/
@@ -12,27 +10,17 @@ class ToggleMenuItem extends LabelMenuItem
 
 	public var toggle(default, null):AssetSprite;
 
-	public function new(functions:MenuItemFunctions, ?labelText:String, ?iconID:String, useCancel:Bool = false)
-	{
-		super(functions, labelText, iconID);
-
-		toggle = new AssetSprite(x - 32.0, y, "menus/_shared/toggle");
-		toggle.animation.play("idle_off");
-		toggle.updateHitbox();
-		toggle.offset.set(toggle.width, 0.0);
-		add(toggle);
-	}
-
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
 		var isSelected:Bool = getIsSelected();
 		var isInteractTarget:Bool = getIsInteractTarget();
 
-		if (on && !prevOn)
-			toggle.animation.play("turning_on");
-		else if (on && prevOn)
-			toggle.animation.play("turning_off");
+		if (on != prevOn)
+			toggle.animation.play("turning_" + on);
+		// Cheat-y way of detecting if the current animation is a turning animation and switching to an idle animation
+		if (toggle.animation.curAnim.name.charAt(0) == "t")
+			toggle.animation.play("idle_" + on);
 
 		if (isSelected && menu.interactable && Controls.accept.check())
 		{
@@ -45,10 +33,20 @@ class ToggleMenuItem extends LabelMenuItem
 		prevOn = on;
 	}
 
+	override function addToMenu(menu:Menu, index:Int)
+	{
+		super.addToMenu(menu, index);
+		// Create this in addToMenu so the width is correctly calculated with the font size obtained from menu
+		toggle = new AssetSprite(x + label.width + 16.0, y, "menus/_shared/toggle");
+		toggle.animation.play("idle_off");
+		toggle.updateHitbox();
+		add(toggle);
+	}
+
 	override function onInteracted(value:Dynamic)
 	{
 		super.onInteracted(value);
 		on = !on;
-		menu.playConfirmSound();
+		menu.playToggleSound();
 	}
 }

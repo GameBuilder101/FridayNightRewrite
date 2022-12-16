@@ -5,10 +5,10 @@ import flixel.group.FlxSpriteGroup;
 abstract class MenuItem extends FlxSpriteGroup
 {
 	/** The associated menu. **/
-	public var menu:Menu;
+	var menu:Menu;
 
 	/** The item's index in the menu. **/
-	public var index:Int;
+	public var index(default, null):Int;
 
 	/** Whether the menu item should be interactable. **/
 	public var interactable:Bool = true;
@@ -19,6 +19,13 @@ abstract class MenuItem extends FlxSpriteGroup
 	{
 		super(0.0, 0.0);
 		this.functions = functions;
+	}
+
+	/** Call when adding this item to a menu. **/
+	public function addToMenu(menu:Menu, index:Int)
+	{
+		this.menu = menu;
+		this.index = index;
 	}
 
 	public function onSelected()

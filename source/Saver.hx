@@ -10,7 +10,11 @@ abstract class Saver
 {
 	var data:Map<String, Dynamic>;
 
-	public function new() {}
+	public function new()
+	{
+		data = getDefaultData();
+		load();
+	}
 
 	/** The save ID is either used for the field name when using FlxG.save or the file name when using JSON. **/
 	abstract function getSaverID():String;
@@ -22,7 +26,7 @@ abstract class Saver
 	abstract function getDefaultData():Map<String, Dynamic>;
 
 	/** Returns a savable item with the given key. **/
-	public inline function get(key:String):Dynamic
+	public function get(key:String):Dynamic
 	{
 		if (!data.exists(key))
 			return null;
@@ -42,7 +46,7 @@ abstract class Saver
 			case FLX_SAVE:
 				Reflect.setField(FlxG.save.data, getSaverID(), savable);
 			case JSON:
-				var json:String = Json.stringify(savable);
+				var json:String = Json.stringify(savable, null, "    ");
 				// Write to a JSON file
 				File.write(getSaverID() + ".json").writeString(json);
 		}
@@ -57,7 +61,7 @@ abstract class Saver
 			case FLX_SAVE:
 				savable = Reflect.field(FlxG.save.data, getSaverID());
 			case JSON:
-				savable = FileManager.getParsedJson(getSaverID() + ".json");
+				savable = FileManager.getParsedJson(getSaverID());
 		}
 
 		// If no existing saved data was found, then stop
@@ -66,7 +70,7 @@ abstract class Saver
 			trace("No saved data found for Saver '" + getSaverID() + "'");
 			return;
 		}
-		trace("Saved data found for Saver '" + getSaverID() + "': " + savable);
+		trace("Saved data found for Saver '" + getSaverID() + "'");
 
 		for (item in savable)
 			data.set(item.key, item.value);

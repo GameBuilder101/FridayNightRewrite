@@ -7,6 +7,8 @@ import flixel.FlxSprite;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.util.FlxColor;
+import shader.IUpdatableShader;
+import shader.ShaderResolver;
 
 typedef AssetSpriteData =
 {

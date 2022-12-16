@@ -1,7 +1,6 @@
-package;
+package shader;
 
 import flixel.system.FlxAssets.FlxShader;
-import shaders.*;
 
 /** Handles the conversion of a shader type to a string and vice-versa. **/
 class ShaderResolver

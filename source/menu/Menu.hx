@@ -46,6 +46,7 @@ class Menu extends FlxSpriteGroup
 	public var confirmSound:SoundData;
 	public var cancelSound:SoundData;
 	public var errorSound:SoundData;
+	public var toggleSound:SoundData;
 
 	var menuSounds:FlxSound = new FlxSound();
 
@@ -98,8 +99,7 @@ class Menu extends FlxSpriteGroup
 		// Create the menu items
 		for (item in items)
 		{
-			item.menu = this;
-			item.index = i;
+			item.addToMenu(this, i);
 			add(item);
 			this.items.push(item);
 			i++;
@@ -122,7 +122,8 @@ class Menu extends FlxSpriteGroup
 	function selectItem(index:Int)
 	{
 		// Deselect the current item
-		getSelectedItem().onDeselected();
+		if (getSelectedItem() != null)
+			getSelectedItem().onDeselected();
 		// Move to and select the next item
 		selectedItem = index;
 		getSelectedItem().onSelected();
@@ -209,6 +210,13 @@ class Menu extends FlxSpriteGroup
 		if (errorSound == null)
 			return;
 		errorSound.playOn(menuSounds);
+	}
+
+	public inline function playToggleSound()
+	{
+		if (toggleSound == null)
+			return;
+		toggleSound.playOn(menuSounds);
 	}
 }
 

@@ -8,19 +8,19 @@ class LabelMenuItem extends MenuItem
 	/** Is the element which gets re-colored on update. **/
 	public var label(default, null):SpriteText;
 
+	var labelText(default, null):String;
+
 	public var icon(default, null):AssetSprite;
 
 	var tempDisableSelectSound:Bool;
 
-	public function new(functions:MenuItemFunctions, ?labelText:String, ?iconID:String)
+	public function new(functions:MenuItemFunctions, labelText:String, iconID:String = "")
 	{
 		super(functions);
 		// Prevent the select sound from playing if this is the initially-selected menu item
 		tempDisableSelectSound = true;
 
-		label = new SpriteText(x, y, labelText, menu.fontSize, menu.menuType == RADIAL
-			|| menu.menuType == LIST_DIAGONAL ? LEFT : CENTER, true);
-		add(label);
+		this.labelText = labelText;
 
 		if (iconID != null && iconID != "")
 		{
@@ -51,6 +51,14 @@ class LabelMenuItem extends MenuItem
 			label.playWaveAnimation(3.0, 0.4);
 		else if (!menu.waveSelectedItem || !isSelected || !isInteractTarget)
 			label.resetWaveAnimation();
+	}
+
+	override function addToMenu(menu:Menu, index:Int)
+	{
+		super.addToMenu(menu, index);
+		label = new SpriteText(x, y, labelText, menu.fontSize, menu.menuType == RADIAL
+			|| menu.menuType == LIST_DIAGONAL ? LEFT : CENTER, true);
+		add(label);
 	}
 
 	public override function onSelected()

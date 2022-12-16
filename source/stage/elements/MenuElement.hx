@@ -37,6 +37,8 @@ class MenuElement extends Menu implements IStageElement
 			cancelSound = SoundRegistry.getAsset(data.cancelSoundID);
 		if (data.errorSoundID != null)
 			errorSound = SoundRegistry.getAsset(data.errorSoundID);
+		if (data.toggleSoundID != null)
+			toggleSound = SoundRegistry.getAsset(data.toggleSoundID);
 	}
 
 	public function onAddedToStage(stage:Stage)

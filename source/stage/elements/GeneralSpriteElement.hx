@@ -3,6 +3,7 @@ package stage.elements;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import music.IConducted;
+import shader.ShaderResolver;
 
 class GeneralSpriteElement extends AssetSprite implements IStageElement implements IConducted
 {
@@ -29,7 +30,7 @@ class GeneralSpriteElement extends AssetSprite implements IStageElement implemen
 			color *= FlxColor.fromRGB(data.color[0], data.color[1], data.color[2]);
 		if (data.alpha != null)
 			alpha *= data.alpha;
-		if (data.shaderType != null)
+		if (data.shaderType != null && Settings.getShaders())
 			shader = ShaderResolver.resolve(data.shaderType, data.shaderArgs);
 
 		bopAnimFrequency = data.bopAnimFrequency;

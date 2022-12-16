@@ -87,7 +87,7 @@ class TitleScreenState extends MenuState
 		#if ENABLE_OUTDATED_WARNING
 		if (Main.outdated)
 		{
-			// It doesn't make sense to bother adding a whole FlxAction-based control for this
+			// It doesn't make sense to bother adding a whole action-based control for this
 			if (FlxG.keys.justPressed.U)
 				FlxG.openURL("https://github.com/GameBuilder101/FridayNightRewrite/releases");
 

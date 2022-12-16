@@ -35,6 +35,8 @@
 
 	<haxelib name="flixel-addons" />
 
+	<haxelib name="linc_luajit" />
+
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
 	<!--Optimise inputs, be careful you will get null errors if you don't use conditionals in your game-->

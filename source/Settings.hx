@@ -5,20 +5,29 @@ import Saver;
 /** Used to manage various game-wide settings. **/
 class Settings extends Saver
 {
-	public static var instance(default, null):Settings = new Settings();
+	public static var instance(default, null):Settings;
+	static var initialized:Bool;
 
 	// Graphics settings
 	public static inline final ANTIALIASING:String = "antialiasing";
 	public static inline final SHADERS:String = "shaders";
-	public static inline final FLASHING_LIGHTS:String = "flashingLights";
-	public static inline final CAMERA_BOP:String = "cameraBop";
+	public static inline final FLASHING_LIGHTS:String = "flashing_lights";
+	public static inline final CAMERA_BOP:String = "camera_bop";
 
 	// Sound settings
-	public static inline final MISS_SOUND_VOLUME:String = "missSoundVolume";
+	public static inline final MISS_SOUND_VOLUME:String = "miss_sound_volume";
 
 	// Gameplay settings
 	public static inline final DOWNSCROLL:String = "downscroll";
-	public static inline final GHOST_TAPPING:String = "ghostTapping";
+	public static inline final GHOST_TAPPING:String = "ghost_tapping";
+
+	public static function initialize()
+	{
+		if (initialized)
+			return;
+		initialized = true;
+		instance = new Settings();
+	}
 
 	function getSaverID():String
 	{

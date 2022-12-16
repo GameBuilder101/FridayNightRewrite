@@ -110,7 +110,8 @@
                 "selectSoundID": "menus/_shared/menu_select",
                 "confirmSoundID": "menus/_shared/menu_confirm",
                 "cancelSoundID": "menus/_shared/menu_cancel",
-                "errorSoundID": "menus/_shared/menu_error"
+                "errorSoundID": "menus/_shared/menu_error",
+                "toggleSoundID": "menus/_shared/menu_toggle"
             }
         }
     ]
