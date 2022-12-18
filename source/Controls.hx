@@ -1,3 +1,5 @@
+package;
+
 import Saver;
 import flixel.FlxG;
 import flixel.input.FlxInput;
@@ -162,8 +164,8 @@ class OverridableAction
 	public var defaultKeyBinds(default, null):Array<FlxKey>;
 	public var defaultGamepadBinds(default, null):Array<FlxGamepadInputID>;
 
-	var overrideKeyBinds:Array<FlxKey> = new Array<FlxKey>();
-	var overrideGamepadBinds:Array<FlxGamepadInputID> = new Array<FlxGamepadInputID>();
+	var overrideKeyBinds:Array<FlxKey> = [];
+	var overrideGamepadBinds:Array<FlxGamepadInputID> = [];
 
 	public var action(default, null):FlxActionDigital;
 

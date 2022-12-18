@@ -1,12 +1,9 @@
 package assetManagement;
 
-import Album;
-import AssetSprite;
-import SoundData;
 import assetManagement.Library;
 import assetManagement.Registry;
-import music.MusicData;
-import stage.Stage;
+import flash.events.EventDispatcher;
+import openfl.events.Event;
 import sys.FileSystem;
 
 /** Handles the loading, storing, and retrieving of data from libraries. **/
@@ -21,12 +18,17 @@ class LibraryManager
 	/** The currently-loaded libraries in memory. Sorted by dependency, with the last having no dependencies. **/
 	public static var libraries(default, null):LibraryRegistry = new LibraryRegistry();
 
+	public static var onPreload:Array<String->Void> = [];
+	public static var onFullReload:Array<Void->Void> = [];
+
 	/** Reloads all libraries. **/
 	public static function reloadLibraries()
 	{
 		libraries.clear();
 
-		libraries.loadAll(MODS_DIRECTORY);
+		// Load all mod libraries
+		for (id in FileSystem.readDirectory(MODS_DIRECTORY))
+			libraries.load(MODS_DIRECTORY, id);
 		/* Sort libraries based on dependency. If a library has no dependencies, it should be last.
 			If a library depends on another, it should be before that one. */
 		libraries.entries.sort(function(a, b):Int
@@ -54,8 +56,6 @@ class LibraryManager
 		}
 
 		libraries.load("", CORE_ID);
-
-		preload();
 	}
 
 	/** Returns the loaded core library. **/
@@ -85,7 +85,7 @@ class LibraryManager
 	/** Returns the IDs of all registry entries from all libraries in the given library-relative directory. **/
 	public static function getAllIDs(libraryDirectory:String, includeLibrary:Bool = true):Array<String>
 	{
-		var all:Array<String> = new Array<String>();
+		var all:Array<String> = [];
 		var fullPath:String;
 		var contents:Array<String>;
 		// Go through every library
@@ -115,23 +115,11 @@ class LibraryManager
 	/** Loads in all assets from preload JSON files. **/
 	public static function preload()
 	{
-		var libraryPath:String;
 		for (library in libraries.entries)
 		{
-			libraryPath = Registry.getFullPath(library.directory, library.id);
-			preloadFromJSON(libraryPath, "preload_sprites", AssetSpriteRegistry.getAsset);
-			preloadFromJSON(libraryPath, "preload_sounds", SoundRegistry.getAsset);
-			preloadFromJSON(libraryPath, "preload_music", MusicRegistry.getAsset);
+			for (func in onPreload)
+				func(Registry.getFullPath(library.directory, library.id));
 		}
-	}
-
-	static inline function preloadFromJSON(libraryPath:String, jsonID:String, loadFunction:String->Void)
-	{
-		var parsed:Dynamic = FileManager.getParsedJson(Registry.getFullPath(libraryPath, jsonID));
-		if (parsed == null)
-			return;
-		for (id in cast(parsed, Array<Dynamic>))
-			loadFunction(id);
 	}
 
 	/** Performs a full reload of all libraries and registries. **/
@@ -139,15 +127,8 @@ class LibraryManager
 	{
 		trace("Performing full library reload...");
 		reloadLibraries();
-
-		// New registries should get added here!
-		ParsedJSONRegistry.reset();
-		AssetSpriteRegistry.reset();
-		SoundRegistry.reset();
-		MusicRegistry.reset();
-		StageRegistry.reset();
-		AlbumRegistry.reset();
-
-		TransitionManager.updateDefaultTrans();
+		for (func in onFullReload)
+			func();
+		preload();
 	}
 }

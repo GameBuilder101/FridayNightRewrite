@@ -47,9 +47,26 @@ typedef SoundVariant =
 }
 
 /** Use this to access/load sound data. **/
-class SoundRegistry extends Registry<SoundData>
+class SoundDataRegistry extends Registry<SoundData>
 {
-	static var cache:SoundRegistry = new SoundRegistry();
+	static var cache:SoundDataRegistry = new SoundDataRegistry();
+
+	public function new()
+	{
+		super();
+		LibraryManager.onFullReload.push(function()
+		{
+			cache.clear();
+		});
+		LibraryManager.onPreload.push(function(libraryPath:String)
+		{
+			var parsed:Dynamic = FileManager.getParsedJson(libraryPath + "/preload_sound_data");
+			if (parsed == null)
+				return;
+			for (item in cast(parsed, Array<Dynamic>))
+				load(item.directory, item.id);
+		});
+	}
 
 	function loadData(directory:String, id:String):SoundData
 	{
@@ -92,11 +109,5 @@ class SoundRegistry extends Registry<SoundData>
 	public static function getAsset(id:String):SoundData
 	{
 		return LibraryManager.getLibraryAsset(id, cache);
-	}
-
-	/** Resets the cache. **/
-	public static function reset()
-	{
-		cache.clear();
 	}
 }

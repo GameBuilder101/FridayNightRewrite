@@ -1,0 +1,18 @@
+[
+    {
+        "directory": "menus/_shared",
+        "id": "menu_select"
+    },
+    {
+        "directory": "menus/_shared",
+        "id": "menu_confirm"
+    },
+    {
+        "directory": "menus/_shared",
+        "id": "menu_cancel"
+    },
+    {
+        "directory": "menus/_shared",
+        "id": "menu_error"
+    }
+]

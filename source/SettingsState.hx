@@ -7,40 +7,32 @@ import menu.items.ButtonMenuItem;
 
 class SettingsState extends MenuState
 {
-	function getMenuID():String
-	{
-		return "settings";
-	}
+	var mainMenuItems:Array<MenuItem>;
+	var controlsMenuItems:Array<MenuItem>;
+	var graphicsMenuItems:Array<MenuItem>;
+	var gameplayMenuItems:Array<MenuItem>;
 
-	override function getMenuItems():Array<MenuItem>
+	public function new()
 	{
-		return getMainMenuItems();
-	}
+		super();
 
-	override function getTitle():String
-	{
-		return stage.data.name;
-	}
-
-	function getMainMenuItems():Array<MenuItem>
-	{
-		return [
+		mainMenuItems = [
 			new ButtonMenuItem({
 				onInteracted: function(value:Dynamic)
 				{
-					menu.addItems(getControlsMenuItems());
+					menu.addItems(controlsMenuItems);
 				}
 			}, "Controls"),
 			new ButtonMenuItem({
 				onInteracted: function(value:Dynamic)
 				{
-					menu.addItems(getGraphicsMenuItems());
+					menu.addItems(graphicsMenuItems);
 				}
 			}, "Graphics & Sound"),
 			new ButtonMenuItem({
 				onInteracted: function(value:Dynamic)
 				{
-					menu.addItems(getGameplayMenuItems());
+					menu.addItems(gameplayMenuItems);
 				}
 			}, "Gameplay"),
 			new ButtonMenuItem({
@@ -52,11 +44,8 @@ class SettingsState extends MenuState
 				}
 			}, "Back", "", true)
 		];
-	}
 
-	function getControlsMenuItems():Array<MenuItem>
-	{
-		return [
+		controlsMenuItems = [
 			new ButtonMenuItem({
 				onSelected: function()
 				{
@@ -64,16 +53,13 @@ class SettingsState extends MenuState
 				},
 				onInteracted: function(value:Dynamic)
 				{
-					menu.addItems(getMainMenuItems());
+					menu.addItems(mainMenuItems);
 					currentHint = null;
 				}
 			}, "Back", "", true)
 		];
-	}
 
-	function getGraphicsMenuItems():Array<MenuItem>
-	{
-		return [
+		graphicsMenuItems = [
 			new ButtonMenuItem({
 				onSelected: function()
 				{
@@ -81,16 +67,13 @@ class SettingsState extends MenuState
 				},
 				onInteracted: function(value:Dynamic)
 				{
-					menu.addItems(getMainMenuItems());
+					menu.addItems(mainMenuItems);
 					currentHint = null;
 				}
 			}, "Back", "", true)
 		];
-	}
 
-	function getGameplayMenuItems():Array<MenuItem>
-	{
-		return [
+		gameplayMenuItems = [
 			new ButtonMenuItem({
 				onSelected: function()
 				{
@@ -98,10 +81,25 @@ class SettingsState extends MenuState
 				},
 				onInteracted: function(value:Dynamic)
 				{
-					menu.addItems(getMainMenuItems());
+					menu.addItems(mainMenuItems);
 					currentHint = null;
 				}
 			}, "Back", "", true)
 		];
+	}
+
+	function getMenuID():String
+	{
+		return "settings";
+	}
+
+	override function getMenuItems():Array<MenuItem>
+	{
+		return mainMenuItems;
+	}
+
+	override function getTitle():String
+	{
+		return stage.data.name;
 	}
 }

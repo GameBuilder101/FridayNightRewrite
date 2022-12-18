@@ -1,0 +1,10 @@
+[
+    {
+        "directory": "menus/_shared",
+        "id": "sprite_text_font"
+    },
+    {
+        "directory": "menus/title_screen",
+        "id": "newgrounds_logo"
+    }
+]

@@ -37,7 +37,7 @@ abstract class Saver
 	public function save()
 	{
 		// Convert the data into a savable array
-		var savable:Array<Dynamic> = new Array<Dynamic>();
+		var savable:Array<Dynamic> = [];
 		for (key in data.keys())
 			savable.push({key: key, value: data[key]});
 

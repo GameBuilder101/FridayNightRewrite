@@ -1,6 +1,7 @@
 package;
 
 import AssetSprite;
+import assetManagement.LibraryManager;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
@@ -30,6 +31,7 @@ class TitleScreenState extends MenuState
 	var introImage:AssetSprite;
 
 	var outdatedWarning:FlxSpriteGroup;
+	var outdatedWarningVersion:FlxText;
 
 	override public function create()
 	{
@@ -37,7 +39,7 @@ class TitleScreenState extends MenuState
 		introBeats = cast(data.introBeats, Array<Dynamic>);
 
 		// Add the engine version text
-		versionText = new FlxText(16.0, 16.0, FlxG.width - 32.0, "Friday Night Rewrite v" + Main.currentVersion);
+		versionText = new FlxText(16.0, 16.0, FlxG.width - 32.0, "Friday Night Rewrite v" + LibraryManager.getCore().version);
 		versionText.setFormat("Jann Script Bold", 14, FlxColor.WHITE, RIGHT);
 		versionText.alpha = 0.4;
 		add(versionText);
@@ -67,9 +69,9 @@ class TitleScreenState extends MenuState
 		var outdatedTitle:FlxText = new FlxText(16.0, 16.0, 480.0, "WARNING: YOU ARE USING AN OUTDATED VERSION OF FRIDAY NIGHT REWRITE!");
 		outdatedTitle.setFormat("Jann Script Bold", 17, FlxColor.RED);
 		outdatedWarning.add(outdatedTitle);
-		var outdatedVersion:FlxText = new FlxText(16.0, 80.0, 480.0, "Your version: " + Main.currentVersion + "    Latest version: " + Main.latestVersion);
-		outdatedVersion.setFormat("Jann Script Bold", 14, FlxColor.GRAY);
-		outdatedWarning.add(outdatedVersion);
+		outdatedWarningVersion = new FlxText(16.0, 80.0, 480.0);
+		outdatedWarningVersion.setFormat("Jann Script Bold", 14, FlxColor.GRAY);
+		outdatedWarning.add(outdatedWarningVersion);
 		var outdatedDownload:FlxText = new FlxText(16.0, 110.0, 480.0, "Press 'U' to download the latest version!");
 		outdatedDownload.setFormat("Jann Script Bold", 14);
 		outdatedWarning.add(outdatedDownload);
@@ -85,8 +87,11 @@ class TitleScreenState extends MenuState
 		super.update(elapsed);
 
 		#if ENABLE_OUTDATED_WARNING
-		if (Main.outdated)
+		if (LibraryManager.getCore().isOutdated())
 		{
+			outdatedWarningVersion.text = "Your version: " + LibraryManager.getCore()
+				.version + "    Latest version: " + LibraryManager.getCore().latestVersion;
+
 			// It doesn't make sense to bother adding a whole action-based control for this
 			if (FlxG.keys.justPressed.U)
 				FlxG.openURL("https://github.com/GameBuilder101/FridayNightRewrite/releases");
@@ -219,7 +224,7 @@ class TitleScreenState extends MenuState
 
 	function displayIntroImage(id:String)
 	{
-		introImage.loadFromData(AssetSpriteRegistry.getAsset(id));
+		introImage.loadFromData(AssetSpriteDataRegistry.getAsset(id));
 		introImage.updateHitbox();
 		introImage.screenCenter();
 		introImage.y += 170.0;

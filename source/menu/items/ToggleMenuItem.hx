@@ -37,10 +37,13 @@ class ToggleMenuItem extends LabelMenuItem
 	{
 		super.addToMenu(menu, index);
 		// Create this in addToMenu so the width is correctly calculated with the font size obtained from menu
-		toggle = new AssetSprite(x + label.width + 16.0, y, "menus/_shared/toggle");
-		toggle.animation.play("idle_off");
-		toggle.updateHitbox();
-		add(toggle);
+		if (toggle == null)
+		{
+			toggle = new AssetSprite(x + label.width + 16.0, y, "menus/_shared/toggle");
+			toggle.animation.play("idle_off");
+			toggle.updateHitbox();
+			add(toggle);
+		}
 	}
 
 	override function onInteracted(value:Dynamic)

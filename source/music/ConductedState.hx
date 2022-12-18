@@ -25,7 +25,7 @@ abstract class ConductedState extends FlxTransitionableState implements IConduct
 		Settings.initialize();
 
 		// Must be called somewhere in a state (after initialization), since graphics (such as the transition tile) can't be obtained before then
-		TransitionManager.updateDefaultTrans();
+		TransitionDataRegistry.updateDefaultTrans();
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
 

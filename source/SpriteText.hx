@@ -42,7 +42,7 @@ class SpriteText extends FlxSpriteGroup
 	{
 		super(x, y);
 		if (font == null)
-			font = AssetSpriteRegistry.getAsset(DEFAULT_FONT_ID);
+			font = AssetSpriteDataRegistry.getAsset(DEFAULT_FONT_ID);
 		this.font = font;
 		this.fontSize = fontSize;
 		this.textAlign = textAlign;

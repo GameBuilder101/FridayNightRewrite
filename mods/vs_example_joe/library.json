@@ -2,6 +2,7 @@
     "name": "Vs. Example Joe",
     "description": "The best example mod in all of existence",
     "version": "1.0.0",
+    "latestVersionURL": "https://raw.githubusercontent.com/GameBuilder101/FridayNightRewrite/main/mods/vs_example_joe/library.json",
     "dependencies": [
         {
             "id": "friday_night_funkin",

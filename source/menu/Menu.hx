@@ -14,7 +14,7 @@ class Menu extends FlxSpriteGroup
 	/** The type of menu. **/
 	public var menuType(default, null):MenuType;
 
-	public var items(default, null):Array<MenuItem> = new Array<MenuItem>();
+	public var items(default, null):Array<MenuItem> = [];
 
 	/** The index of the currently-selected/hovered item. **/
 	public var selectedItem(default, null):Int;
@@ -88,7 +88,7 @@ class Menu extends FlxSpriteGroup
 		for (item in this.items)
 		{
 			remove(item, true);
-			item.destroy();
+			item.kill();
 		}
 		this.items = [];
 
@@ -99,6 +99,7 @@ class Menu extends FlxSpriteGroup
 		// Create the menu items
 		for (item in items)
 		{
+			item.revive();
 			item.addToMenu(this, i);
 			add(item);
 			this.items.push(item);

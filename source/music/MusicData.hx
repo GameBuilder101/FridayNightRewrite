@@ -13,12 +13,14 @@ class MusicData
 	public var bpmMap(default, null):Array<BPMChange>;
 	public var events(default, null):Array<MusicEvent>;
 
-	public function new(sound:Sound, volume:Float, bpmMap:Array<BPMChange>, events:Array<MusicEvent>)
+	public function new(sound:Sound, volume:Float, bpmMap:Array<BPMChange>, events:Array<MusicEvent> = null)
 	{
 		this.sound = sound;
 		this.volume = volume;
 		this.bpmMap = bpmMap;
 		this.events = events;
+		if (events == null)
+			this.events = [];
 	}
 
 	/** @param time The time in milliseconds. **/
@@ -93,10 +95,27 @@ typedef BPMChange =
 	bpm:Float
 }
 
-/** Use this to access/load music. Note: these are not playable songs. Just background music or parts of song data. **/
-class MusicRegistry extends Registry<MusicData>
+/** Note: these are not playable songs. Just background music or parts of song data. **/
+class MusicDataRegistry extends Registry<MusicData>
 {
-	static var cache:MusicRegistry = new MusicRegistry();
+	static var cache:MusicDataRegistry = new MusicDataRegistry();
+
+	public function new()
+	{
+		super();
+		LibraryManager.onFullReload.push(function()
+		{
+			cache.clear();
+		});
+		LibraryManager.onPreload.push(function(libraryPath:String)
+		{
+			var parsed:Dynamic = FileManager.getParsedJson(libraryPath + "/preload_music_data");
+			if (parsed == null)
+				return;
+			for (item in cast(parsed, Array<Dynamic>))
+				load(item.directory, item.id);
+		});
+	}
 
 	function loadData(directory:String, id:String):MusicData
 	{
@@ -109,16 +128,13 @@ class MusicRegistry extends Registry<MusicData>
 		if (parsed == null)
 			return null;
 
-		// Fill in default values if the data is missing
 		if (parsed.volume == null)
 			parsed.volume = 1.0;
-		if (parsed.bpmMap == null)
-			parsed.bpmMap = [];
 		if (parsed.events == null)
 			parsed.events = [];
 
 		// Build events from the array in the parsed data
-		var events:Array<MusicEvent> = new Array<MusicEvent>();
+		var events:Array<MusicEvent> = [];
 		for (event in cast(parsed.events, Array<Dynamic>))
 			events.push(MusicEventResolver.resolve(event.time, event.type, event.args));
 
@@ -128,11 +144,5 @@ class MusicRegistry extends Registry<MusicData>
 	public static function getAsset(id:String):MusicData
 	{
 		return LibraryManager.getLibraryAsset(id, cache);
-	}
-
-	/** Resets the cache. **/
-	public static function reset()
-	{
-		cache.clear();
 	}
 }

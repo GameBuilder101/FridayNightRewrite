@@ -31,10 +31,20 @@ typedef StageElementData =
 }
 
 /** Use this to access/load stages. **/
-class StageRegistry extends Registry<StageData>
+class StageDataRegistry extends Registry<StageData>
 {
-	static var cache:StageRegistry = new StageRegistry();
+	static var cache:StageDataRegistry = new StageDataRegistry();
 	static var cachedIDs:Array<String>;
+
+	public function new()
+	{
+		super();
+		LibraryManager.onFullReload.push(function()
+		{
+			cache.clear();
+			cachedIDs = [];
+		});
+	}
 
 	function loadData(directory:String, id:String):StageData
 	{
@@ -84,12 +94,6 @@ class StageRegistry extends Registry<StageData>
 		cachedIDs = LibraryManager.getAllIDs("stages");
 		return cachedIDs;
 	}
-
-	/** Resets the cache. **/
-	public static function reset()
-	{
-		cache.clear();
-	}
 }
 
 /** Stages are collections of stage elements put together from a JSON file. They are used for backgrounds in things like songs and menus. **/
@@ -99,7 +103,7 @@ class Stage extends FlxSpriteGroup
 
 	public var stageCamera(default, null):FlxCamera;
 
-	var elements(default, null):Array<ElementInstance> = new Array<ElementInstance>();
+	var elements(default, null):Array<ElementInstance> = [];
 
 	/**
 		@param data Data to be loaded on creation.
@@ -117,7 +121,7 @@ class Stage extends FlxSpriteGroup
 			loadFromData(data);
 		else if (id != null)
 		{
-			var foundData:StageData = StageRegistry.getAsset(id);
+			var foundData:StageData = StageDataRegistry.getAsset(id);
 			if (foundData != null)
 				loadFromData(foundData);
 		}
@@ -160,7 +164,7 @@ class Stage extends FlxSpriteGroup
 
 	public function getElementsWithTag(tag:String):Array<FlxSprite>
 	{
-		var found:Array<FlxSprite> = new Array<FlxSprite>();
+		var found:Array<FlxSprite> = [];
 		for (element in elements)
 		{
 			if (element.tags.contains(tag))

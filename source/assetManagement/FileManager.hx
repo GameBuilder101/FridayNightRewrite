@@ -43,7 +43,13 @@ class FileManager
 	}
 
 	/** @param path The path excluding the file extension. **/
-	public static inline function getGraphic(path:String):FlxGraphic
+	public static inline function getLUA(path:String):String
+	{
+		return getLUA(path + ".lua");
+	}
+
+	/** @param path The path excluding the file extension. **/
+	public static function getGraphic(path:String):FlxGraphic
 	{
 		var source:BitmapData = BitmapData.fromFile(path + ".png");
 		if (source == null)
@@ -54,7 +60,7 @@ class FileManager
 	}
 
 	/** @param path The path excluding the file extension. **/
-	public static inline function getSound(path:String):Sound
+	public static function getSound(path:String):Sound
 	{
 		if (FileSystem.exists(path + ".ogg"))
 			return Sound.fromFile(path + ".ogg");

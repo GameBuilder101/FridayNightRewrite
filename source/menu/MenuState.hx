@@ -1,6 +1,8 @@
 package menu;
 
-import assetManagement.ParsedJSONRegistry;
+import assetManagement.FileManager;
+import assetManagement.LibraryManager;
+import assetManagement.Registry;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -44,10 +46,13 @@ abstract class MenuState extends ConductedState
 			menu.addItems(getMenuItems());
 		}
 
-		data = ParsedJSONRegistry.getAsset("menus/" + getMenuID() + "/menu_state_data");
+		data = MenuStateDataRegistry.getAsset("menus/" + getMenuID());
+		if (data == null)
+			data = {};
+
 		// Play menu music if it was defined in the JSON
-		if (data != null && data.musicID != null)
-			Conductor.play(MusicRegistry.getAsset(data.musicID), true, false);
+		if (data.musicID != null)
+			Conductor.play(MusicDataRegistry.getAsset(data.musicID), true, false);
 
 		var title:String = getTitle();
 		if (title != null)
@@ -107,5 +112,29 @@ abstract class MenuState extends ConductedState
 		{
 			FlxG.switchState(state);
 		});
+	}
+}
+
+class MenuStateDataRegistry extends Registry<Dynamic>
+{
+	static var cache:MenuStateDataRegistry = new MenuStateDataRegistry();
+
+	public function new()
+	{
+		super();
+		LibraryManager.onFullReload.push(function()
+		{
+			cache.clear();
+		});
+	}
+
+	function loadData(directory:String, id:String):Dynamic
+	{
+		return FileManager.getParsedJson(Registry.getFullPath(directory, id) + "/menu_state_data");
+	}
+
+	public static function getAsset(id:String):Dynamic
+	{
+		return LibraryManager.getLibraryAsset(id, cache);
 	}
 }

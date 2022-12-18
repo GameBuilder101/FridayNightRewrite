@@ -30,15 +30,15 @@ class MenuElement extends Menu implements IStageElement
 			minimumAlpha = data.minimumAlpha;
 
 		if (data.selectSoundID != null)
-			selectSound = SoundRegistry.getAsset(data.selectSoundID);
+			selectSound = SoundDataRegistry.getAsset(data.selectSoundID);
 		if (data.confirmSoundID != null)
-			confirmSound = SoundRegistry.getAsset(data.confirmSoundID);
+			confirmSound = SoundDataRegistry.getAsset(data.confirmSoundID);
 		if (data.cancelSoundID != null)
-			cancelSound = SoundRegistry.getAsset(data.cancelSoundID);
+			cancelSound = SoundDataRegistry.getAsset(data.cancelSoundID);
 		if (data.errorSoundID != null)
-			errorSound = SoundRegistry.getAsset(data.errorSoundID);
+			errorSound = SoundDataRegistry.getAsset(data.errorSoundID);
 		if (data.toggleSoundID != null)
-			toggleSound = SoundRegistry.getAsset(data.toggleSoundID);
+			toggleSound = SoundDataRegistry.getAsset(data.toggleSoundID);
 	}
 
 	public function onAddedToStage(stage:Stage)

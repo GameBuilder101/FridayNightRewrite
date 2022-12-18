@@ -56,9 +56,12 @@ class LabelMenuItem extends MenuItem
 	override function addToMenu(menu:Menu, index:Int)
 	{
 		super.addToMenu(menu, index);
-		label = new SpriteText(x, y, labelText, menu.fontSize, menu.menuType == RADIAL
-			|| menu.menuType == LIST_DIAGONAL ? LEFT : CENTER, true);
-		add(label);
+		if (label == null)
+		{
+			label = new SpriteText(x, y, labelText, menu.fontSize, menu.menuType == RADIAL
+				|| menu.menuType == LIST_DIAGONAL ? LEFT : CENTER, true);
+			add(label);
+		}
 	}
 
 	public override function onSelected()

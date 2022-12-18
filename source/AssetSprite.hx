@@ -36,10 +36,27 @@ typedef AnimationData =
 	offsetY:Float
 }
 
-/** Use this to access/load asset-sprites. **/
-class AssetSpriteRegistry extends Registry<AssetSpriteData>
+/** Use this to access/load asset-sprite data. **/
+class AssetSpriteDataRegistry extends Registry<AssetSpriteData>
 {
-	static var cache:AssetSpriteRegistry = new AssetSpriteRegistry();
+	static var cache:AssetSpriteDataRegistry = new AssetSpriteDataRegistry();
+
+	public function new()
+	{
+		super();
+		LibraryManager.onFullReload.push(function()
+		{
+			cache.clear();
+		});
+		LibraryManager.onPreload.push(function(libraryPath:String)
+		{
+			var parsed:Dynamic = FileManager.getParsedJson(libraryPath + "/preload_asset_sprite_data");
+			if (parsed == null)
+				return;
+			for (item in cast(parsed, Array<Dynamic>))
+				load(item.directory, item.id);
+		});
+	}
 
 	function loadData(directory:String, id:String):AssetSpriteData
 	{
@@ -102,12 +119,6 @@ class AssetSpriteRegistry extends Registry<AssetSpriteData>
 	{
 		return LibraryManager.getLibraryAsset(id, cache);
 	}
-
-	/** Resets the cache. **/
-	public static function reset()
-	{
-		cache.clear();
-	}
 }
 
 /** Asset-sprites are meant to be a way to simplify and universalize sprite creation.
@@ -131,7 +142,7 @@ class AssetSprite extends FlxSprite
 			loadFromData(data);
 		else if (id != null)
 		{
-			var foundData:AssetSpriteData = AssetSpriteRegistry.getAsset(id);
+			var foundData:AssetSpriteData = AssetSpriteDataRegistry.getAsset(id);
 			if (foundData != null)
 				loadFromData(foundData);
 		}

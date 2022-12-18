@@ -15,10 +15,20 @@ typedef AlbumData =
 }
 
 /** Use this to access/load albums. **/
-class AlbumRegistry extends Registry<AlbumData>
+class AlbumDataRegistry extends Registry<AlbumData>
 {
-	static var cache:AlbumRegistry = new AlbumRegistry();
+	static var cache:AlbumDataRegistry = new AlbumDataRegistry();
 	static var cachedIDs:Array<String>;
+
+	public function new()
+	{
+		super();
+		LibraryManager.onFullReload.push(function()
+		{
+			cache.clear();
+			cachedIDs = [];
+		});
+	}
 
 	function loadData(directory:String, id:String):AlbumData
 	{
@@ -26,7 +36,6 @@ class AlbumRegistry extends Registry<AlbumData>
 		if (parsed == null)
 			return null;
 
-		// Fill in default values if the data is missing
 		if (parsed.credits == null)
 			parsed.credits = [];
 
@@ -46,11 +55,5 @@ class AlbumRegistry extends Registry<AlbumData>
 			return cachedIDs;
 		cachedIDs = LibraryManager.getAllIDs("albums");
 		return cachedIDs;
-	}
-
-	/** Resets the cache. **/
-	public static function reset()
-	{
-		cache.clear();
 	}
 }

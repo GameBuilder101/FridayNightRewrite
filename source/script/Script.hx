@@ -2,6 +2,7 @@ package script;
 
 import assetManagement.LibraryManager;
 import flixel.FlxG;
+import flixel.tweens.FlxTween;
 import lime.app.Application;
 import llua.Convert;
 import llua.Lua;
@@ -13,7 +14,7 @@ using StringTools;
 // Some snippets of code were taken from Psych Engine! https://github.com/ShadowMario/FNF-PsychEngine
 
 /** A class for any general type of LUA script. **/
-class LUAScript
+class Script
 {
 	/** The "memory" is used as an interface for LUA to store references to objects found or made earlier.
 		It can be accessed using "MEMORY" when targeting an object in the LUA script.
@@ -34,22 +35,12 @@ class LUAScript
 		LuaL.openlibs(lua);
 		Lua.init_callbacks(lua);
 
-		// Attempt to load the LUA script
-		var error:String = "Could not load the script: ";
-		try
+		// Attempt to load the script and get the result value
+		var result:Null<Int> = LuaL.dofile(lua, path + ".lua");
+		// If the result is not 0, then something went wrong during the process
+		if (result != 0)
 		{
-			// Load the script and get the result value
-			var result:Null<Int> = LuaL.dofile(lua, path + ".lua");
-			// If the result is not 0, then something went wrong during the process
-			if (result != 0)
-			{
-				luaError(error + Lua.tostring(lua, result));
-				return;
-			}
-		}
-		catch (e:Dynamic)
-		{
-			luaError(error + e);
+			luaError("Could not load the script: " + Lua.tostring(lua, result));
 			return;
 		}
 
@@ -76,6 +67,23 @@ class LUAScript
 		lua = null;
 	}
 
+	/** Gets the variable on the LUA script. **/
+	public function getLUAVariable(name:String):Dynamic
+	{
+		if (!getIsValid())
+			return null;
+
+		Lua.getglobal(lua, name);
+		if (Lua.isnumber(lua, -1))
+			return Lua.tonumber(lua, -1);
+		else if (Lua.isboolean(lua, -1) == 1)
+			return Lua.toboolean(lua, -1);
+		else if (Lua.isstring(lua, -1))
+			return Lua.tostring(lua, -1);
+		else
+			return null;
+	}
+
 	/** Sets the variable on the LUA script. **/
 	public function setLUAVariable(name:String, value:Dynamic)
 	{
@@ -83,14 +91,6 @@ class LUAScript
 			return;
 		Convert.toLua(lua, value);
 		Lua.setglobal(lua, name);
-	}
-
-	/** Adds a callback to the LUA script. **/
-	public function addLUACallback(name:String, f:Dynamic)
-	{
-		if (!getIsValid())
-			return;
-		Lua_helper.add_callback(lua, name, f);
 	}
 
 	/** Calls a function defined in the LUA script. **/
@@ -120,6 +120,14 @@ class LUAScript
 			luaError("Could not call LUA function '" + name + "': " + e);
 	}
 
+	/** Adds a callback to the LUA script. **/
+	public function addLUACallback(name:String, f:Dynamic)
+	{
+		if (!getIsValid())
+			return;
+		Lua_helper.add_callback(lua, name, f);
+	}
+
 	/** Since LUA can't interact directly with Haxe objects/types, this is used to target a specific object using a string.
 		@param objectName A path of properties broken down using . as the delimiter. Use certain names at the start (IE: "MEMORY")
 		to define the initial/source target.
@@ -127,6 +135,11 @@ class LUAScript
 	function toTargetObject(objectName:String):Dynamic
 	{
 		var path:Array<String> = objectName.split(".");
+		if (path.length <= 0)
+		{
+			luaError("The object path was not specified");
+			return null;
+		}
 		// Get the initial target
 		var target:Dynamic = initialTargetObject(path[0]);
 		if (target == null)
@@ -137,7 +150,14 @@ class LUAScript
 
 		// Go down the hierarchy to obtain the target
 		for (name in path)
+		{
+			if (!Reflect.hasField(target, name))
+			{
+				luaError("The target object does not contain the field '" + name + "'");
+				return null;
+			}
 			target = Reflect.getProperty(target, name);
+		}
 		return target;
 	}
 
@@ -155,6 +175,12 @@ class LUAScript
 				return FlxG.game;
 			case "STATE":
 				return FlxG.state;
+			case "SAVE":
+				return FlxG.save;
+			case "TWEEN_MANAGER":
+				return FlxTween.globalManager;
+			case "LIBRARY_REGISTRY":
+				return LibraryManager.libraries;
 			default:
 				return null;
 		}
@@ -166,7 +192,7 @@ class LUAScript
 	**/
 	function convertArgsFromLUA(args:Array<Dynamic>):Array<Dynamic>
 	{
-		var newArgs:Array<Dynamic> = new Array<Dynamic>();
+		var newArgs:Array<Dynamic> = [];
 		var stringArg:String;
 		for (arg in args)
 		{
@@ -199,7 +225,7 @@ class LUAScript
 				var resolved:Enum<Dynamic> = Type.resolveEnum(enumName);
 				if (resolved == null)
 				{
-					luaError("Could not resolve Enum '" + stringArg + "' for argument");
+					luaError("Could not resolve enum '" + stringArg + "' for argument");
 					newArgs.push(null);
 				}
 				else
@@ -210,12 +236,14 @@ class LUAScript
 				stringArg = stringArg.substring(8); // Remove "OBJECT:" from the front
 				newArgs.push(toTargetObject(stringArg));
 			}
+			else
+				newArgs.push(arg);
 		}
 		return newArgs;
 	}
 
-	/** Converts a function/property output to something compatible with LUA. IE: turns an enum into a string **/
-	function convertOutputToLUA(value:Dynamic):Dynamic
+	/** Converts a function/property result to something compatible with LUA. IE: turns an enum into a string **/
+	function convertResultToLUA(value:Dynamic):Dynamic
 	{
 		if (Reflect.isEnumValue(value))
 			return Std.string(value);
@@ -234,8 +262,16 @@ class LUAScript
 			luaError("Could not get property '" + property + "': property not found");
 			return null;
 		}
+		return convertResultToLUA(Reflect.getProperty(o, property));
+	}
 
-		return convertOutputToLUA(Reflect.getProperty(o, property));
+	/** Uses reflection to get a property of an object and store the result in this scripts memory. **/
+	function getPropertyAndStore(objectName:String, property:String, name:String)
+	{
+		var value:Dynamic = getProperty(objectName, property);
+		if (value == null)
+			return;
+		Reflect.setField(memory, name, value);
 	}
 
 	/** Uses reflection to set a property of an object. **/
@@ -250,7 +286,6 @@ class LUAScript
 			luaError("Could not set property '" + property + "': property not found");
 			return;
 		}
-
 		Reflect.setProperty(o, property, convertArgsFromLUA([value]));
 	}
 
@@ -266,30 +301,36 @@ class LUAScript
 			luaError("Could not call function '" + func + "': function not found");
 			return null;
 		}
-
-		return convertOutputToLUA(Reflect.callMethod(o, Reflect.field(o, func), convertArgsFromLUA(args)));
+		return convertResultToLUA(Reflect.callMethod(o, Reflect.field(o, func), convertArgsFromLUA(args)));
 	}
 
-	/** Uses reflection to make an object. **/
-	function make(className:String, args:Array<Dynamic>):Dynamic
+	/** Uses reflection to call a function and store the result in this scripts memory. **/
+	function callAndStore(objectName:String, func:String, args:Array<Dynamic>, name:String)
+	{
+		var result:Dynamic = call(objectName, func, args);
+		if (result == null)
+			return;
+		Reflect.setField(memory, name, result);
+	}
+
+	/** Uses reflection to create an object. **/
+	function create(className:String, args:Array<Dynamic>):Dynamic
 	{
 		var cl:Class<Dynamic> = Type.resolveClass(className);
 		if (cl == null)
 		{
-			luaError("Could not make object: error resolving class '" + className + "'");
+			luaError("Could not create object: error resolving class '" + className + "'");
 			return null;
 		}
 		return Type.createInstance(cl, args);
 	}
 
-	/** Uses reflection to make an object and store it in this scripts memory. **/
-	function makeAndStore(name:String, className:String, args:Array<Dynamic>)
+	/** Uses reflection to create an object and store it in this scripts memory. **/
+	function createAndStore(name:String, className:String, args:Array<Dynamic>)
 	{
-		var o:Dynamic = make(className, convertArgsFromLUA(args));
+		var o:Dynamic = create(className, convertArgsFromLUA(args));
 		if (o == null)
 			return;
-
-		// Set the value in memory
 		Reflect.setField(memory, name, o);
 	}
 
@@ -309,20 +350,22 @@ class LUAScript
 		setLUAVariable("screenWidth", FlxG.width);
 		setLUAVariable("screenHeight", FlxG.height);
 
-		setLUAVariable("currentVersion", Main.currentVersion);
-		setLUAVariable("latestVersion", Main.latestVersion);
+		setLUAVariable("currentVersion", LibraryManager.getCore().version);
+		setLUAVariable("latestVersion", LibraryManager.getCore().latestVersion);
 	}
 
 	function initCallbacks()
 	{
 		// Add the main/important callbacks
 		addLUACallback("get", getProperty);
+		addLUACallback("getAndStore", getPropertyAndStore);
 		addLUACallback("set", setProperty);
 		addLUACallback("call", call);
-		addLUACallback("make", makeAndStore);
+		addLUACallback("callAndStore", callAndStore);
+		addLUACallback("createAndStore", createAndStore);
 		addLUACallback("forget", forget);
 
-		// Add some extra callbacks for ease-of-use
+		// Add some extra callbacks
 		addLUACallback("closeApplication", function()
 		{
 			Application.current.window.close();
@@ -330,11 +373,11 @@ class LUAScript
 
 		addLUACallback("switchState", function(stateName:String)
 		{
-			FlxG.switchState(make(stateName, []));
+			FlxG.switchState(create(stateName, []));
 		});
 		addLUACallback("openSubState", function(subStateName:String)
 		{
-			FlxG.state.openSubState(make(subStateName, []));
+			FlxG.state.openSubState(create(subStateName, []));
 		});
 		addLUACallback("closeSubState", function()
 		{
@@ -348,56 +391,89 @@ class LUAScript
 		{
 			FlxG.state.remove(toTargetObject(objectName), true);
 		});
+		addLUACallback("getMouseX", function():Int
+		{
+			return FlxG.mouse.x;
+		});
+		addLUACallback("getMouseY", function():Int
+		{
+			return FlxG.mouse.y;
+		});
+		addLUACallback("getMousePressedLeft", function():Bool
+		{
+			return FlxG.mouse.pressed;
+		});
+		addLUACallback("getMousePressedMiddle", function():Bool
+		{
+			return FlxG.mouse.pressedMiddle;
+		});
+		addLUACallback("getMousePressedRight", function():Bool
+		{
+			return FlxG.mouse.pressedRight;
+		});
+		addLUACallback("addPostProcess", function(objectName:String)
+		{
+			FlxG.addPostProcess(toTargetObject(objectName));
+		});
+		addLUACallback("removePostProcess", function(objectName:String)
+		{
+			FlxG.removePostProcess(toTargetObject(objectName));
+		});
 
-		addLUACallback("controlVolumeUp", function():Bool
+		addLUACallback("fullLibraryReload", function()
+		{
+			LibraryManager.fullReload();
+		});
+
+		addLUACallback("checkVolumeUp", function():Bool
 		{
 			return Controls.volumeUp.check();
 		});
-		addLUACallback("controlVolumeDown", function():Bool
+		addLUACallback("checkVolumeDown", function():Bool
 		{
 			return Controls.volumeDown.check();
 		});
-		addLUACallback("controlMute", function():Bool
+		addLUACallback("checkMute", function():Bool
 		{
 			return Controls.mute.check();
 		});
-		addLUACallback("controlUILeft", function():Bool
+		addLUACallback("checkUILeft", function():Bool
 		{
 			return Controls.uiLeft.check();
 		});
-		addLUACallback("controlUIDown", function():Bool
+		addLUACallback("checkUIDown", function():Bool
 		{
 			return Controls.uiDown.check();
 		});
-		addLUACallback("controlUIUp", function():Bool
+		addLUACallback("checkUIUp", function():Bool
 		{
 			return Controls.uiUp.check();
 		});
-		addLUACallback("controlUIRight", function():Bool
+		addLUACallback("checkUIRight", function():Bool
 		{
 			return Controls.uiRight.check();
 		});
-		addLUACallback("controlAccept", function():Bool
+		addLUACallback("checkAccept", function():Bool
 		{
 			return Controls.accept.check();
 		});
-		addLUACallback("controlCancel", function():Bool
+		addLUACallback("checkCancel", function():Bool
 		{
 			return Controls.cancel.check();
 		});
-		addLUACallback("controlNoteLeft", function():Bool
+		addLUACallback("checkNoteLeft", function():Bool
 		{
 			return Controls.noteLeft.check();
 		});
-		addLUACallback("controlNoteDown", function():Bool
+		addLUACallback("checkNoteDown", function():Bool
 		{
 			return Controls.noteDown.check();
 		});
-		addLUACallback("controlNoteUp", function():Bool
+		addLUACallback("checkNoteUp", function():Bool
 		{
 			return Controls.noteUp.check();
 		});
-		addLUACallback("controlNoteRight", function():Bool
+		addLUACallback("checkNoteRight", function():Bool
 		{
 			return Controls.noteRight.check();
 		});
