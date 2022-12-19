@@ -62,6 +62,8 @@
 	<icon path="icon_64.png" size='64' />
 	<icon path="icon.png" />
 
+	<define name="hscriptPos" />
+
 	<!--Customization options for Friday Night Rewrite. Comment these out if you want to disable
 	them-->
 	<define name="ENABLE_OUTDATED_WARNING" />
@@ -69,10 +71,10 @@
 	<define name="ENABLE_ACHIEVEMENTS" />
 	<define name="ENABLE_CHARACTER_SELECT" />
 
+	<define name="ENABLE_SHADER_TOGGLE" />
+	<define name="ALLOW_GHOST_TAPPING" />
+
 	<!--Whether to expose progress as an easily-modified JSON file or to keep it hidden from the
 	player-->
 	<define name="EXPOSE_PROGRESS" />
-
-	<define name="ENABLE_SHADER_TOGGLE" />
-	<define name="ALLOW_GHOST_TAPPING" />
 </project>
