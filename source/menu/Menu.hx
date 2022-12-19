@@ -87,6 +87,7 @@ class Menu extends FlxSpriteGroup
 		// Reset any existing items
 		for (item in this.items)
 		{
+			FlxTween.cancelTweensOf(item);
 			remove(item, true);
 			item.kill();
 		}

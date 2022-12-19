@@ -43,9 +43,9 @@ class FileManager
 	}
 
 	/** @param path The path excluding the file extension. **/
-	public static inline function getLUA(path:String):String
+	public static inline function getHScript(path:String):String
 	{
-		return getLUA(path + ".lua");
+		return getRaw(path + ".hx");
 	}
 
 	/** @param path The path excluding the file extension. **/

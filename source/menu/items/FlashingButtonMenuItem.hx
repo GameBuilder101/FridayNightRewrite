@@ -48,8 +48,8 @@ class FlashingButtonMenuItem extends ButtonMenuItem
 
 	override function onInteracted(value:Dynamic)
 	{
-		super.onInteracted(value);
 		playFlashing();
+		super.onInteracted(value);
 	}
 
 	public function playFlashing()

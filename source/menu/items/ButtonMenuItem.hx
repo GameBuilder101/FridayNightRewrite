@@ -4,13 +4,13 @@ import menu.MenuItem;
 
 class ButtonMenuItem extends LabelMenuItem
 {
-	public var leftmostArrow(default, null):AssetSprite;
-	public var rightmostArrow(default, null):AssetSprite;
-
 	/** When true, this item can be interacted with using the cancel input. **/
 	var useCancel:Bool;
 
-	public function new(functions:MenuItemFunctions, labelText:String, iconID:String = "", useCancel:Bool = false)
+	public var leftmostArrow(default, null):AssetSprite;
+	public var rightmostArrow(default, null):AssetSprite;
+
+	public function new(functions:MenuItemFunctions, labelText:String, iconID:String = null, useCancel:Bool = false)
 	{
 		super(functions, labelText, iconID);
 		this.useCancel = useCancel;
@@ -42,10 +42,10 @@ class ButtonMenuItem extends LabelMenuItem
 	{
 		super.addToMenu(menu, index);
 
-		// Create this in addToMenu so the width is correctly calculated with the font size obtained from menu
 		if (leftmostArrow == null)
 		{
-			leftmostArrow = new AssetSprite(x - 16.0, y, "menus/_shared/arrow");
+			leftmostArrow = new AssetSprite(x - label.members[0].offset.x - 16.0, y, "menus/_shared/arrow");
+			leftmostArrow.scale.set(menu.fontSize, menu.fontSize);
 			leftmostArrow.updateHitbox();
 			leftmostArrow.offset.set(leftmostArrow.width, 0.0);
 			leftmostArrow.visible = false;
@@ -54,8 +54,10 @@ class ButtonMenuItem extends LabelMenuItem
 
 		if (rightmostArrow == null)
 		{
-			rightmostArrow = new AssetSprite(x + label.width + 16.0, y, "menus/_shared/arrow");
+			rightmostArrow = new AssetSprite(x - label.members[0].offset.x + label.width + 16.0, y, "menus/_shared/arrow");
+			rightmostArrow.scale.set(menu.fontSize, menu.fontSize);
 			rightmostArrow.updateHitbox();
+			rightmostArrow.offset.set(0.0, 0.0);
 			rightmostArrow.flipX = true;
 			rightmostArrow.visible = false;
 			add(rightmostArrow);
@@ -64,10 +66,10 @@ class ButtonMenuItem extends LabelMenuItem
 
 	override function onInteracted(value:Dynamic)
 	{
-		super.onInteracted(value);
 		if (useCancel)
 			menu.playCancelSound();
 		else
 			menu.playConfirmSound();
+		super.onInteracted(value);
 	}
 }

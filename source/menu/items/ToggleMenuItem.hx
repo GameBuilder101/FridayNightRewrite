@@ -1,5 +1,9 @@
 package menu.items;
 
+import menu.MenuItem;
+
+using StringTools;
+
 class ToggleMenuItem extends LabelMenuItem
 {
 	/** Whether the toggle is on or off. **/
@@ -10,37 +14,48 @@ class ToggleMenuItem extends LabelMenuItem
 
 	public var toggle(default, null):AssetSprite;
 
+	public function new(functions:MenuItemFunctions, labelText:String, iconID:String = null, defaultState:Bool = false)
+	{
+		super(functions, labelText, iconID);
+		on = defaultState;
+	}
+
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
 		var isSelected:Bool = getIsSelected();
-		var isInteractTarget:Bool = getIsInteractTarget();
-
-		if (on != prevOn)
-			toggle.animation.play("turning_" + on);
-		// Cheat-y way of detecting if the current animation is a turning animation and switching to an idle animation
-		if (toggle.animation.curAnim.name.charAt(0) == "t")
-			toggle.animation.play("idle_" + on);
 
 		if (isSelected && menu.interactable && Controls.accept.check())
 		{
 			if (!interactable)
 				menu.playErrorSound(); // Play the error sound if the item itself is not interactable
 			else
-				onInteracted(null);
+			{
+				on = !on;
+				onInteracted(on);
+			}
 		}
 
-		prevOn = on;
+		if (prevOn != on)
+		{
+			prevOn = on;
+			toggle.animation.play("turning_" + on);
+		}
+
+		// Detect if the current animation is a turning animation and switching to an idle animation
+		if (toggle.animation.name.startsWith("turning_") && toggle.animation.finished)
+			toggle.animation.play("idle_" + on);
 	}
 
 	override function addToMenu(menu:Menu, index:Int)
 	{
 		super.addToMenu(menu, index);
-		// Create this in addToMenu so the width is correctly calculated with the font size obtained from menu
+
 		if (toggle == null)
 		{
-			toggle = new AssetSprite(x + label.width + 16.0, y, "menus/_shared/toggle");
-			toggle.animation.play("idle_off");
+			toggle = new AssetSprite(x - label.members[0].offset.x + label.width + 16.0, y, "menus/_shared/toggle");
+			toggle.scale.set(menu.fontSize, menu.fontSize);
+			toggle.animation.play("idle_" + on);
 			toggle.updateHitbox();
 			add(toggle);
 		}
@@ -48,8 +63,7 @@ class ToggleMenuItem extends LabelMenuItem
 
 	override function onInteracted(value:Dynamic)
 	{
-		super.onInteracted(value);
-		on = !on;
 		menu.playToggleSound();
+		super.onInteracted(value);
 	}
 }

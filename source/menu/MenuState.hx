@@ -25,6 +25,9 @@ abstract class MenuState extends ConductedState
 	/** Miscellaneous menu state data obtained from a JSON file. Null if no such file is found. **/
 	var data:Dynamic;
 
+	/** The current menu title text. If null, the hint will not be displayed. **/
+	var currentTitle:String = null;
+
 	var titleText:FlxText;
 	var titleBack:FlxSprite;
 
@@ -34,7 +37,7 @@ abstract class MenuState extends ConductedState
 	var hintText:FlxText;
 	var hintBack:FlxSprite;
 
-	override public function create()
+	override function create()
 	{
 		super.create();
 
@@ -54,16 +57,12 @@ abstract class MenuState extends ConductedState
 		if (data.musicID != null)
 			Conductor.play(MusicDataRegistry.getAsset(data.musicID), true, false);
 
-		var title:String = getTitle();
-		if (title != null)
-		{
-			titleBack = new FlxSprite(FlxG.width / 2.0 - FlxG.width / 3.0, 16.0).makeGraphic(cast(FlxG.width / 1.5), 45, FlxColor.BLACK);
-			titleBack.alpha = 0.4;
-			add(titleBack);
-			titleText = new FlxText(titleBack.x + 16.0, titleBack.y, titleBack.width - 32.0, title);
-			titleText.setFormat("Jann Script Bold", 24, FlxColor.WHITE, CENTER);
-			add(titleText);
-		}
+		titleBack = new FlxSprite(FlxG.width / 2.0 - FlxG.width / 3.0, 16.0).makeGraphic(cast(FlxG.width / 1.5), 45, FlxColor.BLACK);
+		titleBack.alpha = 0.4;
+		add(titleBack);
+		titleText = new FlxText(titleBack.x + 16.0, titleBack.y, titleBack.width - 32.0, currentTitle);
+		titleText.setFormat("Jann Script Bold", 24, FlxColor.WHITE, CENTER);
+		add(titleText);
 
 		hintBack = new FlxSprite(FlxG.width / 2.0 - FlxG.width / 3.0, FlxG.height - 106.0).makeGraphic(cast(FlxG.width / 1.5), 90, FlxColor.BLACK);
 		hintBack.alpha = 0.4;
@@ -92,15 +91,14 @@ abstract class MenuState extends ConductedState
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+
+		titleText.text = currentTitle;
+		titleText.visible = currentTitle != null;
+		titleBack.visible = currentTitle != null;
+
 		hintText.text = currentHint;
 		hintText.visible = currentHint != null;
 		hintBack.visible = currentHint != null;
-	}
-
-	/** Returns the title to display for this menu. If null, a title will not be displayed. **/
-	function getTitle():String
-	{
-		return null;
 	}
 
 	/** Plays a delayed transition to the given state and disables the menu. **/

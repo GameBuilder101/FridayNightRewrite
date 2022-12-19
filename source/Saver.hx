@@ -33,6 +33,13 @@ abstract class Saver
 		return data[key];
 	}
 
+	public function set(key:String, value:Dynamic)
+	{
+		if (!data.exists(key)) // The key must already exist
+			return;
+		data.set(key, value);
+	}
+
 	/** Saves the data to be re-loaded the next time the game is started. **/
 	public function save()
 	{

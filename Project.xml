@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project xmlns="http://lime.software/project/1.0.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://lime.software/project/1.0.2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://lime.software/project/1.0.2 http://lime.software/xsd/project-1.0.2.xsd">
 
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Friday Night Rewrite" file="FridayNightRewrite" main="Main" version="0.1.0" company="GameBuilder101" />
+	<app title="Friday Night Rewrite" file="FridayNightRewrite" main="Main" version="0.1.0"
+		company="GameBuilder101" />
 
-	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
-		or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"-->
+	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the
+	swf into a html file
+		or you can set the actual size of your file manually at
+	"FlxPreloaderBase-onUpdate-bytesTotal"-->
 	<app preloader="flixel.system.FlxPreloader" />
 
 	<!--Minimum without FLX_NO_GAMEPAD: 11.8, without FLX_NO_NATIVE_CURSOR: 11.2-->
@@ -35,14 +39,16 @@
 
 	<haxelib name="flixel-addons" />
 
-	<haxelib name="linc_luajit" />
+	<haxelib name="hscript-plus" />
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
-	<!--Optimise inputs, be careful you will get null errors if you don't use conditionals in your game-->
+	<!--Optimise inputs, be careful you will get null errors if you don't use conditionals in your
+	game-->
 	<haxedef name="FLX_NO_TOUCH" />
 
-	<!--Disable the Flixel core debugger. Automatically gets set whenever you compile in release mode!-->
+	<!--Disable the Flixel core debugger. Automatically gets set whenever you compile in release
+	mode!-->
 	<haxedef name="FLX_NO_DEBUG" unless="debug" />
 
 	<!--Enable this for Nape release builds for a serious peformance improvement-->
@@ -56,13 +62,15 @@
 	<icon path="icon_64.png" size='64' />
 	<icon path="icon.png" />
 
-	<!--Customization options for Friday Night Rewrite. Comment these out if you want to disable them-->
+	<!--Customization options for Friday Night Rewrite. Comment these out if you want to disable
+	them-->
 	<define name="ENABLE_OUTDATED_WARNING" />
 	<define name="ENABLE_MODS" />
 	<define name="ENABLE_ACHIEVEMENTS" />
 	<define name="ENABLE_CHARACTER_SELECT" />
 
-	<!--Whether to expose progress as an easily-modified JSON file or to keep it hidden from the player-->
+	<!--Whether to expose progress as an easily-modified JSON file or to keep it hidden from the
+	player-->
 	<define name="EXPOSE_PROGRESS" />
 
 	<define name="ENABLE_SHADER_TOGGLE" />

@@ -25,17 +25,14 @@ class TransitionDataRegistry extends Registry<TransitionData>
 
 	function loadData(directory:String, id:String):TransitionData
 	{
-		var parsed:Dynamic = FileManager.getParsedJson(Registry.getFullPath(directory, id));
+		var path:String = Registry.getFullPath(directory, id);
+		var parsed:Dynamic = FileManager.getParsedJson(path);
 		if (parsed == null)
-			return null;
-
-		var sprite:AssetSpriteData = AssetSpriteDataRegistry.getAsset(parsed.tileSpriteID);
-		if (sprite == null)
 			return null;
 
 		return new TransitionData(parsed.type, FlxColor.fromRGB(parsed.color[0], parsed.color[1], parsed.color[2], parsed.color[3]), parsed.duration,
 			new FlxPoint(parsed.directionX, parsed.directionY), {
-				asset: sprite != null ? sprite.graphic : null,
+				asset: FileManager.getGraphic(path),
 				width: parsed.tileWidth,
 				height: parsed.tileHeight
 			});

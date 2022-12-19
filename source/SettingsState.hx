@@ -4,6 +4,7 @@ import flixel.FlxG;
 import menu.MenuItem;
 import menu.MenuState;
 import menu.items.ButtonMenuItem;
+import menu.items.ToggleMenuItem;
 
 class SettingsState extends MenuState
 {
@@ -20,19 +21,19 @@ class SettingsState extends MenuState
 			new ButtonMenuItem({
 				onInteracted: function(value:Dynamic)
 				{
-					menu.addItems(controlsMenuItems);
+					openControlsMenu();
 				}
 			}, "Controls"),
 			new ButtonMenuItem({
 				onInteracted: function(value:Dynamic)
 				{
-					menu.addItems(graphicsMenuItems);
+					openGraphicsMenu();
 				}
 			}, "Graphics & Sound"),
 			new ButtonMenuItem({
 				onInteracted: function(value:Dynamic)
 				{
-					menu.addItems(gameplayMenuItems);
+					openGameplayMenu();
 				}
 			}, "Gameplay"),
 			new ButtonMenuItem({
@@ -42,7 +43,7 @@ class SettingsState extends MenuState
 					Settings.instance.save();
 					FlxG.switchState(new TitleScreenState());
 				}
-			}, "Back", "", true)
+			}, "Back", null, true)
 		];
 
 		controlsMenuItems = [
@@ -53,13 +54,38 @@ class SettingsState extends MenuState
 				},
 				onInteracted: function(value:Dynamic)
 				{
-					menu.addItems(mainMenuItems);
-					currentHint = null;
+					openMainMenu();
 				}
-			}, "Back", "", true)
+			}, "Back", null, true)
 		];
 
 		graphicsMenuItems = [
+			new ToggleMenuItem({
+				onInteracted: function(value:Dynamic)
+				{
+					Settings.instance.set(Settings.ANTIALIASING, value);
+				}
+			}, "Anti-aliasing", null, Settings.getAntialiasing()),
+			#if ENABLE_SHADER_TOGGLE
+			new ToggleMenuItem({
+				onInteracted: function(value:Dynamic)
+				{
+					Settings.instance.set(Settings.SHADERS, value);
+				}
+			}, "Shaders", null, Settings.getShaders()),
+			#end
+			new ToggleMenuItem({
+				onInteracted: function(value:Dynamic)
+				{
+					Settings.instance.set(Settings.FLASHING_LIGHTS, value);
+				}
+			}, "Flashing Lights", null, Settings.getFlashingLights()),
+			new ToggleMenuItem({
+				onInteracted: function(value:Dynamic)
+				{
+					Settings.instance.set(Settings.CAMERA_BOP, value);
+				}
+			}, "Camera Bop", null, Settings.getCameraBop()),
 			new ButtonMenuItem({
 				onSelected: function()
 				{
@@ -67,13 +93,24 @@ class SettingsState extends MenuState
 				},
 				onInteracted: function(value:Dynamic)
 				{
-					menu.addItems(mainMenuItems);
-					currentHint = null;
+					openMainMenu();
 				}
-			}, "Back", "", true)
+			}, "Back", null, true)
 		];
 
 		gameplayMenuItems = [
+			new ToggleMenuItem({
+				onInteracted: function(value:Dynamic)
+				{
+					Settings.instance.set(Settings.DOWNSCROLL, value);
+				}
+			}, "Downscroll", null, Settings.getDownscroll()),
+			new ToggleMenuItem({
+				onInteracted: function(value:Dynamic)
+				{
+					Settings.instance.set(Settings.GHOST_TAPPING, value);
+				}
+			}, "Ghost Tapping", null, Settings.getGhostTapping()),
 			new ButtonMenuItem({
 				onSelected: function()
 				{
@@ -81,11 +118,16 @@ class SettingsState extends MenuState
 				},
 				onInteracted: function(value:Dynamic)
 				{
-					menu.addItems(mainMenuItems);
-					currentHint = null;
+					openMainMenu();
 				}
-			}, "Back", "", true)
+			}, "Back", null, true)
 		];
+	}
+
+	override function create()
+	{
+		super.create();
+		openMainMenu();
 	}
 
 	function getMenuID():String
@@ -93,13 +135,28 @@ class SettingsState extends MenuState
 		return "settings";
 	}
 
-	override function getMenuItems():Array<MenuItem>
+	inline function openMainMenu()
 	{
-		return mainMenuItems;
+		menu.addItems(mainMenuItems);
+		currentTitle = stage.data.name;
+		currentHint = null;
 	}
 
-	override function getTitle():String
+	inline function openControlsMenu()
 	{
-		return stage.data.name;
+		menu.addItems(controlsMenuItems);
+		currentTitle = stage.data.name + " -> Controls";
+	}
+
+	inline function openGraphicsMenu()
+	{
+		menu.addItems(graphicsMenuItems);
+		currentTitle = stage.data.name + " -> Graphics & Sound";
+	}
+
+	inline function openGameplayMenu()
+	{
+		menu.addItems(gameplayMenuItems);
+		currentTitle = stage.data.name + " -> Gameplay";
 	}
 }

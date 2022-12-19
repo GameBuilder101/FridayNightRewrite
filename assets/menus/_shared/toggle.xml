@@ -3,8 +3,8 @@
 	<!-- Created with Adobe Animate version 21.0.1.37179 -->
 	<!-- http://www.adobe.com/products/animate.html -->
 	<SubTexture name="checkbox idle0000" x="4" y="4" width="111" height="108" pivotX="0" pivotY="0"/>
-	<SubTexture name="checkbox anim0000" x="119" y="4" width="183" height="142" pivotX="38.45" pivotY="25.3"/>
-	<SubTexture name="checkbox anim0001" x="119" y="4" width="183" height="142"/>
+	<SubTexture name="checkbox anim forward0000" x="119" y="4" width="183" height="142" pivotX="38.45" pivotY="25.3"/>
+	<SubTexture name="checkbox anim forward0001" x="119" y="4" width="183" height="142"/>
 	<SubTexture name="checkbox anim forward0002" x="306" y="4" width="183" height="142"/>
 	<SubTexture name="checkbox anim forward0003" x="306" y="4" width="183" height="142"/>
 	<SubTexture name="checkbox anim forward0004" x="493" y="4" width="183" height="142"/>

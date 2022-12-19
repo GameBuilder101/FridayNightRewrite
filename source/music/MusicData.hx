@@ -113,7 +113,7 @@ class MusicDataRegistry extends Registry<MusicData>
 			if (parsed == null)
 				return;
 			for (item in cast(parsed, Array<Dynamic>))
-				load(item.directory, item.id);
+				getAsset(item);
 		});
 	}
 

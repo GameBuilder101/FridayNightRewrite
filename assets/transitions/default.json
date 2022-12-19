@@ -9,7 +9,6 @@
     "duration": 0.5,
     "directionX": 1.0,
     "directionY": 0.0,
-    "tileSpriteID": "_shared/default_transition_tile",
     "tileWidth": 64,
     "tileHeight": 128
 }

@@ -1,10 +1,6 @@
 [
-    {
-        "directory": "menus/_shared",
-        "id": "sprite_text_font"
-    },
-    {
-        "directory": "menus/title_screen",
-        "id": "newgrounds_logo"
-    }
+    "menus/_shared/sprite_text_font",
+    "menus/_shared/arrow",
+    "menus/_shared/toggle",
+    "menus/title_screen/newgrounds_logo"
 ]

@@ -26,16 +26,14 @@ This is the repository for Friday Night Rewrite, a full code rewrite of the orig
 - A port of the original FNF with subtle improvements
 
 **Technical features:**
-- A new mod loading system, where mods can set dependencies and override other mods. This means you can have mods... of mods!
+- **Runtime Haxe script loading!** This means you can add custom Haxe scripts to your mods that can do almost anything! (Though with some limitations to prevent malicious scripts.)
+- A new mod loading system, where mods can set dependencies and override other mods. Additionally, mods can set what version they are (and what dependency versions they expect) and even use a URL to detect if a mod is outdated.
 - Animations and other stuff for sprites can be defined in a JSON file alongside any PNG file and loaded in dynamically
 - If a sound has variants, these can be defined in JSON files. These JSON files can also define their volumes
 - Support for character sprite variants. For instance: Week 5 in FNF loads a christmas version of BF's sprite. With this system though, you could also have a custom character with a christmas version which gets automatically loaded in Week 5 songs
 - Custom arrow types
 - **COMmeNTEd cODE?!?!?!?!?!?!?!??!?!?!?!! :scream::scream::scream:**
 - And much more!
-
-**Note:**
-- The engine does not currently support LUA scripting (this is a planned feature for the future). Though, it *is* powerful enough on its own to achieve general things without need for scripting.
 
 ## How to Set Up
 1. Go to https://haxe.org/download/ and download Haxe version 4.2.5 **(This is a different version number compared to vanilla FNF!!!!)**
@@ -45,7 +43,8 @@ This is the repository for Friday Night Rewrite, a full code rewrite of the orig
    haxelib install openfl
    haxelib install flixel
    haxelib install flixel-addons
-   haxelib install linc_luajit
+   haxelib install hscript
+   haxelib git hscript-plus https://github.com/DleanJeans/hscript-plus/
    ```
 
 **Note: FNR is only designed to compile to desktop.** It cannot compile to HTML5 (browser mode basically), since it requires direct access to the file system to load assets and mods. Because of this, you also need to do this to compile to Windows:

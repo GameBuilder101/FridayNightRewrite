@@ -11,6 +11,6 @@ class Main extends Sprite
 		super();
 		LibraryManager.reloadLibraries(); // Load libraries before starting
 		LibraryManager.preload();
-		addChild(new FlxGame(0, 0, TitleScreenState, -1.0, 60, 60, true, false));
+		addChild(new FlxGame(0, 0, TitleScreenState, 60, 60, true, false));
 	}
 }

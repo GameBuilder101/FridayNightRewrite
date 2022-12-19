@@ -54,7 +54,7 @@ class AssetSpriteDataRegistry extends Registry<AssetSpriteData>
 			if (parsed == null)
 				return;
 			for (item in cast(parsed, Array<Dynamic>))
-				load(item.directory, item.id);
+				getAsset(item);
 		});
 	}
 
@@ -188,10 +188,16 @@ class AssetSprite extends FlxSprite
 			animation.addByPrefix(data.name, data.atlasPrefix, data.frameRate, data.looped);
 	}
 
-	override public function update(elapsed:Float)
+	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+		// Update the shader if it supports the functionality
+		if (shader != null && shader is IUpdatableShader)
+			cast(shader, IUpdatableShader).update(elapsed);
+	}
 
+	override function updateAnimation(elapsed:Float)
+	{
 		// Set the offset to that of the currently-playing animation
 		if (useAnimDataOffsets && animation.curAnim != null)
 		{
@@ -204,9 +210,6 @@ class AssetSprite extends FlxSprite
 				}
 			}
 		}
-
-		// Update the shader if it supports the functionality
-		if (shader != null && shader is IUpdatableShader)
-			cast(shader, IUpdatableShader).update(elapsed);
+		super.updateAnimation(elapsed);
 	}
 }

@@ -33,7 +33,7 @@ class TitleScreenState extends MenuState
 	var outdatedWarning:FlxSpriteGroup;
 	var outdatedWarningVersion:FlxText;
 
-	override public function create()
+	override function create()
 	{
 		super.create();
 		introBeats = cast(data.introBeats, Array<Dynamic>);
