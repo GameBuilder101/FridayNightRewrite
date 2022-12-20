@@ -11,7 +11,6 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import menu.Menu;
 import menu.MenuItem;
-import music.ConductedState;
 import music.Conductor;
 import music.MusicData;
 import stage.Stage;

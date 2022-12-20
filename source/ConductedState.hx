@@ -1,11 +1,14 @@
-package music;
+package;
 
 import flixel.FlxBasic;
 import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.addons.transition.FlxTransitionableState;
+import music.Conductor;
+import music.IConducted;
 import stage.Stage;
 
+/** A state which has a conductor and handles other global things. Should be used for basically all states in the game. **/
 abstract class ConductedState extends FlxTransitionableState implements IConducted
 {
 	public var conductor(default, null):Conductor;

@@ -62,8 +62,6 @@
 	<icon path="icon_64.png" size='64' />
 	<icon path="icon.png" />
 
-	<define name="hscriptPos" />
-
 	<!--Customization options for Friday Night Rewrite. Comment these out if you want to disable
 	them-->
 	<define name="ENABLE_OUTDATED_WARNING" />
