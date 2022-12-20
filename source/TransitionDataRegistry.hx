@@ -1,6 +1,5 @@
 package;
 
-import AssetSprite;
 import assetManagement.FileManager;
 import assetManagement.LibraryManager;
 import assetManagement.Registry;

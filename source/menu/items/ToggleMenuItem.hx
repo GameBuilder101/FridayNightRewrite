@@ -18,6 +18,10 @@ class ToggleMenuItem extends LabelMenuItem
 	{
 		super(functions, labelText, iconID);
 		on = defaultState;
+
+		toggle = new AssetSprite(x, y, "menus/_shared/toggle");
+		toggle.animation.play("idle_" + on);
+		add(toggle);
 	}
 
 	override function update(elapsed:Float)
@@ -51,14 +55,9 @@ class ToggleMenuItem extends LabelMenuItem
 	{
 		super.addToMenu(menu, index);
 
-		if (toggle == null)
-		{
-			toggle = new AssetSprite(x - label.members[0].offset.x + label.width + 16.0, y, "menus/_shared/toggle");
-			toggle.scale.set(menu.fontSize, menu.fontSize);
-			toggle.animation.play("idle_" + on);
-			toggle.updateHitbox();
-			add(toggle);
-		}
+		toggle.x = x - label.members[0].offset.x + label.width + 16.0;
+		toggle.scale.set(menu.fontSize, menu.fontSize);
+		toggle.updateHitbox();
 	}
 
 	override function onInteracted(value:Dynamic)

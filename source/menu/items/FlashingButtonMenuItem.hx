@@ -31,6 +31,7 @@ class FlashingButtonMenuItem extends ButtonMenuItem
 	override function addToMenu(menu:Menu, index:Int)
 	{
 		super.addToMenu(menu, index);
+
 		// Get the background to animate
 		if (menu.stage != null)
 		{

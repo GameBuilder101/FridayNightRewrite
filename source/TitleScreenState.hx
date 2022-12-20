@@ -11,7 +11,6 @@ import menu.MenuItem;
 import menu.MenuState;
 import menu.items.FlashingButtonMenuItem;
 import music.Conductor;
-import Script;
 
 class TitleScreenState extends MenuState
 {
@@ -78,8 +77,6 @@ class TitleScreenState extends MenuState
 		outdatedWarning.add(outdatedDownload);
 		add(outdatedWarning);
 		outdatedWarning.kill();
-
-		GlobalScriptRegistry.getAsset("global_scripts/test_script").start();
 
 		if (!playedIntro)
 			playIntro();

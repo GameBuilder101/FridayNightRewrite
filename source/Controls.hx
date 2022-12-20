@@ -16,28 +16,30 @@ class Controls extends Saver
 	static var initialized:Bool;
 
 	// Volume actions
-	public static var volumeUp:OverridableAction = new OverridableAction("volume_up", JUST_PRESSED, 1, [PLUS], []);
-	public static var volumeDown:OverridableAction = new OverridableAction("volume_down", JUST_PRESSED, 1, [MINUS], []);
-	public static var mute:OverridableAction = new OverridableAction("mute", JUST_PRESSED, 1, [ZERO], []);
+	public static var volumeUp:OverridableAction = new OverridableAction("volumeUp", "Volume Up", JUST_PRESSED, 1, [PLUS], []);
+	public static var volumeDown:OverridableAction = new OverridableAction("volumeDown", "Volume Down", JUST_PRESSED, 1, [MINUS], []);
+	public static var mute:OverridableAction = new OverridableAction("mute", "Mute", JUST_PRESSED, 1, [ZERO], []);
 
 	// UI actions
-	public static var uiLeft:OverridableAction = new OverridableAction("ui_left", JUST_PRESSED, 2, [LEFT, A],
+	public static var uiLeft:OverridableAction = new OverridableAction("uiLeft", "UI Left", JUST_PRESSED, 2, [LEFT, A],
 		[LEFT_STICK_DIGITAL_LEFT, RIGHT_STICK_DIGITAL_LEFT]);
-	public static var uiDown:OverridableAction = new OverridableAction("ui_down", JUST_PRESSED, 2, [DOWN, S],
+	public static var uiDown:OverridableAction = new OverridableAction("uiDown", "UI Down", JUST_PRESSED, 2, [DOWN, S],
 		[LEFT_STICK_DIGITAL_DOWN, RIGHT_STICK_DIGITAL_DOWN]);
-	public static var uiUp:OverridableAction = new OverridableAction("ui_up", JUST_PRESSED, 2, [UP, W], [LEFT_STICK_DIGITAL_UP, RIGHT_STICK_DIGITAL_UP]);
-	public static var uiRight:OverridableAction = new OverridableAction("ui_right", JUST_PRESSED, 2, [RIGHT, D],
+	public static var uiUp:OverridableAction = new OverridableAction("uiUp", "UI Up", JUST_PRESSED, 2, [UP, W],
+		[LEFT_STICK_DIGITAL_UP, RIGHT_STICK_DIGITAL_UP]);
+	public static var uiRight:OverridableAction = new OverridableAction("uiRight", "UI Right", JUST_PRESSED, 2, [RIGHT, D],
 		[LEFT_STICK_DIGITAL_RIGHT, RIGHT_STICK_DIGITAL_RIGHT]);
-	public static var accept:OverridableAction = new OverridableAction("accept", JUST_PRESSED, 1, [ENTER], [A]);
-	public static var cancel:OverridableAction = new OverridableAction("cancel", JUST_PRESSED, 1, [ESCAPE], [B]);
+	public static var accept:OverridableAction = new OverridableAction("accept", "Accept", JUST_PRESSED, 1, [ENTER], [A]);
+	public static var cancel:OverridableAction = new OverridableAction("cancel", "Cancel", JUST_PRESSED, 1, [ESCAPE], [B]);
 
 	// Note actions
-	public static var noteLeft:OverridableAction = new OverridableAction("note_left", PRESSED, 2, [LEFT, A],
+	public static var noteLeft:OverridableAction = new OverridableAction("noteLeft", "Note Left", PRESSED, 2, [LEFT, A],
 		[LEFT_STICK_DIGITAL_LEFT, RIGHT_STICK_DIGITAL_LEFT]);
-	public static var noteDown:OverridableAction = new OverridableAction("note_down", PRESSED, 2, [DOWN, S],
+	public static var noteDown:OverridableAction = new OverridableAction("noteDown", "Note Down", PRESSED, 2, [DOWN, S],
 		[LEFT_STICK_DIGITAL_DOWN, RIGHT_STICK_DIGITAL_DOWN]);
-	public static var noteUp:OverridableAction = new OverridableAction("note_up", PRESSED, 2, [UP, W], [LEFT_STICK_DIGITAL_UP, RIGHT_STICK_DIGITAL_UP]);
-	public static var noteRight:OverridableAction = new OverridableAction("note_right", PRESSED, 2, [RIGHT, D],
+	public static var noteUp:OverridableAction = new OverridableAction("noteUp", "Note Up", PRESSED, 2, [UP, W],
+		[LEFT_STICK_DIGITAL_UP, RIGHT_STICK_DIGITAL_UP]);
+	public static var noteRight:OverridableAction = new OverridableAction("noteRight", "Note Right", PRESSED, 2, [RIGHT, D],
 		[LEFT_STICK_DIGITAL_RIGHT, RIGHT_STICK_DIGITAL_RIGHT]);
 
 	static var input:FlxActionManager;
@@ -156,6 +158,7 @@ class Controls extends Saver
 class OverridableAction
 {
 	public var name(default, null):String;
+	public var displayName(default, null):String;
 	public var state(default, null):FlxInputState;
 
 	/** How many binds can this action can contain. **/
@@ -169,9 +172,11 @@ class OverridableAction
 
 	public var action(default, null):FlxActionDigital;
 
-	public function new(name:String, state:FlxInputState, maxBinds:Int, defaultKeyBinds:Array<FlxKey>, defaultGamepadBinds:Array<FlxGamepadInputID>)
+	public function new(name:String, displayName:String, state:FlxInputState, maxBinds:Int, defaultKeyBinds:Array<FlxKey>,
+			defaultGamepadBinds:Array<FlxGamepadInputID>)
 	{
 		this.name = name;
+		this.displayName = displayName;
 		this.state = state;
 		this.maxBinds = maxBinds;
 

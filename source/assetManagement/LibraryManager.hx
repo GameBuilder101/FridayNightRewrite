@@ -2,8 +2,6 @@ package assetManagement;
 
 import assetManagement.Library;
 import assetManagement.Registry;
-import flash.events.EventDispatcher;
-import openfl.events.Event;
 import sys.FileSystem;
 
 /** Handles the loading, storing, and retrieving of data from libraries. **/

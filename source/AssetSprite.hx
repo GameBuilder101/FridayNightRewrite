@@ -198,6 +198,7 @@ class AssetSprite extends FlxSprite
 
 	override function updateAnimation(elapsed:Float)
 	{
+		super.updateAnimation(elapsed);
 		// Set the offset to that of the currently-playing animation
 		if (useAnimDataOffsets && animation.curAnim != null)
 		{
@@ -210,6 +211,5 @@ class AssetSprite extends FlxSprite
 				}
 			}
 		}
-		super.updateAnimation(elapsed);
 	}
 }

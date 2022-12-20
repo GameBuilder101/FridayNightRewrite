@@ -14,6 +14,15 @@ class ButtonMenuItem extends LabelMenuItem
 	{
 		super(functions, labelText, iconID);
 		this.useCancel = useCancel;
+
+		leftmostArrow = new AssetSprite(x, y, "menus/_shared/arrow");
+		leftmostArrow.visible = false;
+		add(leftmostArrow);
+
+		rightmostArrow = new AssetSprite(x, y, "menus/_shared/arrow");
+		rightmostArrow.flipX = true;
+		rightmostArrow.visible = false;
+		add(rightmostArrow);
 	}
 
 	override function update(elapsed:Float)
@@ -22,7 +31,7 @@ class ButtonMenuItem extends LabelMenuItem
 		var isSelected:Bool = getIsSelected();
 		var isInteractTarget:Bool = getIsInteractTarget();
 
-		// Make the buttons visible and update their colors if selected
+		// Make the arrows visible and update their colors if selected
 		leftmostArrow.visible = isSelected && isInteractTarget && icon == null; // Make sure the left arrow doesn't overlap the icon
 		leftmostArrow.color = label.color;
 		rightmostArrow.visible = isSelected && isInteractTarget;
@@ -42,26 +51,15 @@ class ButtonMenuItem extends LabelMenuItem
 	{
 		super.addToMenu(menu, index);
 
-		if (leftmostArrow == null)
-		{
-			leftmostArrow = new AssetSprite(x - label.members[0].offset.x - 16.0, y, "menus/_shared/arrow");
-			leftmostArrow.scale.set(menu.fontSize, menu.fontSize);
-			leftmostArrow.updateHitbox();
-			leftmostArrow.offset.set(leftmostArrow.width, 0.0);
-			leftmostArrow.visible = false;
-			add(leftmostArrow);
-		}
+		leftmostArrow.x = x - label.members[0].offset.x - 16.0;
+		leftmostArrow.scale.set(menu.fontSize, menu.fontSize);
+		leftmostArrow.updateHitbox();
+		leftmostArrow.offset.set(leftmostArrow.width, 0.0);
 
-		if (rightmostArrow == null)
-		{
-			rightmostArrow = new AssetSprite(x - label.members[0].offset.x + label.width + 16.0, y, "menus/_shared/arrow");
-			rightmostArrow.scale.set(menu.fontSize, menu.fontSize);
-			rightmostArrow.updateHitbox();
-			rightmostArrow.offset.set(0.0, 0.0);
-			rightmostArrow.flipX = true;
-			rightmostArrow.visible = false;
-			add(rightmostArrow);
-		}
+		rightmostArrow.x = x - label.members[0].offset.x + label.width + 16.0;
+		rightmostArrow.scale.set(menu.fontSize, menu.fontSize);
+		rightmostArrow.updateHitbox();
+		rightmostArrow.offset.set(0.0, 0.0);
 	}
 
 	override function onInteracted(value:Dynamic)

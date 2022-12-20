@@ -4,7 +4,9 @@ import flixel.FlxG;
 import menu.MenuItem;
 import menu.MenuState;
 import menu.items.ButtonMenuItem;
+import menu.items.SelectionMenuItem;
 import menu.items.ToggleMenuItem;
+import menu.items.ControlMenuItem;
 
 class SettingsState extends MenuState
 {
@@ -47,6 +49,18 @@ class SettingsState extends MenuState
 		];
 
 		controlsMenuItems = [
+			new ControlMenuItem(Controls.volumeUp, {
+				onSelected: function()
+				{
+					currentHint = "Increases game volume";
+				}
+			}),
+			new ControlMenuItem(Controls.volumeDown, {
+				onSelected: function()
+				{
+					currentHint = "Decreases game volume";
+				}
+			}),
 			new ButtonMenuItem({
 				onSelected: function()
 				{
@@ -86,6 +100,13 @@ class SettingsState extends MenuState
 					Settings.instance.set(Settings.CAMERA_BOP, value);
 				}
 			}, "Camera Bop", null, Settings.getCameraBop()),
+			new SelectionMenuItem({
+				onInteracted: function(value:Dynamic)
+				{
+					Settings.instance.set(Settings.MISS_SOUND_VOLUME, Std.parseFloat(value));
+				}
+			}, "Miss Sound Volume", null,
+				["0", "0.2", "0.4", "0.6", "0.8", "1"], Settings.getMissSoundVolume() + ""),
 			new ButtonMenuItem({
 				onSelected: function()
 				{
