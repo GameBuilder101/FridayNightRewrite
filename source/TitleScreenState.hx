@@ -114,23 +114,23 @@ class TitleScreenState extends MenuState
 	override function getMenuItems():Array<MenuItem>
 	{
 		return [
-			new FlashingButtonMenuItem({}, "Story Mode"),
-			new FlashingButtonMenuItem({}, "Freeplay"),
+			new FlashingButtonMenuItem("Story Mode"),
+			new FlashingButtonMenuItem("Freeplay"),
 			#if ENABLE_CHARACTER_SELECT
-			new FlashingButtonMenuItem({}, "Character"),
+			new FlashingButtonMenuItem("Character"),
 			#end
 			#if ENABLE_ACHIEVEMENTS
-			new FlashingButtonMenuItem({}, "Awards"),
+			new FlashingButtonMenuItem("Awards"),
 			#end
 			#if ENABLE_MODS
-			new FlashingButtonMenuItem({}, "Mods"),
+			new FlashingButtonMenuItem("Mods"),
 			#end
-			new FlashingButtonMenuItem({
+			new FlashingButtonMenuItem("Settings", {
 				onInteracted: function(value:Dynamic)
 				{
 					specialTransition(new SettingsState());
 				}
-			}, "Settings")
+			})
 		];
 	}
 

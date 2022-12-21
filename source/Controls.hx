@@ -15,6 +15,8 @@ class Controls extends Saver
 	public static var instance(default, null):Controls;
 	static var initialized:Bool;
 
+	static var all:Array<OverridableAction> = [];
+
 	// Volume actions
 	public static var volumeUp:OverridableAction = new OverridableAction("volumeUp", "Volume Up", JUST_PRESSED, 1, [PLUS], []);
 	public static var volumeDown:OverridableAction = new OverridableAction("volumeDown", "Volume Down", JUST_PRESSED, 1, [MINUS], []);
@@ -42,7 +44,7 @@ class Controls extends Saver
 	public static var noteRight:OverridableAction = new OverridableAction("noteRight", "Note Right", PRESSED, 2, [RIGHT, D],
 		[LEFT_STICK_DIGITAL_RIGHT, RIGHT_STICK_DIGITAL_RIGHT]);
 
-	static var input:FlxActionManager;
+	public static var input(default, null):FlxActionManager;
 
 	/** Must be done after FlxG has a chance to initialize or else this throws an error. **/
 	public static function initialize()
@@ -60,6 +62,26 @@ class Controls extends Saver
 
 	public function new()
 	{
+		// First, add the hard-coded actions to an array
+
+		all.push(volumeUp);
+		all.push(volumeDown);
+		all.push(mute);
+
+		all.push(uiLeft);
+		all.push(uiDown);
+		all.push(uiUp);
+		all.push(uiRight);
+		all.push(accept);
+		all.push(cancel);
+
+		all.push(noteLeft);
+		all.push(noteDown);
+		all.push(noteUp);
+		all.push(noteRight);
+
+		// Next, add the actions to the input manager
+
 		input = new FlxActionManager();
 
 		// Volume actions
@@ -96,50 +118,23 @@ class Controls extends Saver
 
 	override function save()
 	{
-		// Volume actions
-		volumeUp.saveTo(data);
-		volumeDown.saveTo(data);
-		mute.saveTo(data);
-
-		// UI actions
-		uiLeft.saveTo(data);
-		uiDown.saveTo(data);
-		uiUp.saveTo(data);
-		uiRight.saveTo(data);
-		accept.saveTo(data);
-		cancel.saveTo(data);
-
-		// Note actions
-		noteLeft.saveTo(data);
-		noteDown.saveTo(data);
-		noteUp.saveTo(data);
-		noteRight.saveTo(data);
-
+		for (action in all)
+			action.saveTo(data);
 		super.save();
 	}
 
 	override function load()
 	{
 		super.load();
+		for (action in all)
+			action.loadFrom(data);
+	}
 
-		// Volume actions
-		volumeUp.loadFrom(data);
-		volumeDown.loadFrom(data);
-		mute.loadFrom(data);
-
-		// UI actions
-		uiLeft.loadFrom(data);
-		uiDown.loadFrom(data);
-		uiUp.loadFrom(data);
-		uiRight.loadFrom(data);
-		accept.loadFrom(data);
-		cancel.loadFrom(data);
-
-		// Note actions
-		noteLeft.loadFrom(data);
-		noteDown.loadFrom(data);
-		noteUp.loadFrom(data);
-		noteRight.loadFrom(data);
+	/** Resets the overrides for every action. **/
+	public static function resetOverrides()
+	{
+		for (action in all)
+			action.resetOverrides();
 	}
 
 	/** Updates the volume/mute actions. **/

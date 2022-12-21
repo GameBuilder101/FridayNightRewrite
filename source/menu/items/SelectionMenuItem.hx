@@ -1,5 +1,6 @@
 package menu.items;
 
+import flixel.FlxSprite;
 import menu.MenuItem;
 
 class SelectionMenuItem extends LabelMenuItem
@@ -14,31 +15,20 @@ class SelectionMenuItem extends LabelMenuItem
 	public var selectionLabel(default, null):SpriteText;
 	public var rightmostArrow(default, null):AssetSprite;
 
-	public function new(functions:MenuItemFunctions, labelText:String, iconID:String = null, options:Array<String>, defaultState:Dynamic = 0)
+	public function new(labelText:String, options:Array<String>, defaultSelected:Int = 0, functions:MenuItemFunctions = null, iconID:String = null)
 	{
-		super(functions, labelText, iconID);
+		super(labelText, functions, iconID, true);
 		this.options = options;
-		// The default state can either be set using an index or the name of the option
-		if (defaultState is String)
-		{
-			for (i in 0...options.length)
-			{
-				if (options[i] != defaultState)
-					continue;
-				defaultState = i;
-				break;
-			}
-		}
-		else
-			selectedOption = defaultState;
+		selectedOption = defaultSelected;
+		selectable = true;
 
 		leftmostArrow = new AssetSprite(x, y, "menus/_shared/arrow");
 		leftmostArrow.flipX = true;
 		leftmostArrow.visible = false;
 		add(leftmostArrow);
 
-		selectionLabel = new SpriteText(x, y, options[selectedOption], 1.0, LEFT, true);
-		add(label);
+		selectionLabel = new SpriteText(x, y, options[selectedOption]);
+		add(selectionLabel);
 
 		rightmostArrow = new AssetSprite(x, y, "menus/_shared/arrow");
 		rightmostArrow.visible = false;
@@ -51,12 +41,6 @@ class SelectionMenuItem extends LabelMenuItem
 		var isSelected:Bool = getIsSelected();
 		var isInteractTarget:Bool = getIsInteractTarget();
 
-		// Make the arrows visible and update their colors if selected
-		leftmostArrow.visible = isSelected && isInteractTarget;
-		leftmostArrow.color = label.color;
-		rightmostArrow.visible = isSelected && isInteractTarget;
-		rightmostArrow.color = label.color;
-
 		var left:Bool = Controls.uiLeft.check();
 		var right:Bool = Controls.uiRight.check();
 		if (isSelected && menu.interactable && (left || right))
@@ -64,8 +48,17 @@ class SelectionMenuItem extends LabelMenuItem
 			if (!interactable)
 				menu.playErrorSound(); // Play the error sound if the item itself is not interactable
 			else
+			{
 				moveSelection(left ? -1 : 1);
+				onInteracted(selectedOption);
+			}
 		}
+
+		// Make the arrows visible and update their colors if selected
+		leftmostArrow.visible = isSelected && isInteractTarget;
+		leftmostArrow.color = label.color;
+		rightmostArrow.visible = isSelected && isInteractTarget;
+		rightmostArrow.color = label.color;
 	}
 
 	/** Moves the selected option in the given direction. **/
@@ -83,7 +76,7 @@ class SelectionMenuItem extends LabelMenuItem
 	{
 		selectedOption = index;
 		selectionLabel.setText(options[selectedOption]);
-		updateRightmostArrowPos(); // Move the arrow over to fit the selection label
+		updateRightmostArrowPosition(); // Move the arrow over to fit the selection label
 	}
 
 	override function addToMenu(menu:Menu, index:Int)
@@ -93,25 +86,26 @@ class SelectionMenuItem extends LabelMenuItem
 		leftmostArrow.x = x - label.members[0].offset.x + label.width + 16.0;
 		leftmostArrow.scale.set(menu.fontSize, menu.fontSize);
 		leftmostArrow.updateHitbox();
-		leftmostArrow.offset.set(leftmostArrow.width, 0.0);
+		leftmostArrow.offset.set(0.0, 0.0);
 
 		selectionLabel.x = leftmostArrow.x + leftmostArrow.width + 16.0;
 		selectionLabel.setFont(selectionLabel.font, menu.fontSize);
+		selectionLabel.color = menu.normalItemColor;
 
-		updateRightmostArrowPos();
+		updateRightmostArrowPosition();
 		rightmostArrow.scale.set(menu.fontSize, menu.fontSize);
 		rightmostArrow.updateHitbox();
-		rightmostArrow.offset.set(rightmostArrow.width, 0.0);
+		rightmostArrow.offset.set(0.0, 0.0);
 	}
 
-	inline function updateRightmostArrowPos()
+	inline function updateRightmostArrowPosition()
 	{
 		rightmostArrow.x = selectionLabel.x + selectionLabel.width + 16.0;
 	}
 
 	override function onInteracted(value:Dynamic)
 	{
-		menu.playSelectSound();
+		menu.playToggleSound();
 		super.onInteracted(value);
 	}
 }

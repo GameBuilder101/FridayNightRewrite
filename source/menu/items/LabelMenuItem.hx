@@ -12,13 +12,14 @@ class LabelMenuItem extends MenuItem
 
 	var tempDisableSelectSound:Bool;
 
-	public function new(functions:MenuItemFunctions, labelText:String, iconID:String = null)
+	public function new(labelText:String, functions:MenuItemFunctions = null, iconID:String = null, bold:Bool = false)
 	{
 		super(functions);
+		selectable = false; // By default, a label is not selectable
 		// Prevent the select sound from playing if this is the initially-selected menu item
 		tempDisableSelectSound = true;
 
-		label = new SpriteText(x, y, labelText, 1.0, LEFT, true);
+		label = new SpriteText(x, y, labelText, 1.0, LEFT, bold);
 		add(label);
 
 		if (iconID != null)
@@ -34,10 +35,10 @@ class LabelMenuItem extends MenuItem
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
-		tempDisableSelectSound = false;
-
 		var isSelected:Bool = getIsSelected();
 		var isInteractTarget:Bool = getIsInteractTarget();
+
+		tempDisableSelectSound = false;
 
 		if (!interactable)
 			label.color = menu.disabledItemColor;

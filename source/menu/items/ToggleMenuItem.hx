@@ -14,22 +14,21 @@ class ToggleMenuItem extends LabelMenuItem
 
 	public var toggle(default, null):AssetSprite;
 
-	public function new(functions:MenuItemFunctions, labelText:String, iconID:String = null, defaultState:Bool = false)
+	public function new(labelText:String, defaultState:Bool = false, functions:MenuItemFunctions = null, iconID:String = null)
 	{
-		super(functions, labelText, iconID);
+		super(labelText, functions, iconID, true);
 		on = defaultState;
+		selectable = true;
 
 		toggle = new AssetSprite(x, y, "menus/_shared/toggle");
-		toggle.animation.play("idle_" + on);
+		toggle.playAnimation("idle_" + on);
 		add(toggle);
 	}
 
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
-		var isSelected:Bool = getIsSelected();
-
-		if (isSelected && menu.interactable && Controls.accept.check())
+		if (getIsSelected() && menu.interactable && Controls.accept.check())
 		{
 			if (!interactable)
 				menu.playErrorSound(); // Play the error sound if the item itself is not interactable
@@ -43,12 +42,12 @@ class ToggleMenuItem extends LabelMenuItem
 		if (prevOn != on)
 		{
 			prevOn = on;
-			toggle.animation.play("turning_" + on);
+			toggle.playAnimation("turning_" + on);
 		}
 
 		// Detect if the current animation is a turning animation and switching to an idle animation
 		if (toggle.animation.name.startsWith("turning_") && toggle.animation.finished)
-			toggle.animation.play("idle_" + on);
+			toggle.playAnimation("idle_" + on);
 	}
 
 	override function addToMenu(menu:Menu, index:Int)

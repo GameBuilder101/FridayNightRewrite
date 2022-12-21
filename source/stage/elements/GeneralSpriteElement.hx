@@ -63,9 +63,9 @@ class GeneralSpriteElement extends AssetSprite implements IStageElement implemen
 		if (bopAnimFrequency > 0 && beat % bopAnimFrequency == 0.0)
 		{
 			if (bopRight)
-				animation.play(bopRightAnimName, true);
+				playAnimation(bopRightAnimName, true);
 			else
-				animation.play(bopLeftAnimName, true);
+				playAnimation(bopLeftAnimName, true);
 			bopRight = !bopRight;
 		}
 

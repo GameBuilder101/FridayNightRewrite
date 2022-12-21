@@ -167,7 +167,7 @@ class SpriteText extends FlxSpriteGroup
 			if (assetSprite.data != font)
 				assetSprite.loadFromData(font);
 			assetSprite.loadAnimation(newAnimation);
-			assetSprite.animation.play("idle"); // Play the animation that was added
+			assetSprite.playAnimation("idle"); // Play the animation that was added
 
 			// Animation x-offset is treated like kerning
 			assetSprite.setPosition(charX + x, y);

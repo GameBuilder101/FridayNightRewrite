@@ -63,12 +63,12 @@ abstract class MenuState extends ConductedState
 		titleText.setFormat("Jann Script Bold", 24, FlxColor.WHITE, CENTER);
 		add(titleText);
 
-		hintBack = new FlxSprite(FlxG.width / 2.0 - FlxG.width / 3.0, FlxG.height - 106.0).makeGraphic(cast(FlxG.width / 1.5), 90, FlxColor.BLACK);
+		hintBack = new FlxSprite(FlxG.width / 2.0 - FlxG.width / 3.0, FlxG.height - 96.0).makeGraphic(cast(FlxG.width / 1.5), 100, FlxColor.BLACK);
 		hintBack.alpha = 0.4;
 		hintBack.visible = false;
 		add(hintBack);
 		hintText = new FlxText(hintBack.x + 16.0, hintBack.y + 16.0, hintBack.width - 32.0, currentHint);
-		hintText.setFormat("Jann Script Bold", 17, FlxColor.WHITE, CENTER);
+		hintText.setFormat("Jann Script Bold", 19, FlxColor.WHITE, CENTER);
 		hintText.visible = false;
 		add(hintText);
 	}

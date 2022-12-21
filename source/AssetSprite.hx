@@ -7,6 +7,7 @@ import flixel.FlxSprite;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.util.FlxColor;
+import haxe.xml.Fast;
 import shader.IUpdatableShader;
 import shader.ShaderResolver;
 
@@ -188,27 +189,34 @@ class AssetSprite extends FlxSprite
 			animation.addByPrefix(data.name, data.atlasPrefix, data.frameRate, data.looped);
 	}
 
+	/** There must be a separate function for this so the animation offset ais set correctly. **/
+	public function playAnimation(animName:String, force:Bool = false, reversed:Bool = false)
+	{
+		animation.play(animName, force, reversed);
+		updateAnimationOffset();
+	}
+
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+
+		updateAnimationOffset(); // Call here in case scale changes while playing an animation
+
 		// Update the shader if it supports the functionality
 		if (shader != null && shader is IUpdatableShader)
 			cast(shader, IUpdatableShader).update(elapsed);
 	}
 
-	override function updateAnimation(elapsed:Float)
+	function updateAnimationOffset()
 	{
-		super.updateAnimation(elapsed);
-		// Set the offset to that of the currently-playing animation
-		if (useAnimDataOffsets && animation.curAnim != null)
+		if (animation.name == null)
+			return;
+		for (animationData in data.animations)
 		{
-			for (animationData in data.animations)
+			if (animation.name == animationData.name)
 			{
-				if (animation.curAnim.name == animationData.name)
-				{
-					offset.set(animationData.offsetX * scale.x, animationData.offsetY * scale.y);
-					break;
-				}
+				offset.set(animationData.offsetX * scale.x, animationData.offsetY * scale.y);
+				break;
 			}
 		}
 	}

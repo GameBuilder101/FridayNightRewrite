@@ -10,15 +10,20 @@ abstract class MenuItem extends FlxSpriteGroup
 	/** The item's index in the menu. **/
 	public var index(default, null):Int;
 
+	/** Whether the menu item should be selectable (meaning it can be "hovered" over). **/
+	public var selectable:Bool = true;
+
 	/** Whether the menu item should be interactable. **/
 	public var interactable:Bool = true;
 
 	var functions:MenuItemFunctions;
 
-	public function new(functions:MenuItemFunctions)
+	public function new(functions:MenuItemFunctions = null)
 	{
 		super(0.0, 0.0);
 		this.functions = functions;
+		if (functions == null)
+			this.functions = {};
 	}
 
 	/** Call when adding this item to a menu. **/

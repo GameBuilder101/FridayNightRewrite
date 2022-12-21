@@ -9,6 +9,11 @@ class PlayAnimEvent extends MusicEvent
 	{
 		var elements:Array<FlxSprite> = state.stage.getElementsWithTag(args.targetTag);
 		for (element in elements)
-			element.animation.play(args.name, true);
+		{
+			if (element is AssetSprite)
+				cast(element, AssetSprite).playAnimation(args.name, true);
+			else
+				element.animation.play(args.name, true);
+		}
 	}
 }

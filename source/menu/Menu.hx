@@ -106,18 +106,36 @@ class Menu extends FlxSpriteGroup
 			this.items.push(item);
 			i++;
 		}
-		// Start with the first item selected
-		selectItem(0);
+
+		// Start with the first (selectable) item selected
+		var index:Int = 0;
+		while (!items[index].selectable)
+			index++;
+		selectItem(index);
 	}
 
 	/** Moves the selected item in the given direction. **/
 	public function moveSelection(dir:Int)
 	{
+		if (items == null || items.length <= 0)
+			return;
+
 		var index:Int = selectedItem + dir;
 		if (index < 0)
 			index = items.length - 1;
 		if (index >= items.length)
 			index = 0;
+
+		// Make sure we don't select an non-selectable item
+		while (!items[index].selectable)
+		{
+			index += dir;
+			if (index < 0)
+				index = items.length - 1;
+			if (index >= items.length)
+				index = 0;
+		}
+
 		selectItem(index);
 	}
 

@@ -11,15 +11,15 @@ class Settings extends Saver
 	// Graphics settings
 	public static inline final ANTIALIASING:String = "antialiasing";
 	public static inline final SHADERS:String = "shaders";
-	public static inline final FLASHING_LIGHTS:String = "flashing_lights";
-	public static inline final CAMERA_BOP:String = "camera_bop";
+	public static inline final FLASHING_LIGHTS:String = "flashingLights";
+	public static inline final CAMERA_BOP:String = "cameraBop";
 
 	// Sound settings
-	public static inline final MISS_SOUND_VOLUME:String = "miss_sound_volume";
+	public static inline final MISS_SOUND_VOLUME:String = "missSoundVolume";
 
 	// Gameplay settings
 	public static inline final DOWNSCROLL:String = "downscroll";
-	public static inline final GHOST_TAPPING:String = "ghost_tapping";
+	public static inline final GHOST_TAPPING:String = "ghostTapping";
 
 	public static function initialize()
 	{
@@ -53,42 +53,79 @@ class Settings extends Saver
 		return data;
 	}
 
-	public static inline function getAntialiasing():Bool
+	// The following get/set functions are not inline since (I'm pretty sure) that would make them inaccessible to runtime scripts
+
+	public static function getAntialiasing():Bool
 	{
 		return instance.get(ANTIALIASING);
 	}
 
-	public static inline function getShaders():Bool
+	public static function setAntialiasing(value:Bool)
+	{
+		return instance.set(ANTIALIASING, value);
+	}
+
+	public static function getShaders():Bool
 	{
 		return instance.get(SHADERS);
 	}
 
-	public static inline function getFlashingLights():Bool
+	public static function setShaders(value:Bool)
+	{
+		return instance.set(SHADERS, value);
+	}
+
+	public static function getFlashingLights():Bool
 	{
 		return instance.get(FLASHING_LIGHTS);
 	}
 
-	public static inline function getCameraBop():Bool
+	public static function setFlashingLights(value:Bool)
+	{
+		return instance.set(FLASHING_LIGHTS, value);
+	}
+
+	public static function getCameraBop():Bool
 	{
 		return instance.get(CAMERA_BOP);
 	}
 
-	public static inline function getMissSoundVolume():Float
+	public static function setCameraBop(value:Bool)
+	{
+		return instance.set(CAMERA_BOP, value);
+	}
+
+	public static function getMissSoundVolume():Float
 	{
 		return instance.get(MISS_SOUND_VOLUME);
 	}
 
-	public static inline function getDownscroll():Bool
+	public static function setMissSoundVolume(value:Float)
+	{
+		return instance.set(MISS_SOUND_VOLUME, value);
+	}
+
+	public static function getDownscroll():Bool
 	{
 		return instance.get(DOWNSCROLL);
 	}
 
-	public static inline function getGhostTapping():Bool
+	public static function setDownscroll(value:Bool)
+	{
+		return instance.set(DOWNSCROLL, value);
+	}
+
+	public static function getGhostTapping():Bool
 	{
 		#if ALLOW_GHOST_TAPPING
 		return instance.get(GHOST_TAPPING);
 		#else
 		return false;
 		#end
+	}
+
+	public static function setGhostTapping(value:Bool)
+	{
+		return instance.set(GHOST_TAPPING, value);
 	}
 }

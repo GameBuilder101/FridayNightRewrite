@@ -11,8 +11,8 @@
             "name": "turning_true",
             "atlasPrefix": "checkbox anim forward",
             "frameRate": 24,
-            "offsetX": 34.0,
-            "offsetY": 65.0
+            "offsetX": 36.0,
+            "offsetY": 67.0
         },
         {
             "name": "idle_true",
@@ -26,8 +26,8 @@
             "name": "turning_false",
             "atlasPrefix": "checkbox anim reverse",
             "frameRate": 24,
-            "offsetX": 25.0,
-            "offsetY": 68.0
+            "offsetX": 27.0,
+            "offsetY": 70.0
         }
     ]
 }
