@@ -25,10 +25,6 @@ class ControlMenuItem extends LabelMenuItem
 
 	public var bind2Label(default, null):SpriteText;
 
-	/** For some reason, controls don't immediately register as off after one
-		frame (they linger). So use this to avoid immediate rebinding to the accept key. **/
-	var interactDelay:Float;
-
 	public function new(action:OverridableAction, functions:MenuItemFunctions = null, iconID:String = null)
 	{
 		super(action.displayName, functions, iconID, true);
@@ -56,13 +52,10 @@ class ControlMenuItem extends LabelMenuItem
 		var isSelected:Bool = getIsSelected();
 
 		// Make the label have a specific color to stand out more
-		label.color = FlxColor.fromString("#e97813");
-
-		if (interactDelay > 0.0)
-			interactDelay -= elapsed;
+		label.color = FlxColor.fromRGB(233, 120, 19);
 
 		// Change the selected bind if the left or right button is pressed
-		if (!inRebindMode && isSelected)
+		if (interactDelay <= 0.0 && !inRebindMode && isSelected)
 		{
 			if (Controls.uiLeft.check() && selectedBind > 0)
 			{
@@ -114,7 +107,6 @@ class ControlMenuItem extends LabelMenuItem
 	override function addToMenu(menu:Menu, index:Int)
 	{
 		super.addToMenu(menu, index);
-		interactDelay = 0.1;
 
 		bind1Label.x = x - label.members[0].offset.x + label.width + 48.0;
 		bind1Label.setFont(bind1Label.font, menu.fontSize);
@@ -155,7 +147,11 @@ class ControlMenuItem extends LabelMenuItem
 			return;
 		inRebindMode = false;
 		menu.interactable = true;
-		interactDelay = 0.1;
+
+		/* If this isn't done, random stuff like the back button will
+			trigger when the player tries to set the rebind */
+		for (item in menu.items)
+			item.interactDelay = 0.1;
 	}
 
 	function updateRebindMode()
@@ -169,6 +165,7 @@ class ControlMenuItem extends LabelMenuItem
 				return;
 			// Override the gamepad button
 			action.overrideGamepad(selectedBind, gamepad);
+			onInteracted(gamepad);
 		}
 		else
 		{
@@ -178,6 +175,7 @@ class ControlMenuItem extends LabelMenuItem
 				return;
 			// Override the key
 			action.overrideKey(selectedBind, key);
+			onInteracted(key);
 		}
 
 		updateBindLabelText();

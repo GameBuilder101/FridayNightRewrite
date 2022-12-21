@@ -28,6 +28,8 @@ class MenuElement extends Menu implements IStageElement
 			disabledItemColor = FlxColor.fromRGB(data.disabledItemColor[0], data.disabledItemColor[1], data.disabledItemColor[2]);
 		if (data.minimumAlpha != null)
 			minimumAlpha = data.minimumAlpha;
+		if (data.minimumScale != null)
+			minimumScale = data.minimumScale;
 
 		if (data.selectSoundID != null)
 			selectSound = SoundDataRegistry.getAsset(data.selectSoundID);

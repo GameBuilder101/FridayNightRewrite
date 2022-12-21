@@ -10,11 +10,6 @@ class ButtonMenuItem extends LabelMenuItem
 	public var leftmostArrow(default, null):AssetSprite;
 	public var rightmostArrow(default, null):AssetSprite;
 
-	/** For some reason, controls don't immediately register as off after one
-		frame (they linger). So in rare instances, a button can be triggered when switching
-		in the settings menu, for instance. **/
-	var interactDelay:Float;
-
 	public function new(labelText:String, functions:MenuItemFunctions = null, iconID:String = null, useCancel:Bool = false)
 	{
 		super(labelText, functions, iconID, true);
@@ -37,9 +32,6 @@ class ButtonMenuItem extends LabelMenuItem
 		var isSelected:Bool = getIsSelected();
 		var isInteractTarget:Bool = getIsInteractTarget();
 
-		if (interactDelay > 0.0)
-			interactDelay -= elapsed;
-
 		if (interactDelay <= 0.0
 			&& ((isSelected && menu.interactable && Controls.accept.check())
 				|| (useCancel && menu.interactable && Controls.cancel.check()))) // Cancel items can also be interacted with using cancel input
@@ -60,7 +52,6 @@ class ButtonMenuItem extends LabelMenuItem
 	override function addToMenu(menu:Menu, index:Int)
 	{
 		super.addToMenu(menu, index);
-		interactDelay = 0.1;
 
 		leftmostArrow.x = x - label.members[0].offset.x - 16.0;
 		leftmostArrow.scale.set(menu.fontSize, menu.fontSize);

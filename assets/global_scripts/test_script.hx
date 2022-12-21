@@ -4,6 +4,6 @@ class TestScript
 {
 	public static function main()
 	{
-		Script.alert("MONGUS?????  (sussy!!!)");
+		Script.alert("This is a test.");
 	}
 }

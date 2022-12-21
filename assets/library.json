@@ -1,6 +1,6 @@
 {
     "name": "Core",
     "description": "The core, important engine assets",
-    "version": "0.1.0",
+    "version": "BETA-0.1.0",
     "latestVersionURL": "https://raw.githubusercontent.com/GameBuilder101/FridayNightRewrite/main/assets/library.json"
 }

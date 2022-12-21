@@ -1,6 +1,5 @@
 package menu.items;
 
-import flixel.FlxSprite;
 import menu.MenuItem;
 
 class SelectionMenuItem extends LabelMenuItem
@@ -43,7 +42,7 @@ class SelectionMenuItem extends LabelMenuItem
 
 		var left:Bool = Controls.uiLeft.check();
 		var right:Bool = Controls.uiRight.check();
-		if (isSelected && menu.interactable && (left || right))
+		if (interactDelay <= 0.0 && isSelected && menu.interactable && (left || right))
 		{
 			if (!interactable)
 				menu.playErrorSound(); // Play the error sound if the item itself is not interactable

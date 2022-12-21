@@ -28,7 +28,8 @@ class ToggleMenuItem extends LabelMenuItem
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
-		if (getIsSelected() && menu.interactable && Controls.accept.check())
+
+		if (interactDelay <= 0.0 && getIsSelected() && menu.interactable && Controls.accept.check())
 		{
 			if (!interactable)
 				menu.playErrorSound(); // Play the error sound if the item itself is not interactable

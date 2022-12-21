@@ -27,11 +27,12 @@ This is the repository for Friday Night Rewrite, a full code rewrite of the orig
 
 **Technical features:**
 - **Runtime Haxe script loading!** This means you can add custom Haxe scripts to your mods that can do almost anything! (Though with some limitations to prevent malicious scripts.)
-- A new mod loading system, where mods can set dependencies and override other mods. Additionally, mods can set what version they are (and what dependency versions they expect) and even use a URL to detect if a mod is outdated.
+- A new mod loading system, where mods can set dependencies and override other mods. Additionally, mods can set what version they are (and what dependency versions they expect) and even use a URL to detect if a mod is outdated
 - Animations and other stuff for sprites can be defined in a JSON file alongside any PNG file and loaded in dynamically
 - If a sound has variants, these can be defined in JSON files. These JSON files can also define their volumes
 - Support for character sprite variants. For instance: Week 5 in FNF loads a christmas version of BF's sprite. With this system though, you could also have a custom character with a christmas version which gets automatically loaded in Week 5 songs
 - Custom arrow types
+- Custom stage elements
 - **COMmeNTEd cODE?!?!?!?!?!?!?!??!?!?!?!! :scream::scream::scream:**
 - And much more!
 

@@ -11,6 +11,7 @@ typedef AlbumData =
 	name:String,
 	credits:Array<Credit>,
 	spriteID:String,
+	spriteSpinSpeed:Float,
 	previewMusicID:String
 }
 

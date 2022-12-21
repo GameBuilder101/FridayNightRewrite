@@ -25,13 +25,13 @@ abstract class MenuState extends ConductedState
 	var data:Dynamic;
 
 	/** The current menu title text. If null, the hint will not be displayed. **/
-	var currentTitle:String = null;
+	public var currentTitle(default, null):String = null;
 
 	var titleText:FlxText;
 	var titleBack:FlxSprite;
 
 	/** The current menu hint text. If null, the hint will not be displayed. **/
-	var currentHint:String = null;
+	public var currentHint(default, null):String = null;
 
 	var hintText:FlxText;
 	var hintBack:FlxSprite;

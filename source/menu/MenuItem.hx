@@ -16,6 +16,11 @@ abstract class MenuItem extends FlxSpriteGroup
 	/** Whether the menu item should be interactable. **/
 	public var interactable:Bool = true;
 
+	/** For some reason, controls don't immediately register as off after one
+		frame (they linger). So in rare instances, an item can be triggered when switching
+		in the settings menu, for instance. **/
+	public var interactDelay:Float;
+
 	var functions:MenuItemFunctions;
 
 	public function new(functions:MenuItemFunctions = null)
@@ -26,11 +31,21 @@ abstract class MenuItem extends FlxSpriteGroup
 			this.functions = {};
 	}
 
+	override function update(elapsed:Float)
+	{
+		super.update(elapsed);
+		if (interactDelay > 0.0)
+			interactDelay -= elapsed;
+		if (interactDelay < 0.0)
+			interactDelay = 0.0;
+	}
+
 	/** Call when adding this item to a menu. **/
 	public function addToMenu(menu:Menu, index:Int)
 	{
 		this.menu = menu;
 		this.index = index;
+		interactDelay = 0.1;
 	}
 
 	public function onSelected()
@@ -47,6 +62,7 @@ abstract class MenuItem extends FlxSpriteGroup
 
 	public function onInteracted(value:Dynamic)
 	{
+		interactDelay = 0.1;
 		if (functions.onInteracted != null)
 			functions.onInteracted(value);
 	}

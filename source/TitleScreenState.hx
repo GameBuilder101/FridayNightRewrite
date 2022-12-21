@@ -114,8 +114,18 @@ class TitleScreenState extends MenuState
 	override function getMenuItems():Array<MenuItem>
 	{
 		return [
-			new FlashingButtonMenuItem("Story Mode"),
-			new FlashingButtonMenuItem("Freeplay"),
+			new FlashingButtonMenuItem("Story Mode", {
+				onInteracted: function(value:Dynamic)
+				{
+					specialTransition(new AlbumSelectState(new TitleScreenState()));
+				}
+			}),
+			new FlashingButtonMenuItem("Freeplay", {
+				onInteracted: function(value:Dynamic)
+				{
+					specialTransition(new AlbumSelectState(new TitleScreenState()));
+				}
+			}),
 			#if ENABLE_CHARACTER_SELECT
 			new FlashingButtonMenuItem("Character"),
 			#end

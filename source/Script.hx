@@ -3,7 +3,8 @@ package;
 import assetManagement.FileManager;
 import assetManagement.LibraryManager;
 import assetManagement.Registry;
-import hscript.plus.ScriptState;
+import hscript.plus.ParserPlus;
+import hscript.plus.ParserInterp;
 import lime.app.Application;
 
 /** A class to handle HScripts. **/
@@ -14,7 +15,7 @@ class Script
 	/** The ID used to load/identify the script. **/
 	var id(default, null):String;
 
-	var state:ScriptState;
+	var parser:ScriptState;
 
 	var started:Bool;
 

@@ -19,5 +19,6 @@
         }
     ],
     "spriteID": "albums/friday_night_funkin/sprite",
+    "spriteSpinSpeed": 1.0,
     "previewMusicID": "menus/_shared/standard_menu_theme"
 }

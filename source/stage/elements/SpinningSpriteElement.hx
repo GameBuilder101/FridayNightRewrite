@@ -11,11 +11,6 @@ class SpinningSpriteElement extends GeneralSpriteElement
 		spinSpeed = data.spinSpeed;
 	}
 
-	override public function onAddedToStage(stage:Stage)
-	{
-		super.onAddedToStage(stage);
-	}
-
 	override public function updateMusic(time:Float, bpm:Float, beat:Float)
 	{
 		super.updateMusic(time, bpm, beat);

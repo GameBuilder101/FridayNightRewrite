@@ -39,8 +39,11 @@ class Menu extends FlxSpriteGroup
 	/** The disabled menu item color. **/
 	public var disabledItemColor:FlxColor = FlxColor.WHITE;
 
-	/** The minimum alpha a menu item can be. **/
+	/** The minimum alpha used when fading out distant items. **/
 	public var minimumAlpha:Float = 0.25;
+
+	/** The minimum scale used when scaling out distant items. **/
+	public var minimumScale:Float = 1.0;
 
 	public var selectSound:SoundData;
 	public var confirmSound:SoundData;
@@ -158,6 +161,7 @@ class Menu extends FlxSpriteGroup
 		var targetX:Float;
 		var targetY:Float;
 		var targetAlpha:Float;
+		var targetScale:Float;
 		for (item in items)
 		{
 			FlxTween.cancelTweensOf(item);
@@ -183,11 +187,14 @@ class Menu extends FlxSpriteGroup
 			}
 			FlxTween.linearMotion(item, item.x, item.y, targetX, targetY, 0.2, {ease: FlxEase.smootherStepOut});
 
-			// Make items fade out as they move away from the selected item
+			// Make items fade out/scale down as they move away from the selected item
 			targetAlpha = 1.0 - Math.abs(offsetFromSelected) * 0.5;
 			if (targetAlpha < minimumAlpha)
 				targetAlpha = minimumAlpha;
-			FlxTween.tween(item, {alpha: targetAlpha}, 0.2, {ease: FlxEase.smoothStepOut});
+			targetScale = targetAlpha;
+			if (targetScale < minimumScale)
+				targetScale = minimumScale;
+			FlxTween.tween(item, {alpha: targetAlpha, "scale.x": targetScale, "scale.y": targetScale}, 0.2, {ease: FlxEase.smoothStepOut});
 
 			i++;
 		}
