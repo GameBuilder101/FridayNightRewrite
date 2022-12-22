@@ -3,15 +3,17 @@ package;
 import assetManagement.FileManager;
 import assetManagement.LibraryManager;
 import assetManagement.Registry;
+import flixel.util.FlxColor;
 
 /** An album defines a collection of weeks. Useful for if you want a main story
 	mode but also extra content grouped into their own thing. **/
 typedef AlbumData =
 {
 	name:String,
-	credits:Array<Credit>,
+	description:String,
 	spriteID:String,
 	spriteSpinSpeed:Float,
+	backgroundColor:FlxColor,
 	previewMusicID:String
 }
 
@@ -37,10 +39,17 @@ class AlbumDataRegistry extends Registry<AlbumData>
 		if (parsed == null)
 			return null;
 
-		if (parsed.credits == null)
-			parsed.credits = [];
+		if (parsed.spriteSpinSpeed == null)
+			parsed.spriteSpinSpeed = 0.3;
 
-		return parsed;
+		return {
+			name: parsed.name,
+			description: parsed.description,
+			spriteID: parsed.spriteID,
+			spriteSpinSpeed: parsed.spriteSpinSpeed,
+			backgroundColor: FlxColor.fromRGB(parsed.backgroundColor[0], parsed.backgroundColor[1], parsed.backgroundColor[2]),
+			previewMusicID: parsed.previewMusicID
+		};
 	}
 
 	public static function getAsset(id:String):AlbumData

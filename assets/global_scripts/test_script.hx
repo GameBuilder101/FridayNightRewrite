@@ -2,7 +2,7 @@ import Script;
 
 class TestScript
 {
-	public static function main()
+	public function new()
 	{
 		Script.alert("This is a test.");
 	}

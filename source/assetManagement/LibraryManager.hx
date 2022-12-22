@@ -81,7 +81,7 @@ class LibraryManager
 	}
 
 	/** Returns the IDs of all registry entries from all libraries in the given library-relative directory. **/
-	public static function getAllIDs(libraryDirectory:String, includeLibrary:Bool = true):Array<String>
+	public static function getAllIDs(libraryDirectory:String, includeLibrary:Bool = false):Array<String>
 	{
 		var all:Array<String> = [];
 		var fullPath:String;

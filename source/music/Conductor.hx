@@ -3,6 +3,7 @@ package music;
 import flixel.FlxG;
 import flixel.group.FlxGroup;
 import flixel.system.FlxSound;
+import flixel.tweens.FlxTween;
 
 /** A conductor is used to play and keep track of the beat of music. **/
 class Conductor extends FlxGroup
@@ -53,9 +54,32 @@ class Conductor extends FlxGroup
 		/* Set the FlxG music to the Conductor's sound. This ensures that the music will get
 			paused when the game loses focus */
 		FlxG.sound.music = sound;
+		FlxTween.cancelTweensOf(sound);
 		sound.loadEmbedded(music.sound, looped);
 		sound.volume = music.volume;
 		sound.play(true);
+	}
+
+	/** Fades out the currently-playing music and transitions to the provided.
+		@param restart When true, will re-start the music even if it is already playing.
+	**/
+	public static function transitionPlay(music:MusicData, looped:Bool, duration:Float, restart:Bool = true)
+	{
+		if (currentMusic == music && !restart)
+			return;
+		FlxTween.cancelTweensOf(sound);
+		// Fade the music out
+		FlxTween.tween(sound, {volume: 0.0}, duration / 2.0, {
+			onComplete: function(tween:FlxTween)
+			{
+				// Play the new music
+				play(music, looped, restart);
+				// Make sure the volume is still 0
+				sound.volume = 0.0;
+				// Fade in the new music
+				FlxTween.tween(sound, {volume: music.volume}, duration / 2.0);
+			}
+		});
 	}
 
 	public static function stop()

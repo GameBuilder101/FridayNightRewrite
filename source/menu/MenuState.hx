@@ -21,6 +21,9 @@ abstract class MenuState extends ConductedState
 	/** The actual menu for this state. May not exist if one could not be found in the stage data. **/
 	public var menu(default, null):Menu;
 
+	/** The background for this state. May not exist if one could not be found in the stage data. **/
+	public var background(default, null):AssetSprite;
+
 	/** Miscellaneous menu state data obtained from a JSON file. Null if no such file is found. **/
 	var data:Dynamic;
 
@@ -39,6 +42,11 @@ abstract class MenuState extends ConductedState
 	override function create()
 	{
 		super.create();
+
+		// Get the primary background
+		var backgrounds:Array<FlxSprite> = stage.getElementsWithTag("menu_background");
+		if (backgrounds.length > 0)
+			background = cast backgrounds[0];
 
 		// Get the primary menu and add the menu options
 		var menus:Array<FlxSprite> = stage.getElementsWithTag("menu");
@@ -63,7 +71,7 @@ abstract class MenuState extends ConductedState
 		titleText.setFormat("Jann Script Bold", 24, FlxColor.WHITE, CENTER);
 		add(titleText);
 
-		hintBack = new FlxSprite(FlxG.width / 2.0 - FlxG.width / 3.0, FlxG.height - 96.0).makeGraphic(cast(FlxG.width / 1.5), 100, FlxColor.BLACK);
+		hintBack = new FlxSprite(FlxG.width / 2.0 - FlxG.width / 3.0, FlxG.height - 116.0).makeGraphic(cast(FlxG.width / 1.5), 100, FlxColor.BLACK);
 		hintBack.alpha = 0.4;
 		hintBack.visible = false;
 		add(hintBack);

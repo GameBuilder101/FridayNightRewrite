@@ -1,5 +1,7 @@
 package;
 
+import Script;
+import assetManagement.LibraryManager;
 import flixel.FlxBasic;
 import flixel.FlxCamera;
 import flixel.FlxG;
@@ -78,5 +80,30 @@ abstract class ConductedState extends FlxTransitionableState implements IConduct
 			if (member is IConducted)
 				cast(member, IConducted).onWholeBeat(beat);
 		}, true);
+	}
+}
+
+/** Use this to access/load global scripts. **/
+class GlobalScriptRegistry extends ScriptRegistry
+{
+	static var cachedIDs:Array<String>;
+
+	public function new()
+	{
+		super();
+		LibraryManager.onFullReload.push(function()
+		{
+			cachedIDs = [];
+		});
+	}
+
+	/** Returns all IDs in a library-relative directory. This does not necessarily
+		return ALL of them in the files, only ones in a specific folder. **/
+	public static function getAllIDs():Array<String>
+	{
+		if (cachedIDs != null)
+			return cachedIDs;
+		cachedIDs = LibraryManager.getAllIDs("global_scripts");
+		return cachedIDs;
 	}
 }

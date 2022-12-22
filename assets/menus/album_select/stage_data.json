@@ -28,11 +28,11 @@
             ],
             "type": "menu",
             "x": 640.0,
-            "y": 360.0,
+            "y": 330.0,
             "data": {
                 "type": "LIST_HORIZONTAL",
-                "spacing": 500.0,
-                "fontSize": 0.9,
+                "spacing": 740.0,
+                "fontSize": 0.8,
                 "normalItemColor": [
                     255,
                     255,
@@ -48,13 +48,39 @@
                     128,
                     128
                 ],
-                "minimumAlpha": 0.35,
-                "minimumScale": 0.35,
                 "selectSoundID": "menus/_shared/menu_select",
                 "confirmSoundID": "menus/_shared/menu_select",
                 "cancelSoundID": "menus/_shared/menu_cancel",
                 "errorSoundID": "menus/_shared/menu_error",
                 "toggleSoundID": "menus/_shared/menu_toggle"
+            }
+        },
+        {
+            "type": "general_sprite",
+            "x": 16.0,
+            "y": 330.0,
+            "scaleX": 1.5,
+            "scaleY": 1.5,
+            "center": true,
+            "data": {
+                "id": "menus/_shared/arrow",
+                "flipX": true
+            }
+        },
+        {
+            "type": "general_sprite",
+            "x": 1202.5,
+            "y": 330.0,
+            "scaleX": 1.5,
+            "scaleY": 1.5,
+            "center": true,
+            "data": {
+                "id": "menus/_shared/arrow",
+                "color": [
+                    253,
+                    232,
+                    113
+                ],
             }
         }
     ]

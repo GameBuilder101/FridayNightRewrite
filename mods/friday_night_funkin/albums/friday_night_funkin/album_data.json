@@ -1,24 +1,11 @@
 {
     "name": "Friday Night Funkin'",
-    "credits": [
-        {
-            "name": "ninjamuffin99",
-            "role": "Programming"
-        },
-        {
-            "name": "PhantomArcade",
-            "role": "Animation"
-        },
-        {
-            "name": "evilsk8r",
-            "role": "Artist"
-        },
-        {
-            "name": "KawaiSprite",
-            "role": "Music"
-        }
-    ],
+    "description": "Credits:\nninjamuffin99 - Programming    PhantomArcade - Animation\nevilsk8r - Artist            KawaiSprite - Music",
     "spriteID": "albums/friday_night_funkin/sprite",
-    "spriteSpinSpeed": 1.0,
+    "backgroundColor": [
+        247,
+        51,
+        154
+    ],
     "previewMusicID": "menus/_shared/standard_menu_theme"
 }

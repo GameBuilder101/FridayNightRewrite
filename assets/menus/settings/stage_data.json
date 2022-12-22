@@ -49,7 +49,6 @@
                     128,
                     128
                 ],
-                "minimumAlpha": 0.35,
                 "selectSoundID": "menus/_shared/menu_select",
                 "confirmSoundID": "menus/_shared/menu_select",
                 "cancelSoundID": "menus/_shared/menu_cancel",

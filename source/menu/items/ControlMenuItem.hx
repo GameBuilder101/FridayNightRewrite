@@ -92,15 +92,17 @@ class ControlMenuItem extends LabelMenuItem
 	{
 		if (label == null)
 			return;
-		if (isSelected && !label.bold)
+		if (isSelected)
 		{
 			label.color = menu.selectedItemColor;
-			label.setBold(true);
+			if (!label.bold)
+				label.setBold(true);
 		}
-		else if (!isSelected && label.bold)
+		else if (!isSelected)
 		{
 			label.color = menu.normalItemColor;
-			label.setBold(false);
+			if (label.bold)
+				label.setBold(false);
 		}
 	}
 
