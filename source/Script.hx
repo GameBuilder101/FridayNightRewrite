@@ -9,6 +9,8 @@ import hscript.plus.InterpPlus;
 import hscript.plus.ParserPlus;
 import lime.app.Application;
 
+using StringTools;
+
 /** A class to handle HScripts. **/
 class Script
 {
@@ -22,6 +24,14 @@ class Script
 
 	var parser:ParserPlus;
 	var interp:InterpPlus;
+
+	/** Blacklist terms for security. Block any classes that could
+		allow for downloading, uploading, remote code execution, or
+		modification of the file system. **/
+	static final BLACKLISTED_TERMS:Array<String> = [
+		"Sys.", "Reflect.", "sys.*", "sys.db.", "sys.io.", "sys.net.", "sys.ssl.", "sys.FileSystem", "sys.Http", "haxe.*", "haxe.HTTP", "cpp.", "openfl.net.",
+		"flash.net.", "lime.net.", "hscript."
+	];
 
 	var started:Bool;
 
@@ -39,9 +49,9 @@ class Script
 	}
 
 	/** Used to resolve imports of other custom scripts. The way this is handled is using
-		library-relative directories. For example, to import a class Entity in a script titled
-		entity_script under the global_scripts folder, you would use "global_scripts.entity_script.Entity"
-		as the import. **/
+		library directories. For example, to import a class Entity in a mod titled "example" in a
+		script titled entity_script under the global_scripts folder, you would use
+		"example.global_scripts.entity_script.Entity" as the import. **/
 	function resolveImport(packageName:String):Dynamic
 	{
 		var path:Array<String> = packageName.split(".");
@@ -52,8 +62,7 @@ class Script
 			return null;
 		}
 
-		/* The directory consists of everything before the script ID and the class name. If
-			the custom script was placed in the root of a mod library, this may be empty. */
+		/* The directory consists of everything before the script ID and the class name. */
 		var directory:String = "";
 		if (path.length > 2)
 		{
@@ -97,6 +106,18 @@ class Script
 	**/
 	function run(script:String, origin:String = "hscript"):Bool
 	{
+		// Check for blacklisted terms
+		for (term in BLACKLISTED_TERMS)
+		{
+			if (script.contains(term))
+			{
+				error("Cannot run: the script contains reference to a blacklisted term '"
+					+ term
+					+ "'! For security reasons, this term cannot appear anywhere in a script");
+				return false;
+			}
+		}
+
 		// Try to parse the script
 		var parsed:Expr;
 		try

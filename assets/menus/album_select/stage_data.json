@@ -28,7 +28,7 @@
             ],
             "type": "menu",
             "x": 640.0,
-            "y": 330.0,
+            "y": 300.0,
             "data": {
                 "type": "LIST_HORIZONTAL",
                 "spacing": 740.0,
@@ -49,7 +49,7 @@
                     128
                 ],
                 "selectSoundID": "menus/_shared/menu_select",
-                "confirmSoundID": "menus/_shared/menu_select",
+                "confirmSoundID": "menus/_shared/menu_confirm",
                 "cancelSoundID": "menus/_shared/menu_cancel",
                 "errorSoundID": "menus/_shared/menu_error",
                 "toggleSoundID": "menus/_shared/menu_toggle"
@@ -57,22 +57,23 @@
         },
         {
             "type": "general_sprite",
-            "x": 16.0,
+            "x": 30.0,
             "y": 330.0,
-            "scaleX": 1.5,
-            "scaleY": 1.5,
             "center": true,
             "data": {
                 "id": "menus/_shared/arrow",
-                "flipX": true
+                "flipX": true,
+                "color": [
+                    253,
+                    232,
+                    113
+                ]
             }
         },
         {
             "type": "general_sprite",
-            "x": 1202.5,
+            "x": 1250.0,
             "y": 330.0,
-            "scaleX": 1.5,
-            "scaleY": 1.5,
             "center": true,
             "data": {
                 "id": "menus/_shared/arrow",

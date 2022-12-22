@@ -12,7 +12,6 @@ typedef AlbumData =
 	name:String,
 	description:String,
 	spriteID:String,
-	spriteSpinSpeed:Float,
 	backgroundColor:FlxColor,
 	previewMusicID:String
 }
@@ -39,14 +38,10 @@ class AlbumDataRegistry extends Registry<AlbumData>
 		if (parsed == null)
 			return null;
 
-		if (parsed.spriteSpinSpeed == null)
-			parsed.spriteSpinSpeed = 0.3;
-
 		return {
 			name: parsed.name,
 			description: parsed.description,
 			spriteID: parsed.spriteID,
-			spriteSpinSpeed: parsed.spriteSpinSpeed,
 			backgroundColor: FlxColor.fromRGB(parsed.backgroundColor[0], parsed.backgroundColor[1], parsed.backgroundColor[2]),
 			previewMusicID: parsed.previewMusicID
 		};

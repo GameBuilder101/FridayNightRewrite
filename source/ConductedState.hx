@@ -97,13 +97,14 @@ class GlobalScriptRegistry extends ScriptRegistry
 		});
 	}
 
-	/** Returns all IDs in a library-relative directory. This does not necessarily
-		return ALL of them in the files, only ones in a specific folder. **/
+	/** Returns all IDs in a library directory (including th library). This
+		does not necessarily return ALL of them in the files, only ones
+		in a specific folder. **/
 	public static function getAllIDs():Array<String>
 	{
 		if (cachedIDs != null)
 			return cachedIDs;
-		cachedIDs = LibraryManager.getAllIDs("global_scripts");
+		cachedIDs = LibraryManager.getAllIDs("global_scripts", true);
 		return cachedIDs;
 	}
 }

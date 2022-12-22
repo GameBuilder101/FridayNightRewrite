@@ -1,7 +1,5 @@
 package;
 
-import music.MusicData.MusicDataRegistry;
-import music.Conductor;
 import Album;
 import flixel.FlxG;
 import flixel.tweens.FlxTween;
@@ -9,6 +7,8 @@ import flixel.util.FlxColor;
 import menu.MenuItem;
 import menu.MenuState;
 import menu.items.AlbumMenuItem;
+import music.Conductor;
+import music.MusicData.MusicDataRegistry;
 
 class AlbumSelectState extends MenuState
 {

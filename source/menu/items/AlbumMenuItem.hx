@@ -1,11 +1,12 @@
 package menu.items;
 
 import Album;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import menu.MenuItem;
-import music.IConducted;
 
 /** Used for album selection in the AlbumSelectState. **/
-class AlbumMenuItem extends FlashingButtonMenuItem implements IConducted
+class AlbumMenuItem extends FlashingButtonMenuItem
 {
 	/** The album this item is associated with. **/
 	public var album(default, null):AlbumData;
@@ -18,8 +19,7 @@ class AlbumMenuItem extends FlashingButtonMenuItem implements IConducted
 		this.album = album;
 
 		// Create the album sprite and make it appear behind the button
-		albumSprite = new AssetSprite(x, y, album.spriteID);
-		albumSprite.updateHitbox();
+		albumSprite = new AssetSprite(x, y + 30.0, album.spriteID);
 		insert(0, albumSprite);
 	}
 
@@ -31,22 +31,25 @@ class AlbumMenuItem extends FlashingButtonMenuItem implements IConducted
 
 		// Scale the album out as the menu item fades
 		albumSprite.scale.set(1.0 - (1.0 - alpha) * 0.5, 1.0 - (1.0 - alpha) * 0.5);
+		albumSprite.updateHitbox();
 		albumSprite.offset.set(albumSprite.width / 2.0 * albumSprite.scale.x, albumSprite.height / 2.0 * albumSprite.scale.y);
+
+		// Spin the album while not pressed
+		if (flashingTime < 0.0)
+			albumSprite.angle += elapsed;
 	}
 
 	override function addToMenu(menu:Menu, index:Int)
 	{
 		super.addToMenu(menu, index);
-		// Remove the arrows
+		// Remove the arrows (album items don't use them)
 		leftmostArrow.kill();
 		rightmostArrow.kill();
 	}
 
-	public function updateMusic(time:Float, bpm:Float, beat:Float)
+	override function onInteracted(value:Dynamic)
 	{
-		if (flashingTime < 0.0)
-			albumSprite.angle = 360.0 * beat * album.spriteSpinSpeed;
+		FlxTween.tween(albumSprite, {angle: albumSprite.angle + 360.0}, 1.0, {ease: FlxEase.expoIn});
+		super.onInteracted(value);
 	}
-
-	public function onWholeBeat(beat:Int) {}
 }
