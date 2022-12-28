@@ -178,7 +178,7 @@ class Script
 		{
 			return FlxColor.fromRGBFloat(r, g, b, a);
 		});
-		// Returns a color
+		// Returns a color (str should be something like a hex code)
 		set("colorString", function(str:String):FlxColor
 		{
 			return FlxColor.fromString(str);
@@ -267,6 +267,7 @@ class Script
 			Conductor.transitionPlay(music, looped, duration, restart);
 		});
 
+		// Loads and replaces the current stage (warning: doing this could cause bugs and be very laggy!)
 		set("loadStage", function(id:String)
 		{
 			cast(FlxG.state, ConductedState).stage.loadFromData(StageDataRegistry.getAsset(id));
@@ -299,13 +300,13 @@ class Script
 		});
 	}
 
-	/** Gets a stage element. **/
+	/** Gets all stage elements with the given tag. **/
 	function getStageElements(targetTag:String):Array<FlxSprite>
 	{
 		return cast(FlxG.state, ConductedState).stage.getElementsWithTag(targetTag);
 	}
 
-	/** Gets a singular stage element. **/
+	/** Gets a singular stage element with the given tag. **/
 	function getStageElement(targetTag:String):FlxSprite
 	{
 		var elements:Array<FlxSprite> = cast(FlxG.state, ConductedState).stage.getElementsWithTag(targetTag);
