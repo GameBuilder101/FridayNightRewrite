@@ -1,5 +1,6 @@
 {
-    "musicID": "menus/_shared/standard_menu_theme",
+    "musicID": "menus/_shared/menu_theme",
+    "eventChartID": "menus/_shared/menu_theme_events",
     "introBeats": [
         {
             "beat": 1,
@@ -170,12 +171,16 @@
             "nerd"
         ],
         [
-            "AMONG US SUSSY BAKA AMONG SUS AMONGUS",
+            "AMONG US SUSSY BAKA AMONG SUS",
             "HAHAHAHAHAHAHAHAAAAAAAAAA"
         ],
         [
             "sawcon",
             "deez nutz"
+        ],
+        [
+            "overengineered?",
+            "nonsense"
         ]
     ]
 }

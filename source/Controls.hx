@@ -251,7 +251,7 @@ class OverridableAction
 	}
 
 	/** Returns true if the action is triggered. **/
-	public inline function check():Bool
+	public function check():Bool
 	{
 		return action.check();
 	}

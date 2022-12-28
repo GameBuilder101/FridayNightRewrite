@@ -51,7 +51,7 @@ class AssetSpriteDataRegistry extends Registry<AssetSpriteData>
 		});
 		LibraryManager.onPreload.push(function(libraryPath:String)
 		{
-			var parsed:Dynamic = FileManager.getParsedJson(libraryPath + "/preload_asset_sprite_data");
+			var parsed:Dynamic = FileManager.getParsedJson(libraryPath + "/preload_sprite_data");
 			if (parsed == null)
 				return;
 			for (item in cast(parsed, Array<Dynamic>))

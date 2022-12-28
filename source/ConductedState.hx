@@ -1,12 +1,13 @@
 package;
 
-import Script;
-import assetManagement.LibraryManager;
+import GlobalScript;
 import flixel.FlxBasic;
 import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.addons.transition.FlxTransitionableState;
 import music.Conductor;
+import music.Event;
+import music.EventChart;
 import music.IConducted;
 import stage.Stage;
 
@@ -14,6 +15,9 @@ import stage.Stage;
 abstract class ConductedState extends FlxTransitionableState implements IConducted
 {
 	public var conductor(default, null):Conductor;
+
+	/** The currently-loaded event chart. **/
+	public var eventChart(default, null):EventChart;
 
 	/** The music time from the previous frame. Used to track and call events. **/
 	var prevEventTime:Float;
@@ -24,6 +28,7 @@ abstract class ConductedState extends FlxTransitionableState implements IConduct
 	override function create()
 	{
 		super.create();
+		persistentUpdate = true; // Makes it so the state is conducted even while transitioning in
 
 		// Must be done after FlxG has a chance to initialize or else it throws an error
 		Controls.initialize();
@@ -41,15 +46,21 @@ abstract class ConductedState extends FlxTransitionableState implements IConduct
 		uiCamera.bgColor.alpha = 0;
 		FlxG.cameras.add(uiCamera, true);
 
+		GlobalScriptRegistry.startAll();
+
 		stage = createStage();
 		if (stage != null)
+		{
 			add(stage);
+			GlobalScriptRegistry.callAll("onStageCreated", [stage]);
+		}
 	}
 
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
 		Controls.updateSoundActions();
+		GlobalScriptRegistry.callAll("onUpdate", [elapsed]);
 	}
 
 	abstract function createStage():Stage;
@@ -63,13 +74,18 @@ abstract class ConductedState extends FlxTransitionableState implements IConduct
 				cast(member, IConducted).updateMusic(time, bpm, beat);
 		}, true);
 
-		/* Trigger all events which occured between the previous time and the current time */
-		for (event in Conductor.currentMusic.events)
+		if (eventChart != null)
 		{
-			if (event.time > prevEventTime && event.time <= time)
-				event.trigger(this);
+			/* Trigger all events which occured between the previous time and the current time */
+			for (event in eventChart.events)
+			{
+				if (event.time > prevEventTime && event.time <= time)
+					triggerEvent(event);
+			}
+			prevEventTime = time;
 		}
-		prevEventTime = time;
+
+		GlobalScriptRegistry.callAll("onUpdateMusic", [time, bpm, beat]);
 	}
 
 	public function onWholeBeat(beat:Int)
@@ -80,31 +96,12 @@ abstract class ConductedState extends FlxTransitionableState implements IConduct
 			if (member is IConducted)
 				cast(member, IConducted).onWholeBeat(beat);
 		}, true);
-	}
-}
 
-/** Use this to access/load global scripts. **/
-class GlobalScriptRegistry extends ScriptRegistry
-{
-	static var cachedIDs:Array<String>;
-
-	public function new()
-	{
-		super();
-		LibraryManager.onFullReload.push(function()
-		{
-			cachedIDs = [];
-		});
+		GlobalScriptRegistry.callAll("onWholeBeat", [beat]);
 	}
 
-	/** Returns all IDs in a library directory (including th library). This
-		does not necessarily return ALL of them in the files, only ones
-		in a specific folder. **/
-	public static function getAllIDs():Array<String>
+	function triggerEvent(event:Event) // In case extra functionality needs to be added
 	{
-		if (cachedIDs != null)
-			return cachedIDs;
-		cachedIDs = LibraryManager.getAllIDs("global_scripts", true);
-		return cachedIDs;
+		event.trigger(this);
 	}
 }

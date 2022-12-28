@@ -1,12 +1,21 @@
 package stage;
 
 import stage.elements.*;
+import stage.elements.ScriptedElement;
 
 /** Handles the conversion of a stage element type to a string and vice-versa. **/
 class StageElementResolver
 {
-	/** A list of all valid types of elements. **/
-	public static final ALL:Array<String> = ["general_sprite", "spinning_sprite", "swaying_sprite", "menu"];
+	static final BUILTIN:Array<String> = ["general_sprite", "menu"];
+
+	/** Returns a list of all element type names. **/
+	public static function getAll():Array<String>
+	{
+		var all:Array<String> = BUILTIN.copy();
+		for (id in ScriptedElementTypeRegistry.getAllIDs()) // Also include custom scripted types
+			all.push(id);
+		return all;
+	}
 
 	/** Creates a new element from the provided type name and returns it. **/
 	public static function resolve(type:String, data:Dynamic):IStageElement
@@ -15,12 +24,13 @@ class StageElementResolver
 		{
 			case "general_sprite":
 				return new GeneralSpriteElement(data);
-			case "spinning_sprite":
-				return new SpinningSpriteElement(data);
-			case "swaying_sprite":
-				return new SwayingSpriteElement(data);
 			case "menu":
 				return new MenuElement(data);
+			default: // If it was not a built-in type, try to see if it's a custom scripted type
+				var elementType:Script = ScriptedElementTypeRegistry.getAsset(type);
+				if (elementType == null) // If it isn't, then there is no element of this type
+					return null;
+				return new ScriptedElement(elementType, data);
 		}
 		return null;
 	}

@@ -39,7 +39,7 @@
 
 	<haxelib name="flixel-addons" />
 
-	<haxelib name="hscript-plus" />
+	<haxelib name="hscript" />
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 

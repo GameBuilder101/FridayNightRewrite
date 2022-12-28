@@ -10,8 +10,8 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import menu.Menu;
-import menu.MenuItem;
 import music.Conductor;
+import music.EventChart;
 import music.MusicData;
 import stage.Stage;
 
@@ -51,10 +51,7 @@ abstract class MenuState extends ConductedState
 		// Get the primary menu and add the menu options
 		var menus:Array<FlxSprite> = stage.getElementsWithTag("menu");
 		if (menus.length > 0 && menus[0] is Menu)
-		{
 			menu = cast menus[0];
-			menu.addItems(getMenuItems());
-		}
 
 		data = MenuStateDataRegistry.getAsset("menus/" + getMenuID());
 		if (data == null)
@@ -63,6 +60,9 @@ abstract class MenuState extends ConductedState
 		// Play menu music if it was defined in the JSON
 		if (data.musicID != null)
 			Conductor.play(MusicDataRegistry.getAsset(data.musicID), true, false);
+		// Load an event chart if it was defined in the JSON
+		if (data.eventChartID != null)
+			eventChart = EventChartRegistry.getAsset(data.eventChartID);
 
 		titleBack = new FlxSprite(FlxG.width / 2.0 - FlxG.width / 3.0, 16.0).makeGraphic(cast(FlxG.width / 1.5), 45, FlxColor.BLACK);
 		titleBack.alpha = 0.4;
@@ -88,12 +88,6 @@ abstract class MenuState extends ConductedState
 
 	/** Return the menu ID (IE: "title_screen"). **/
 	abstract function getMenuID():String;
-
-	/** Return a list of menu items to add if a menu is found. **/
-	function getMenuItems():Array<MenuItem>
-	{
-		return [];
-	}
 
 	override function update(elapsed:Float)
 	{

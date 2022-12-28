@@ -1,6 +1,8 @@
 package;
 
+import Album;
 import AssetSprite;
+import GlobalScript;
 import assetManagement.LibraryManager;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -36,6 +38,8 @@ class TitleScreenState extends MenuState
 	override function create()
 	{
 		super.create();
+		menu.addItems(getMainMenuItems());
+
 		introBeats = cast(data.introBeats, Array<Dynamic>);
 
 		// Add the engine version text
@@ -111,19 +115,27 @@ class TitleScreenState extends MenuState
 		return "title_screen";
 	}
 
-	override function getMenuItems():Array<MenuItem>
+	function getMainMenuItems():Array<MenuItem>
 	{
 		return [
 			new FlashingButtonMenuItem("Story Mode", {
 				onInteracted: function(value:Dynamic)
 				{
-					specialTransition(new AlbumSelectState(new TitleScreenState()));
+					var nextState:MenuState = new TitleScreenState();
+					if (AlbumDataRegistry.getAllIDs().length > 1) // If there is only one album, just skip the album select
+						specialTransition(new AlbumSelectState(nextState));
+					else
+						specialTransition(nextState);
 				}
 			}),
 			new FlashingButtonMenuItem("Freeplay", {
 				onInteracted: function(value:Dynamic)
 				{
-					specialTransition(new AlbumSelectState(new TitleScreenState()));
+					var nextState:MenuState = new TitleScreenState();
+					if (AlbumDataRegistry.getAllIDs().length > 1) // If there is only one album, just skip the album select
+						specialTransition(new AlbumSelectState(nextState));
+					else
+						specialTransition(nextState);
 				}
 			}),
 			#if ENABLE_CHARACTER_SELECT
@@ -157,6 +169,8 @@ class TitleScreenState extends MenuState
 		introFlavorText = allFlavorText[FlxG.random.int(0, allFlavorText.length - 1)];
 
 		introDarken.revive();
+
+		GlobalScriptRegistry.callAll("onPlayTitleScreenIntro");
 	}
 
 	public function skipIntro()
@@ -165,6 +179,7 @@ class TitleScreenState extends MenuState
 			return;
 		// Jump to the ending beat
 		Conductor.setTime(Conductor.currentMusic.getTimeAt(introBeats[introBeats.length - 1].beat));
+		GlobalScriptRegistry.callAll("onSkipTitleScreenIntro");
 		endIntro();
 	}
 
@@ -180,6 +195,8 @@ class TitleScreenState extends MenuState
 
 		if (Settings.getFlashingLights())
 			FlxG.cameras.flash();
+
+		GlobalScriptRegistry.callAll("onEndTitleScreenIntro");
 	}
 
 	override function onWholeBeat(beat:Int)

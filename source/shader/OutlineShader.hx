@@ -14,7 +14,7 @@ class OutlineShader extends FlxShader
 		
 		void main()
 		{
-			vec4 base = texture2D(bitmap, openfl_TextureCoordv);
+			vec4 base = flixel_texture2D(bitmap, openfl_TextureCoordv);
 			if (base.a == 0.0)
 			{
 				float w = outlineSize.x / openfl_TextureSize.x;

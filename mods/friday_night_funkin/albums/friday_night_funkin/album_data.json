@@ -1,11 +1,11 @@
 {
     "name": "Friday Night Funkin'",
-    "description": "Credits:\nninjamuffin99 - Programming, PhantomArcade - Animation,\nevilsk8r - Artist, KawaiSprite - Music",
+    "description": "A port of the original Friday Night Funkin'\n- Credits -\nninjamuffin99: programming, PhantomArcade: animation,\nevilsk8r: artist, KawaiSprite: music",
     "spriteID": "albums/friday_night_funkin/sprite",
     "backgroundColor": [
-        247,
-        51,
-        154
+        30,
+        14,
+        65
     ],
-    "previewMusicID": "menus/_shared/standard_menu_theme"
+    "previewMusicID": "menus/_shared/menu_theme"
 }

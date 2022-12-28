@@ -31,7 +31,7 @@
             "y": 300.0,
             "data": {
                 "type": "LIST_HORIZONTAL",
-                "spacing": 740.0,
+                "spacing": 700.0,
                 "fontSize": 0.8,
                 "normalItemColor": [
                     255,
@@ -49,16 +49,21 @@
                     128
                 ],
                 "selectSoundID": "menus/_shared/menu_select",
-                "confirmSoundID": "menus/_shared/menu_confirm",
+                "confirmSoundID": "menus/album_select/menu_confirm",
                 "cancelSoundID": "menus/_shared/menu_cancel",
                 "errorSoundID": "menus/_shared/menu_error",
                 "toggleSoundID": "menus/_shared/menu_toggle"
             }
         },
         {
+            "tags": [
+                "left_menu_arrow"
+            ],
             "type": "general_sprite",
-            "x": 30.0,
+            "x": 60.0,
             "y": 330.0,
+            "scaleX": 1.5,
+            "scaleY": 1.5,
             "center": true,
             "data": {
                 "id": "menus/_shared/arrow",
@@ -67,13 +72,21 @@
                     253,
                     232,
                     113
-                ]
+                ],
+                "bopFrequency": 1,
+                "bopScale": 1.6,
+                "bopSpeed": 0.1
             }
         },
         {
+            "tags": [
+                "right_menu_arrow"
+            ],
             "type": "general_sprite",
-            "x": 1250.0,
+            "x": 1220.0,
             "y": 330.0,
+            "scaleX": 1.5,
+            "scaleY": 1.5,
             "center": true,
             "data": {
                 "id": "menus/_shared/arrow",
@@ -81,7 +94,10 @@
                     253,
                     232,
                     113
-                ]
+                ],
+                "bopFrequency": 1,
+                "bopScale": 1.6,
+                "bopSpeed": 0.1
             }
         }
     ]

@@ -11,16 +11,12 @@ class MusicData
 	public var sound(default, null):Sound;
 	public var volume(default, null):Float;
 	public var bpmMap(default, null):Array<BPMChange>;
-	public var events(default, null):Array<MusicEvent>;
 
-	public function new(sound:Sound, volume:Float, bpmMap:Array<BPMChange>, events:Array<MusicEvent> = null)
+	public function new(sound:Sound, volume:Float, bpmMap:Array<BPMChange>)
 	{
 		this.sound = sound;
 		this.volume = volume;
 		this.bpmMap = bpmMap;
-		this.events = events;
-		if (events == null)
-			this.events = [];
 	}
 
 	/** @param time The time in milliseconds. **/
@@ -133,12 +129,7 @@ class MusicDataRegistry extends Registry<MusicData>
 		if (parsed.events == null)
 			parsed.events = [];
 
-		// Build events from the array in the parsed data
-		var events:Array<MusicEvent> = [];
-		for (event in cast(parsed.events, Array<Dynamic>))
-			events.push(MusicEventResolver.resolve(event.time, event.type, event.args));
-
-		return new MusicData(sound, parsed.volume, parsed.bpmMap, events);
+		return new MusicData(sound, parsed.volume, parsed.bpmMap);
 	}
 
 	public static function getAsset(id:String):MusicData

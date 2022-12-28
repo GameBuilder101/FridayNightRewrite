@@ -62,17 +62,26 @@ class LibraryManager
 		return cast libraries.get(CORE_ID).data;
 	}
 
-	/** Returns the first found instance of an asset with the given id.
+	/** Returns the first found instance of an asset with the given ID.
 		@param cacheRegistry The registry used to cache the type of asset
+		@param includesLibrary Whether the ID includes the library
 	**/
-	public static function getLibraryAsset<T>(id:String, cacheRegistry:Registry<T>):T
+	public static function getLibraryAsset<T>(id:String, cacheRegistry:Registry<T>, includesLibrary:Bool = false):T
 	{
 		var entry:RegistryEntry = cacheRegistry.get(id);
 		if (entry != null)
 			return entry.data;
+
+		var libraryID:String = id.split("/")[0]; // The library ID would always be the first part of the ID
 		for (libraryEntry in libraries.entries)
 		{
-			entry = cacheRegistry.load(Registry.getFullPath(libraryEntry.directory, libraryEntry.id), id);
+			if (includesLibrary && libraryEntry.id != libraryID)
+				continue;
+			if (includesLibrary)
+				entry = cacheRegistry.load(libraryEntry.directory, id);
+			else
+				entry = cacheRegistry.load(Registry.getFullPath(libraryEntry.directory, libraryEntry.id), id);
+
 			if (entry != null)
 				return entry.data;
 		}
@@ -80,7 +89,9 @@ class LibraryManager
 		return null;
 	}
 
-	/** Returns the IDs of all registry entries from all libraries in the given library-relative directory. **/
+	/** Returns the IDs of all registry entries from all libraries in the given library-relative directory.
+		@param includeLibrary If true, the library will be included and duplicate assets not removed
+	**/
 	public static function getAllIDs(libraryDirectory:String, includeLibrary:Bool = false):Array<String>
 	{
 		var all:Array<String> = [];
@@ -97,7 +108,7 @@ class LibraryManager
 			var i:Int = 0;
 			for (content in contents)
 			{
-				contents[i] = libraryDirectory + "/" + content;
+				contents[i] = libraryDirectory + "/" + content.split(".")[0]; // Use the split function to remove file extension
 				if (includeLibrary)
 					contents[i] = fullPath + "/" + contents[i];
 				if (all.contains(contents[i])) // Clear out any already-added/duplicates

@@ -26,7 +26,7 @@ This is the repository for Friday Night Rewrite, a full code rewrite of the orig
 - A port of the original FNF with subtle improvements
 
 **Technical features:**
-- **Runtime Haxe script loading!** This means you can add custom Haxe scripts to your mods that can do almost anything! (Though with some limitations to prevent malicious scripts.)
+- Runtime scripts using hscript!
 - A new mod loading system, where mods can set dependencies and override other mods. Additionally, mods can set what version they are (and what dependency versions they expect) and even use a URL to detect if a mod is outdated
 - Animations and other stuff for sprites can be defined in a JSON file alongside any PNG file and loaded in dynamically
 - If a sound has variants, these can be defined in JSON files. These JSON files can also define their volumes
@@ -45,7 +45,6 @@ This is the repository for Friday Night Rewrite, a full code rewrite of the orig
    haxelib install flixel
    haxelib install flixel-addons
    haxelib install hscript
-   haxelib git hscript-plus https://github.com/DleanJeans/hscript-plus/
    ```
 
 **Note: FNR is only designed to compile to desktop.** It cannot compile to HTML5 (browser mode basically), since it requires direct access to the file system to load assets and mods. Because of this, you also need to do this to compile to Windows:

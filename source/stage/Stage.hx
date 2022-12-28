@@ -155,7 +155,7 @@ class Stage extends FlxSpriteGroup
 			sprite.updateHitbox();
 			sprite.angle = element.rotation;
 			if (element.center)
-				sprite.offset.set(sprite.width / 2.0 * sprite.scale.x, sprite.height / 2.0 * sprite.scale.y);
+				sprite.offset.set(sprite.width / 2.0, sprite.height / 2.0);
 			elements.push({sprite: sprite, tags: element.tags});
 			add(sprite);
 			cast(sprite, IStageElement).onAddedToStage(this);

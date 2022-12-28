@@ -11,6 +11,9 @@ class Conductor extends FlxGroup
 	/** The currently-playing music. **/
 	public static var currentMusic(default, null):MusicData;
 
+	/** The transitionPlay target. **/
+	static var targetMusic(default, null):MusicData;
+
 	/** The sound used to play the music. The timing of music is tied directly to the current time of the sound. **/
 	static var sound:FlxSound = new FlxSound();
 
@@ -50,6 +53,7 @@ class Conductor extends FlxGroup
 		if (currentMusic == music && !restart)
 			return;
 		currentMusic = music;
+		targetMusic = music;
 
 		/* Set the FlxG music to the Conductor's sound. This ensures that the music will get
 			paused when the game loses focus */
@@ -65,19 +69,21 @@ class Conductor extends FlxGroup
 	**/
 	public static function transitionPlay(music:MusicData, looped:Bool, duration:Float, restart:Bool = true)
 	{
-		if (currentMusic == music && !restart)
+		if (targetMusic == music && !restart)
 			return;
+		targetMusic = music;
+
 		FlxTween.cancelTweensOf(sound);
 		// Fade the music out
 		FlxTween.tween(sound, {volume: 0.0}, duration / 2.0, {
 			onComplete: function(tween:FlxTween)
 			{
 				// Play the new music
-				play(music, looped, restart);
+				play(targetMusic, looped, restart);
 				// Make sure the volume is still 0
 				sound.volume = 0.0;
 				// Fade in the new music
-				FlxTween.tween(sound, {volume: music.volume}, duration / 2.0);
+				FlxTween.tween(sound, {volume: targetMusic.volume}, duration / 2.0);
 			}
 		});
 	}

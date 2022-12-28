@@ -2,5 +2,7 @@
     "menus/_shared/menu_select",
     "menus/_shared/menu_confirm",
     "menus/_shared/menu_cancel",
-    "menus/_shared/menu_error"
+    "menus/_shared/menu_error",
+    "menus/_shared/menu_toggle",
+    "menus/album_select/menu_confirm"
 ]

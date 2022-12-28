@@ -1,3 +1,4 @@
 {
-    "musicID": "menus/_shared/standard_menu_theme"
+    "musicID": "menus/_shared/menu_theme",
+    "eventChartID": "menus/_shared/menu_theme_events"
 }

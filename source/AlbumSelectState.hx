@@ -1,7 +1,9 @@
 package;
 
 import Album;
+import GlobalScript;
 import flixel.FlxG;
+import flixel.FlxSprite;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import menu.MenuItem;
@@ -17,6 +19,9 @@ class AlbumSelectState extends MenuState
 	/** An array of all detected/loaded albums. **/
 	public var albums(default, null):Array<AlbumData> = [];
 
+	var leftMenuArrow:FlxSprite;
+	var rightMenuArrow:FlxSprite;
+
 	public function new(nextState:MenuState)
 	{
 		super();
@@ -25,18 +30,36 @@ class AlbumSelectState extends MenuState
 
 	override function create()
 	{
-		// Load all albums
-		for (id in AlbumDataRegistry.getAllIDs())
+		super.create();
+
+		// Get all albums IDs
+		var allIDs:Array<String> = AlbumDataRegistry.getAllIDs();
+		// Make the priority albums appear first in the list (in the order specified in the array)
+		for (id in cast(data.priorityAlbumOrder, Array<Dynamic>))
+		{
+			if (!allIDs.contains(id))
+				continue;
+			allIDs.remove(id);
+			allIDs.unshift(id);
+		}
+		// Load albums from the list that was created
+		for (id in allIDs)
 			albums.push(AlbumDataRegistry.getAsset(id));
 
-		super.create();
+		menu.addItems(getMainMenuItems());
+		currentTitle = stage.data.name;
 
 		hintBack.setPosition(FlxG.width / 2.0 - FlxG.width / 3.0, FlxG.height - 176.0);
 		hintBack.makeGraphic(cast(FlxG.width / 1.5), 160, FlxColor.BLACK);
 		hintText.setPosition(hintBack.x + 16.0, hintBack.y + 16.0);
 		hintText.fieldWidth = hintBack.width - 32.0;
 
-		currentTitle = stage.data.name;
+		var menuArrows:Array<FlxSprite> = stage.getElementsWithTag("left_menu_arrow");
+		if (menuArrows.length > 0)
+			leftMenuArrow = menuArrows[0];
+		menuArrows = stage.getElementsWithTag("right_menu_arrow");
+		if (menuArrows.length > 0)
+			rightMenuArrow = menuArrows[0];
 	}
 
 	override function update(elapsed:Float)
@@ -55,7 +78,7 @@ class AlbumSelectState extends MenuState
 		return "album_select";
 	}
 
-	override function getMenuItems():Array<MenuItem>
+	function getMainMenuItems():Array<MenuItem>
 	{
 		var items:Array<MenuItem> = [];
 		for (album in albums)
@@ -69,9 +92,21 @@ class AlbumSelectState extends MenuState
 					FlxTween.color(background, 0.5, color, album.backgroundColor);
 
 					// Tween the music to the album's preview music
-					Conductor.transitionPlay(MusicDataRegistry.getAsset(album.previewMusicID), true, 1.0);
+					Conductor.transitionPlay(MusicDataRegistry.getAsset(album.previewMusicID), true, 1.0, false);
 
 					currentHint = album.description;
+
+					GlobalScriptRegistry.callAll("onAlbumSelected", [album]);
+				},
+				onInteracted: function(value:Dynamic)
+				{
+					GlobalScriptRegistry.callAll("onAlbumInteracted", [album]);
+					specialTransition(nextState);
+					// Hide the side arrows
+					if (leftMenuArrow != null)
+						leftMenuArrow.visible = false;
+					if (rightMenuArrow != null)
+						rightMenuArrow.visible = false;
 				}
 			}));
 		}
