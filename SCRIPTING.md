@@ -13,8 +13,12 @@ It should be noted that import statements are not allowed (for security reasons 
 
 ## Table of Contents
 - [Universal Imports](#universal-imports)
+- [Universal Functions](#universal-functions)
+- [Global-Script Callbacks](#global-script-callbacks)
+- [Stage Element Callbacks](#stage-element-callbacks)
+- [Event Type Callbacks](#event-type-callbacks)
 
-## Universal Imports {#universal-imports}
+## Universal Imports
 The following are classes automatically imported into every type of script.
 
 **Haxe stuff:**
@@ -74,3 +78,84 @@ The following are classes automatically imported into every type of script.
 - `menu.Menu`
 - `stage.Stage.StageDataRegistry`
 - `Album.AlbumDataRegistry`
+
+## Universal Functions
+The following are functions that you can call directly from any script (without having to reference a class).
+
+**HaxeFlixel stuff:**
+- `colorRGB(r:Int, g:Int, b:Int, a:Int = 255):FlxColor`
+  - Returns a color
+- `colorRGBFloat(r:Float, g:Float, b:Float, a:Float = 1.0):FlxColor`
+  - Returns a color
+- `colorString(str:String):FlxColor`
+  - Returns a color (`str` should be something like a hex code)
+- `colorInterpolate(color1:FlxColor, color2:FlxColor, factor:Float = 0.5):FlxColor`
+  - Returns a color
+
+**Friday Night Rewrite stuff:**
+- `alert(message:String)`
+  - Traces and makes a window alert. Useful for debugging
+- `addSprite(x:Float, y:Float, id:String):AssetSprite`
+  - Makes an asset-sprite and adds it to the current state
+- `insertSprite(position:Int, x:Float, y:Float, id:String):AssetSprite`
+  - Makes an asset-sprite and inserts it in the current state
+- `playSound(id:String)`
+- `playSoundOn(id:String, sound:FlxSound)`
+  - Plays a sound with the given ID on a sound object
+- `playMusic(id:String, looped:Bool, restart:Bool = true)`
+- `transitionPlayMusic(id:String, looped:Bool, duration:Float, restart:Bool = true)`
+- `loadStage(id:String)`
+  - Loads and replaces the current stage (warning: doing this could cause bugs and be very laggy!)
+- `getStageElements(targetTag:String):Array<FlxSprite>`
+  - Gets all stage elements with the given tag
+- `getStageElement(targetTag:String):FlxSprite`
+  - Gets a singular stage element with the given tag
+- `insertSpriteInStage(position:Int, x:Float, y:Float, id:String):AssetSprite`
+  - Makes an asset-sprite and inserts it in the current stage
+- `setVisible(targetTag:String, value:Bool)`
+  - Sets a stage element visible
+- `playAnim(targetTag:String, name:String)`
+  - Plays an animation on a stage element
+
+## Global-Script Callbacks
+The following only applies to "global scripts". (**So not every type of script**... Kind of confusing, I know.)
+When you add any of the following functions to your script, the engine will call them at the appropriate time.
+
+- `onStart()`
+  - Called on every script after every script has been parsed/initialized
+- `onUpdate(elapsed:Float)`
+  - Called every frame. `elapsed` is how many milliseconds passed since the last frame
+- `onUpdateMusic(time:Float, bpm:Float, beat:Float)`
+  - Called every frame while music is playing. Note that `beat` is not a whole number!
+- `onWholeBeat(beat:Int)`
+  - Called every whole beat
+- `onStageCreated(stage:Stage)`
+  - Called when a conducted state creates its stage
+- `onPlayTitleScreenIntro()`
+- `onSkipTitleScreenIntro()`
+  - Called when intro is manually skipped. Note that `onEndTitleScreenIntro()` will also get called right after!
+- `onEndTitleScreenIntro()`
+- `onAlbumSelected(album:Album)`
+  - Called when an album is selected or "hovered over" in the album select screen
+- `onAlbumInteracted(album:Album)`
+  - Called when an album is chosen in the album select screen
+
+## Stage Element Callbacks
+When you add any of the following functions to your custom stage element script, the engine will call them at the appropriate time.
+
+- `onNew(data:Dynamic)`
+  - Called when the element is created. `data` contains any custom data that was provided by the stage editor
+- `onUpdate(elapsed:Float)`
+  - Called every frame. `elapsed` is how many milliseconds passed since the last frame
+- `onUpdateMusic(time:Float, bpm:Float, beat:Float)`
+  - Called every frame while music is playing. Note that `beat` is not a whole number!
+- `onWholeBeat(beat:Int)`
+  - Called every whole beat
+
+**Note:** you can use `this` to access properties/functions of the stage element sprite itself
+
+## Event Type Callbacks
+When you add any of the following functions to your event type script, the engine will call them at the appropriate time.
+
+- `onTrigger(state:ConductedState, time:Float, args:Dynamic)`
+  - `state` is the state this event was triggered on (may not always be the PlayState!), `time` is the music time in milliseconds when it was triggered, and `args` contains any custom arguments set in the editor
