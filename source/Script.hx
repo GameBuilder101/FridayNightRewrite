@@ -157,8 +157,6 @@ class Script
 		set("FlxMath", flixel.math.FlxMath);
 		set("FlxRandom", flixel.math.FlxRandom);
 		set("FlxRect", flixel.math.FlxRect);
-		set("FlxVelocity", flixel.math.FlxVelocity);
-		set("FlxVersion", flixel.system.FlxVersion);
 		set("FlxText", flixel.text.FlxText);
 		set("FlxEase", flixel.tweens.FlxEase);
 		set("FlxTween", flixel.tweens.FlxTween);
