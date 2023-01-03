@@ -1,0 +1,9 @@
+{
+    "animations": [
+        {
+            "name": "dance",
+            "atlasPrefix": "M GF Idle",
+            "frameRate": 24
+        }
+    ]
+}

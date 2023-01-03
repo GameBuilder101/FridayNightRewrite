@@ -12,18 +12,27 @@ class Library
 	public var version(default, null):String;
 
 	/** The URL used to find the latest version. **/
-	var latestVersionURL:String;
+	var latestVersionURL:String = null;
 
 	public var latestVersion(default, null):String = null;
 
+	/** The version of the game engine this library was made for. **/
+	public var engineVersion(default, null):String;
+
+	/** When true, indicates that this library should not be used with other overhaul libraries. **/
+	public var overhaul(default, null):Bool;
+
 	public var dependencies(default, null):Array<LibraryDependency> = [];
 
-	public function new(name:String, description:String, version:String, latestVersionURL:String, dependencies:Array<LibraryDependency> = null)
+	public function new(params:Dynamic, dependencies:Array<LibraryDependency> = null)
 	{
-		this.name = name;
-		this.description = description;
-		this.version = version;
-		this.latestVersionURL = latestVersionURL;
+		name = params.name;
+		description = params.description;
+		version = params.version;
+		latestVersionURL = params.latestVersionURL;
+		engineVersion = params.engineVersion;
+		if (params.overhaul != null)
+			overhaul = params.overhaul;
 		this.dependencies = dependencies;
 		if (dependencies == null)
 			this.dependencies = [];
@@ -89,6 +98,6 @@ class LibraryRegistry extends Registry<Library>
 		if (parsed == null)
 			return null;
 		trace("Loaded library '" + id + "'");
-		return new Library(parsed.name, parsed.description, parsed.version, parsed.latestVersionURL, parsed.dependencies);
+		return new Library(parsed, parsed.dependencies);
 	}
 }

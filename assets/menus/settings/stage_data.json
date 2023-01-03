@@ -7,7 +7,7 @@
             ],
             "type": "general_sprite",
             "data": {
-                "id": "menus/_shared/standard_background",
+                "id": "menus/_shared/background",
                 "color": [
                     30,
                     14,

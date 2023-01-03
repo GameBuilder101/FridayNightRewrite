@@ -33,6 +33,7 @@ This is the repository for Friday Night Rewrite, a full code rewrite of the orig
 - Support for character sprite variants. For instance: Week 5 in FNF loads a christmas version of BF's sprite. With this system though, you could also have a custom character with a christmas version which gets automatically loaded in Week 5 songs
 - Custom arrow types
 - Custom stage elements
+- Custom events
 - **COMmeNTEd cODE?!?!?!?!?!?!?!??!?!?!?!! :scream::scream::scream:**
 - And much more!
 

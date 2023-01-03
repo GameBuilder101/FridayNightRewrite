@@ -5,7 +5,7 @@ import flixel.system.FlxAssets.FlxShader;
 /** Handles the conversion of a shader type to a string and vice-versa. **/
 class ShaderResolver
 {
-	static final BUILTIN:Array<String> = ["wave", "outline", "vcr"];
+	static final BUILTIN:Array<String> = ["wave", "outline", "duotone", "vcr"];
 
 	/** Returns a list of all shader type names. **/
 	public static function getAll():Array<String>
@@ -16,12 +16,16 @@ class ShaderResolver
 	/** Creates a new shader from the provided type name and returns it. **/
 	public static function resolve(type:String, args:Dynamic):FlxShader
 	{
+		if (args == null)
+			args = {};
 		switch (type)
 		{
 			case "wave":
 				return new WaveShader(args);
 			case "outline":
 				return new OutlineShader(args);
+			case "duotone":
+				return new DuotoneShader(args);
 			case "vcr":
 				return new VCRShader(args);
 		}

@@ -1,0 +1,8 @@
+{
+    "name": "Tutorial",
+    "itemName": "Tutorial",
+    "previewStageID": "stages/stage",
+    "songIDs": [
+        "songs/tutorial"
+    ]
+}

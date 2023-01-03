@@ -7,7 +7,7 @@
             ],
             "type": "general_sprite",
             "data": {
-                "id": "menus/_shared/standard_background",
+                "id": "menus/_shared/background",
                 "color": [
                     30,
                     14,
@@ -58,7 +58,7 @@
             "type": "general_sprite",
             "x": 230.0,
             "data": {
-                "id": "menus/title_screen/menu_record_accent"
+                "id": "menus/title_screen/record_accent"
             }
         },
         {
@@ -67,7 +67,7 @@
             "y": 360.0,
             "center": true,
             "data": {
-                "id": "menus/_shared/menu_record",
+                "id": "menus/_shared/record",
                 "color": [
                     247,
                     51,

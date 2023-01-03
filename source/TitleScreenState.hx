@@ -121,7 +121,7 @@ class TitleScreenState extends MenuState
 			new FlashingButtonMenuItem("Story Mode", {
 				onInteracted: function(value:Dynamic)
 				{
-					var nextState:MenuState = new TitleScreenState();
+					var nextState:MenuState = new WeekSelectState();
 					if (AlbumDataRegistry.getAllIDs().length > 1) // If there is only one album, just skip the album select
 						specialTransition(new AlbumSelectState(nextState));
 					else
@@ -131,7 +131,7 @@ class TitleScreenState extends MenuState
 			new FlashingButtonMenuItem("Freeplay", {
 				onInteracted: function(value:Dynamic)
 				{
-					var nextState:MenuState = new TitleScreenState();
+					var nextState:MenuState = new FreeplayState();
 					if (AlbumDataRegistry.getAllIDs().length > 1) // If there is only one album, just skip the album select
 						specialTransition(new AlbumSelectState(nextState));
 					else

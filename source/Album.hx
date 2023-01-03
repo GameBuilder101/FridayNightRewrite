@@ -12,8 +12,11 @@ typedef AlbumData =
 	name:String,
 	description:String,
 	spriteID:String,
+	menuMusicID:String,
+	backgroundID:String,
 	backgroundColor:FlxColor,
-	previewMusicID:String
+	weekIDs:Array<String>,
+	freeplaySongIDs:Array<String>
 }
 
 /** Use this to access/load albums. **/
@@ -41,8 +44,11 @@ class AlbumDataRegistry extends Registry<AlbumData>
 			name: parsed.name,
 			description: parsed.description,
 			spriteID: parsed.spriteID,
+			menuMusicID: parsed.menuMusicID,
+			backgroundID: parsed.backgroundID,
 			backgroundColor: FlxColor.fromRGB(parsed.backgroundColor[0], parsed.backgroundColor[1], parsed.backgroundColor[2]),
-			previewMusicID: parsed.previewMusicID
+			weekIDs: parsed.weekIDs,
+			freeplaySongIDs: parsed.freeplaySongIDs
 		};
 	}
 

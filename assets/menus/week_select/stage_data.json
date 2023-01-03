@@ -1,0 +1,86 @@
+{
+    "name": "Week Select",
+    "elements": [
+        {
+            "tags": [
+                "menu_background"
+            ],
+            "type": "general_sprite",
+            "data": {
+                "shaderType": "wave",
+                "shaderArgs": {
+                    "type": "VERTICAL",
+                    "amplitude": 0.02,
+                    "frequency": 10.0,
+                    "speed": 1.0
+                }
+            }
+        },
+        {
+            "tags": [
+                "menu"
+            ],
+            "type": "menu",
+            "x": 640.0,
+            "y": 510.0,
+            "data": {
+                "type": "LIST",
+                "spacing": 120.0,
+                "radius": 50.0,
+                "fontSize": 0.9,
+                "normalItemColor": [
+                    255,
+                    255,
+                    255
+                ],
+                "selectedItemColor": [
+                    253,
+                    232,
+                    113
+                ],
+                "disabledItemColor": [
+                    128,
+                    128,
+                    128
+                ],
+                "selectSoundID": "menus/_shared/menu_select",
+                "confirmSoundID": "menus/_shared/menu_confirm",
+                "cancelSoundID": "menus/_shared/menu_cancel",
+                "errorSoundID": "menus/_shared/menu_error",
+                "toggleSoundID": "menus/_shared/menu_toggle"
+            }
+        },
+        {
+            "tags": [
+                "stage_preview"
+            ],
+            "type": "general_sprite",
+            "data": {
+                "id": "stages/stage/preview"
+            }
+        },
+        {
+            "tags": [
+                "color_split"
+            ],
+            "type": "general_sprite",
+            "data": {
+                "id": "menus/week_select/color_split",
+                "defaultAnim": "idle"
+            }
+        },
+        {
+            "type": "box_sprite",
+            "y": 360.0,
+            "data": {
+                "width": 1280,
+                "height": 16,
+                "color": [
+                    0,
+                    0,
+                    0
+                ]
+            }
+        }
+    ]
+}

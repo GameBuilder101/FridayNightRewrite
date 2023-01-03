@@ -1,0 +1,65 @@
+{
+    "animations": [
+        {
+            "name": "dance",
+            "atlasPrefix": "Dad idle dance",
+            "frameRate": 24
+        },
+        {
+            "name": "sing_left",
+            "atlasPrefix": "Dad Sing Note LEFT",
+            "frameRate": 24,
+            "offsetX": -9.0,
+            "offsetY": 10.0
+        },
+        {
+            "name": "sing_left_sustain",
+            "atlasPrefix": "Dad Sing Note LEFT",
+            "frameRate": 24,
+            "looped": true,
+            "offsetX": -9.0,
+            "offsetY": 10.0
+        },
+        {
+            "name": "sing_down",
+            "atlasPrefix": "Dad Sing Note DOWN",
+            "frameRate": 24,
+            "offsetY": -30.0
+        },
+        {
+            "name": "sing_down_sustain",
+            "atlasPrefix": "Dad Sing Note DOWN",
+            "frameRate": 24,
+            "looped": true,
+            "offsetY": -30.0
+        },
+        {
+            "name": "sing_up",
+            "atlasPrefix": "Dad Sing Note UP",
+            "frameRate": 24,
+            "offsetX": -6.0,
+            "offsetY": 50.0
+        },
+        {
+            "name": "sing_up_sustain",
+            "atlasPrefix": "Dad Sing Note UP",
+            "frameRate": 24,
+            "looped": true,
+            "offsetX": -6.0,
+            "offsetY": 50.0
+        },
+        {
+            "name": "sing_right",
+            "atlasPrefix": "Dad Sing Note RIGHT",
+            "frameRate": 24,
+            "offsetY": 27.0
+        },
+        {
+            "name": "sing_right_sustain",
+            "atlasPrefix": "Dad Sing Note RIGHT",
+            "frameRate": 24,
+            "looped": true,
+            "offsetY": 27.0
+        }
+    ]
+}

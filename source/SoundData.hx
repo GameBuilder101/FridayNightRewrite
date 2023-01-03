@@ -71,7 +71,7 @@ class SoundDataRegistry extends Registry<SoundData>
 	function loadData(directory:String, id:String):SoundData
 	{
 		var path:String = Registry.getFullPath(directory, id);
-		var parsed:Dynamic = FileManager.getParsedJson(path);
+		var parsed:Dynamic = FileManager.getParsedJson(path, ".sound"); // Custom file extension to make stuff nicer
 		var sound:Sound;
 
 		if (parsed == null || parsed.variants == null) // If JSON data for the sound variants were not supplied, look for a standalone sound file instead

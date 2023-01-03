@@ -78,6 +78,8 @@ The following are classes automatically imported into every type of script.
 - `menu.Menu`
 - `stage.Stage.StageDataRegistry`
 - `Album.AlbumDataRegistry`
+- `Week.WeekDataRegistry`
+- `Song.SongDataRegistry`
 
 ## Universal Functions
 The following are functions that you can call directly from any script (without having to reference a class).
@@ -139,6 +141,10 @@ When you add any of the following functions to your script, the engine will call
   - Called when an album is selected or "hovered over" in the album select screen
 - `onAlbumInteracted(album:Album)`
   - Called when an album is chosen in the album select screen
+- `onWeekSelected(week:Week)`
+  - Called when a week is selected or "hovered over" in the week select screen
+- `onWeekInteracted(week:Week)`
+  - Called when a week is chosen in the week select screen
 
 ## Stage Element Callbacks
 When you add any of the following functions to your custom stage element script, the engine will call them at the appropriate time.

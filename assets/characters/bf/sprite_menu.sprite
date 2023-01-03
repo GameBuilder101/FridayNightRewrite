@@ -1,0 +1,15 @@
+{
+    "flipX": true,
+    "animations": [
+        {
+            "name": "dance",
+            "atlasPrefix": "M BF Idle",
+            "frameRate": 24
+        },
+        {
+            "name": "hey",
+            "atlasPrefix": "M bf HEY",
+            "frameRate": 24
+        }
+    ]
+}

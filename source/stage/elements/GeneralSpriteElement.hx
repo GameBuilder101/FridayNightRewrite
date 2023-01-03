@@ -30,6 +30,8 @@ class GeneralSpriteElement extends AssetSprite implements IStageElement implemen
 			color *= FlxColor.fromRGB(data.color[0], data.color[1], data.color[2]);
 		if (data.alpha != null)
 			alpha *= data.alpha;
+		if (data.blend != null)
+			blend = data.blend;
 		if (data.shaderType != null && Settings.getShaders())
 			shader = ShaderResolver.resolve(data.shaderType, data.shaderArgs);
 
@@ -48,6 +50,9 @@ class GeneralSpriteElement extends AssetSprite implements IStageElement implemen
 		bopFrequency = data.bopFrequency;
 		bopScale = data.bopScale;
 		bopSpeed = data.bopSpeed;
+
+		if (data.defaultAnim != null)
+			playAnimation(data.defaultAnim, true);
 	}
 
 	public function onAddedToStage(stage:Stage)

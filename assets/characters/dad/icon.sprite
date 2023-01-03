@@ -1,0 +1,22 @@
+{
+    "animations": [
+        {
+            "name": "losing",
+            "atlasPrefix": "normal"
+        },
+        {
+            "name": "normal",
+            "atlasPrefix": "normal"
+        },
+        {
+            "name": "winning",
+            "atlasPrefix": "normal"
+        },
+        {
+            "name": "menu_idle",
+            "atlasPrefix": "normal",
+            "offsetX": 134.0,
+            "offsetY": 40
+        }
+    ]
+}

@@ -1,0 +1,11 @@
+{
+    "name": "Daddy Dearest",
+    "itemName": "Week 1",
+    "previewStageID": "stages/stage",
+    "previewOpponentID": "characters/dad",
+    "songIDs": [
+        "songs/bopeebo",
+        "songs/fresh",
+        "songs/dadbattle"
+    ]
+}

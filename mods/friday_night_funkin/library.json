@@ -2,5 +2,6 @@
     "name": "Friday Night Funkin'",
     "description": "A port of the original Friday Night Funkin'. Probably required for many mods to work",
     "version": "0.2.7",
-    "latestVersionURL": "https://raw.githubusercontent.com/GameBuilder101/FridayNightRewrite/main/mods/friday_night_funkin/library.json"
+    "latestVersionURL": "https://raw.githubusercontent.com/GameBuilder101/FridayNightRewrite/main/mods/friday_night_funkin/library.json",
+    "engineVersion": "BETA-0.1.0"
 }

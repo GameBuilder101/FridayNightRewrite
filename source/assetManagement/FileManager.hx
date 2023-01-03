@@ -28,9 +28,12 @@ class FileManager
 	}
 
 	/** @param path The path excluding the file extension. **/
-	public static inline function getParsedJson(path:String):Dynamic
+	public static function getParsedJson(path:String, overrideExtension:String = null):Dynamic
 	{
-		var json:String = getRaw(path + ".json");
+		var extension:String = overrideExtension;
+		if (extension == null)
+			extension = ".json";
+		var json:String = getRaw(path + extension);
 		if (json == null)
 			return null;
 		return Json.parse(json);

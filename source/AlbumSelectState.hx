@@ -1,5 +1,6 @@
 package;
 
+import AssetSprite;
 import Album;
 import GlobalScript;
 import flixel.FlxG;
@@ -88,11 +89,13 @@ class AlbumSelectState extends MenuState
 				{
 					// Tween the background color to the album's background color
 					var color:FlxColor = background.color;
+					background.loadFromData(AssetSpriteDataRegistry.getAsset(album.backgroundID));
+					background.color = color; // Since loading a sprite will reset the color
 					FlxTween.cancelTweensOf(background);
 					FlxTween.color(background, 0.5, color, album.backgroundColor);
 
-					// Tween the music to the album's preview music
-					Conductor.transitionPlay(MusicDataRegistry.getAsset(album.previewMusicID), true, 1.0, false);
+					// Tween the music to the album's menu music
+					Conductor.transitionPlay(MusicDataRegistry.getAsset(album.menuMusicID), true, 1.0, false);
 
 					currentHint = album.description;
 
@@ -101,6 +104,7 @@ class AlbumSelectState extends MenuState
 				onInteracted: function(value:Dynamic)
 				{
 					GlobalScriptRegistry.callAll("onAlbumInteracted", [album]);
+					cast(nextState, IAlbumSelected).album = album;
 					specialTransition(nextState);
 					// Hide the side arrows
 					if (leftMenuArrow != null)

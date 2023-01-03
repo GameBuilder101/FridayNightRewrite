@@ -8,6 +8,7 @@ import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.util.FlxColor;
 import haxe.xml.Fast;
+import openfl.display.BlendMode;
 import shader.IUpdatableShader;
 import shader.ShaderResolver;
 
@@ -22,6 +23,7 @@ typedef AssetSpriteData =
 	antialiasing:Bool,
 	color:FlxColor,
 	alpha:Float,
+	blend:BlendMode,
 	shaderType:String,
 	shaderArgs:Dynamic
 }
@@ -66,7 +68,7 @@ class AssetSpriteDataRegistry extends Registry<AssetSpriteData>
 		if (graphic == null) // If the graphic doesn't exist, then don't add asset sprite data for it
 			return null;
 
-		var parsed:Dynamic = FileManager.getParsedJson(path);
+		var parsed:Dynamic = FileManager.getParsedJson(path, ".sprite"); // Custom file extension to make stuff nicer
 		if (parsed == null)
 			parsed = {};
 
@@ -83,6 +85,8 @@ class AssetSpriteDataRegistry extends Registry<AssetSpriteData>
 			parsed.color = [255, 255, 255];
 		if (parsed.alpha == null)
 			parsed.alpha = 1.0;
+		if (parsed.blend == null)
+			parsed.blend = BlendMode.NORMAL;
 
 		// Fill in default animation values if the data is missing
 		for (animation in cast(parsed.animations, Array<Dynamic>))
@@ -111,6 +115,7 @@ class AssetSpriteDataRegistry extends Registry<AssetSpriteData>
 			antialiasing: parsed.antialiasing,
 			color: FlxColor.fromRGB(parsed.color[0], parsed.color[1], parsed.color[2]),
 			alpha: parsed.alpha,
+			blend: parsed.blend,
 			shaderType: parsed.shaderType,
 			shaderArgs: parsed.shaderArgs
 		};
@@ -175,6 +180,7 @@ class AssetSprite extends FlxSprite
 
 		color = data.color;
 		alpha = data.alpha;
+		blend = data.blend;
 
 		// Only allow shaders if enabled in settings
 		if (data.shaderType != null && Settings.getShaders())

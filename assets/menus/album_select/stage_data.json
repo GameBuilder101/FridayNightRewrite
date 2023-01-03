@@ -7,12 +7,6 @@
             ],
             "type": "general_sprite",
             "data": {
-                "id": "menus/_shared/standard_background",
-                "color": [
-                    30,
-                    14,
-                    65
-                ],
                 "shaderType": "wave",
                 "shaderArgs": {
                     "type": "VERTICAL",

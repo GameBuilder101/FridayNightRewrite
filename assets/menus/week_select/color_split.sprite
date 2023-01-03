@@ -1,0 +1,12 @@
+{
+    "animations": [
+        {
+            "name": "idle",
+            "atlasPrefix": "idle",
+            "frameRate": 24,
+            "looped": true
+        }
+    ],
+    "blend": 9,
+    "shaderType": "duotone"
+}

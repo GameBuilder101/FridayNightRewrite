@@ -120,7 +120,7 @@ class MusicDataRegistry extends Registry<MusicData>
 		if (sound == null)
 			return null;
 
-		var parsed:Dynamic = FileManager.getParsedJson(path);
+		var parsed:Dynamic = FileManager.getParsedJson(path, ".music"); // Custom file extension to make stuff nicer
 		if (parsed == null)
 			return null;
 

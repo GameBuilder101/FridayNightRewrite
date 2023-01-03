@@ -11,6 +11,7 @@ import flixel.group.FlxSpriteGroup;
 typedef StageData =
 {
 	name:String,
+	previewSpriteID:String,
 	elements:Array<StageElementData>
 }
 
