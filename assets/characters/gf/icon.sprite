@@ -2,7 +2,7 @@
     "animations": [
         {
             "name": "losing",
-            "atlasPrefix": "losing"
+            "atlasPrefix": "normal"
         },
         {
             "name": "normal",
