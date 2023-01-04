@@ -147,11 +147,7 @@ class AssetSprite extends FlxSprite
 		if (data != null)
 			loadFromData(data);
 		else if (id != null)
-		{
-			var foundData:AssetSpriteData = AssetSpriteDataRegistry.getAsset(id);
-			if (foundData != null)
-				loadFromData(foundData);
-		}
+			loadFromID(id);
 	}
 
 	/** Loads the sprite information (such as frames and animations) from the provided data. **/
@@ -185,6 +181,13 @@ class AssetSprite extends FlxSprite
 		// Only allow shaders if enabled in settings
 		if (data.shaderType != null && Settings.getShaders())
 			shader = ShaderResolver.resolve(data.shaderType, data.shaderArgs);
+	}
+
+	public function loadFromID(id:String)
+	{
+		var data:AssetSpriteData = AssetSpriteDataRegistry.getAsset(id);
+		if (data != null)
+			loadFromData(data);
 	}
 
 	public function loadAnimation(data:AnimationData)

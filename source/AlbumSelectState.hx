@@ -1,6 +1,5 @@
 package;
 
-import AssetSprite;
 import Album;
 import GlobalScript;
 import flixel.FlxG;
@@ -20,8 +19,8 @@ class AlbumSelectState extends MenuState
 	/** An array of all detected/loaded albums. **/
 	public var albums(default, null):Array<AlbumData> = [];
 
-	var leftMenuArrow:FlxSprite;
-	var rightMenuArrow:FlxSprite;
+	var leftMenuArrow:AssetSprite;
+	var rightMenuArrow:AssetSprite;
 
 	public function new(nextState:MenuState)
 	{
@@ -32,6 +31,9 @@ class AlbumSelectState extends MenuState
 	override function create()
 	{
 		super.create();
+
+		leftMenuArrow = cast stage.getElementWithTag("left_menu_arrow");
+		rightMenuArrow = cast stage.getElementWithTag("right_menu_arrow");
 
 		// Get all albums IDs
 		var allIDs:Array<String> = AlbumDataRegistry.getAllIDs();
@@ -55,12 +57,9 @@ class AlbumSelectState extends MenuState
 		hintText.setPosition(hintBack.x + 16.0, hintBack.y + 16.0);
 		hintText.fieldWidth = hintBack.width - 32.0;
 
-		var menuArrows:Array<FlxSprite> = stage.getElementsWithTag("left_menu_arrow");
-		if (menuArrows.length > 0)
-			leftMenuArrow = menuArrows[0];
-		menuArrows = stage.getElementsWithTag("right_menu_arrow");
-		if (menuArrows.length > 0)
-			rightMenuArrow = menuArrows[0];
+		/* Default the background color to the initial selected album
+			(so it doesn't start by fading from white) */
+		background.color = albums[menu.selectedItem].backgroundColor;
 	}
 
 	override function update(elapsed:Float)
@@ -89,7 +88,7 @@ class AlbumSelectState extends MenuState
 				{
 					// Tween the background color to the album's background color
 					var color:FlxColor = background.color;
-					background.loadFromData(AssetSpriteDataRegistry.getAsset(album.backgroundID));
+					background.loadFromID(album.backgroundID);
 					background.color = color; // Since loading a sprite will reset the color
 					FlxTween.cancelTweensOf(background);
 					FlxTween.color(background, 0.5, color, album.backgroundColor);

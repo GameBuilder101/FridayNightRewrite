@@ -43,15 +43,11 @@ abstract class MenuState extends ConductedState
 	{
 		super.create();
 
-		// Get the primary background
-		var backgrounds:Array<FlxSprite> = stage.getElementsWithTag("menu_background");
-		if (backgrounds.length > 0)
-			background = cast backgrounds[0];
+		// Get the menu element to use with this menu
+		menu = cast stage.getElementWithTag("menu");
 
-		// Get the primary menu and add the menu options
-		var menus:Array<FlxSprite> = stage.getElementsWithTag("menu");
-		if (menus.length > 0 && menus[0] is Menu)
-			menu = cast menus[0];
+		// Get the primary background
+		background = cast stage.getElementWithTag("menu_background");
 
 		data = MenuStateDataRegistry.getAsset("menus/" + getMenuID());
 		if (data == null)

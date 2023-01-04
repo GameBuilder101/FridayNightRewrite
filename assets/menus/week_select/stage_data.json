@@ -17,6 +17,22 @@
             }
         },
         {
+            "type": "general_sprite",
+            "x": 640.0,
+            "y": 510.0,
+            "scaleX": 0.2,
+            "scaleY": 0.2,
+            "center": true,
+            "data": {
+                "id": "menus/_shared/record",
+                "color": [
+                    0,
+                    0,
+                    0
+                ]
+            }
+        },
+        {
             "tags": [
                 "menu"
             ],
@@ -54,19 +70,89 @@
             "tags": [
                 "stage_preview"
             ],
+            "type": "general_sprite"
+        },
+        {
+            "tags": [
+                "menu_character",
+                "menu_girlfriend"
+            ],
             "type": "general_sprite",
+            "x": 640.0,
+            "y": 360.0,
             "data": {
-                "id": "stages/stage/preview"
+                "bopAnimFrequency": 2,
+                "bopAnimName": "dance"
             }
         },
         {
             "tags": [
-                "color_split"
+                "menu_character",
+                "menu_opponent"
             ],
             "type": "general_sprite",
+            "x": 240.0,
+            "y": 360.0,
             "data": {
-                "id": "menus/week_select/color_split",
+                "bopAnimFrequency": 2,
+                "bopAnimName": "dance"
+            }
+        },
+        {
+            "tags": [
+                "menu_character",
+                "menu_player"
+            ],
+            "type": "general_sprite",
+            "x": 1040.0,
+            "y": 360.0,
+            "data": {
+                "flipX": true,
+                "bopAnimFrequency": 2,
+                "bopAnimName": "dance"
+            }
+        },
+        {
+            "tags": [
+                "color_split_opponent"
+            ],
+            "type": "box_sprite",
+            "data": {
+                "width": 540,
+                "height": 360
+            }
+        },
+        {
+            "tags": [
+                "color_split_opponent"
+            ],
+            "type": "general_sprite",
+            "x": 540.0,
+            "data": {
+                "id": "menus/week_select/color_split_left",
                 "defaultAnim": "idle"
+            }
+        },
+        {
+            "tags": [
+                "color_split_player"
+            ],
+            "type": "general_sprite",
+            "x": 540.0,
+            "data": {
+                "id": "menus/week_select/color_split_right",
+                "defaultAnim": "idle"
+            }
+        },
+        {
+            "tags": [
+                "color_split_player"
+            ],
+            "type": "box_sprite",
+            "x": 740.0,
+            "data": {
+                "width": 540,
+                "height": 360
             }
         },
         {

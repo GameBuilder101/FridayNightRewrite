@@ -1,7 +1,6 @@
 package;
 
 import Album;
-import AssetSprite;
 import GlobalScript;
 import assetManagement.LibraryManager;
 import flixel.FlxG;
@@ -251,7 +250,7 @@ class TitleScreenState extends MenuState
 
 	function displayIntroImage(id:String)
 	{
-		introImage.loadFromData(AssetSpriteDataRegistry.getAsset(id));
+		introImage.loadFromID(id);
 		introImage.updateHitbox();
 		introImage.screenCenter();
 		introImage.y += 170.0;

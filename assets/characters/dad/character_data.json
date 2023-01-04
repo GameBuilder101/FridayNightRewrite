@@ -1,0 +1,11 @@
+{
+    "name": "Dad",
+    "variants": [
+        {
+            "id": "normal",
+            "spriteID": "characters/dad/sprite_normal"
+        }
+    ],
+    "menuSpriteID": "characters/dad/sprite_menu",
+    "themeColor": []
+}

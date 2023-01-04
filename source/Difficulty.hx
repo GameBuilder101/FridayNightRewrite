@@ -3,20 +3,18 @@ package;
 import assetManagement.FileManager;
 import assetManagement.LibraryManager;
 import assetManagement.Registry;
+import flixel.util.FlxColor;
 
-typedef WeekData =
+typedef Difficulty =
 {
 	name:String,
-	itemName:String,
-	previewStageID:String,
-	previewOpponentID:String,
-	songIDs:Array<String>
+	color:FlxColor
 }
 
-/** Use this to access/load weeks. **/
-class WeekDataRegistry extends Registry<WeekData>
+/** Use this to access/load difficulties. **/
+class DifficultyRegistry extends Registry<Difficulty>
 {
-	static var cache:WeekDataRegistry = new WeekDataRegistry();
+	static var cache:DifficultyRegistry = new DifficultyRegistry();
 	static var cachedIDs:Array<String>;
 
 	public function new()
@@ -29,12 +27,18 @@ class WeekDataRegistry extends Registry<WeekData>
 		});
 	}
 
-	function loadData(directory:String, id:String):WeekData
+	function loadData(directory:String, id:String):Difficulty
 	{
-		return FileManager.getParsedJson(Registry.getFullPath(directory, id));
+		var parsed:Dynamic = FileManager.getParsedJson(Registry.getFullPath(directory, id));
+		if (parsed == null)
+			return null;
+		return {
+			name: parsed.name,
+			color: FlxColor.fromRGB(parsed.color[0], parsed.color[1], parsed.color[2])
+		};
 	}
 
-	public static function getAsset(id:String):WeekData
+	public static function getAsset(id:String):Difficulty
 	{
 		return LibraryManager.getLibraryAsset(id, cache);
 	}
@@ -45,7 +49,7 @@ class WeekDataRegistry extends Registry<WeekData>
 	{
 		if (cachedIDs != null)
 			return cachedIDs;
-		cachedIDs = LibraryManager.getAllIDs("weeks");
+		cachedIDs = LibraryManager.getAllIDs("difficulties");
 		return cachedIDs;
 	}
 }

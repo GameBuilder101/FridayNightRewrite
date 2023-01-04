@@ -173,6 +173,14 @@ class Stage extends FlxSpriteGroup
 		}
 		return found;
 	}
+
+	public function getElementWithTag(tag:String):FlxSprite
+	{
+		var found:Array<FlxSprite> = getElementsWithTag(tag);
+		if (found.length > 0)
+			return found[0];
+		return null;
+	}
 }
 
 typedef ElementInstance =

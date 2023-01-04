@@ -213,6 +213,7 @@ class Script
 		set("AlbumDataRegistry", Album.AlbumDataRegistry);
 		set("WeekDataRegistry", Week.WeekDataRegistry);
 		set("SongDataRegistry", Song.SongDataRegistry);
+		set("CharacterDataRegistry", Character.CharacterDataRegistry);
 
 		// Add useful functions
 
@@ -311,10 +312,7 @@ class Script
 	/** Gets a singular stage element with the given tag. **/
 	function getStageElement(targetTag:String):FlxSprite
 	{
-		var elements:Array<FlxSprite> = cast(FlxG.state, ConductedState).stage.getElementsWithTag(targetTag);
-		if (elements.length <= 0)
-			return null;
-		return elements[0];
+		return cast(FlxG.state, ConductedState).stage.getElementWithTag(targetTag);
 	}
 }
 

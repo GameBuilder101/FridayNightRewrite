@@ -1,7 +1,6 @@
 package;
 
 import Album;
-import AssetSprite;
 import flixel.FlxG;
 import menu.MenuState;
 import music.Conductor;
@@ -16,8 +15,9 @@ class FreeplayState extends MenuState implements IAlbumSelected
 	{
 		super.create();
 
-		Conductor.play(MusicDataRegistry.getAsset(album.menuMusicID), true, false); // Just in case, play the menu music again
-		background.loadFromData(AssetSpriteDataRegistry.getAsset(album.backgroundID));
+		// Just in case, play the menu music again
+		Conductor.play(MusicDataRegistry.getAsset(album.menuMusicID), true, false);
+		background.loadFromID(album.backgroundID);
 		background.color = album.backgroundColor;
 	}
 

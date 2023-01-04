@@ -1,0 +1,11 @@
+{
+    "name": "Boyfriend",
+    "variants": [
+        {
+            "id": "normal",
+            "spriteID": "characters/bf/sprite_normal"
+        }
+    ],
+    "menuSpriteID": "characters/bf/sprite_menu",
+    "themeColor": []
+}

@@ -10,7 +10,7 @@ class FlashingButtonMenuItem extends ButtonMenuItem
 {
 	var flashingTime:Float = -1.0;
 
-	var background:FlxSprite;
+	var background:AssetSprite;
 	var origBackgroundColor:FlxColor;
 
 	override function update(elapsed:Float)
@@ -31,14 +31,9 @@ class FlashingButtonMenuItem extends ButtonMenuItem
 	override function addToMenu(menu:Menu, index:Int)
 	{
 		super.addToMenu(menu, index);
-
 		// Get the background to animate
 		if (menu.stage != null)
-		{
-			var backgrounds:Array<FlxSprite> = menu.stage.getElementsWithTag("menu_background");
-			if (backgrounds != null)
-				background = backgrounds[0];
-		}
+			background = cast menu.stage.getElementWithTag("menu_background");
 	}
 
 	override function onDeselected()

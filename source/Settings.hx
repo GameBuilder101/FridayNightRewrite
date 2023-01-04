@@ -1,5 +1,6 @@
 package;
 
+import Character;
 import Saver;
 
 /** Used to manage various game-wide settings. **/
@@ -20,6 +21,10 @@ class Settings extends Saver
 	// Gameplay settings
 	public static inline final DOWNSCROLL:String = "downscroll";
 	public static inline final GHOST_TAPPING:String = "ghostTapping";
+
+	// Other
+	public static inline final PLAYER_CHARACTER:String = "playerCharacter";
+	public static inline final GIRLFRIEND_CHARACTER:String = "girlfriendCharacter";
 
 	public static function initialize()
 	{
@@ -50,6 +55,8 @@ class Settings extends Saver
 		data.set(MISS_SOUND_VOLUME, 1.0);
 		data.set(DOWNSCROLL, false);
 		data.set(GHOST_TAPPING, true);
+		data.set(PLAYER_CHARACTER, "bf");
+		data.set(GIRLFRIEND_CHARACTER, "gf");
 		return data;
 	}
 
@@ -127,5 +134,33 @@ class Settings extends Saver
 	public static function setGhostTapping(value:Bool)
 	{
 		return instance.set(GHOST_TAPPING, value);
+	}
+
+	public static function getPlayerCharacter():CharacterData
+	{
+		var character:CharacterData = CharacterDataRegistry.getAsset(instance.get(PLAYER_CHARACTER));
+		// In case the mod containing the character was deleted, just return a default
+		if (character == null)
+			return CharacterDataRegistry.getAsset("bf");
+		return character;
+	}
+
+	public static function setPlayerCharacter(value:String)
+	{
+		return instance.set(PLAYER_CHARACTER, value);
+	}
+
+	public static function getGirlfriendCharacter():CharacterData
+	{
+		var character:CharacterData = CharacterDataRegistry.getAsset(instance.get(GIRLFRIEND_CHARACTER));
+		// In case the mod containing the character was deleted, just return a default
+		if (character == null)
+			return CharacterDataRegistry.getAsset("gf");
+		return character;
+	}
+
+	public static function setGirlfriendCharacter(value:String)
+	{
+		return instance.set(GIRLFRIEND_CHARACTER, value);
 	}
 }

@@ -80,6 +80,7 @@ The following are classes automatically imported into every type of script.
 - `Album.AlbumDataRegistry`
 - `Week.WeekDataRegistry`
 - `Song.SongDataRegistry`
+- `Character.CharacterDataRegistry`
 
 ## Universal Functions
 The following are functions that you can call directly from any script (without having to reference a class).

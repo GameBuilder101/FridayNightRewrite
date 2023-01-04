@@ -7,6 +7,5 @@
             "looped": true
         }
     ],
-    "blend": 9,
-    "shaderType": "duotone"
+    "blend": 9
 }
