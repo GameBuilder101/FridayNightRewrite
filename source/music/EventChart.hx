@@ -5,10 +5,7 @@ import assetManagement.LibraryManager;
 import assetManagement.Registry;
 import music.Event;
 
-typedef EventChart =
-{
-	events:Array<Event>
-}
+class EventChart extends Chart<Event> {}
 
 /** Use this to access/load event charts. **/
 class EventChartRegistry extends Registry<EventChart>
@@ -35,9 +32,7 @@ class EventChartRegistry extends Registry<EventChart>
 		for (node in cast(parsed, Array<Dynamic>))
 			events.push(new Event(EventTypeRegistry.getAsset(node.type), node.time, node.args));
 
-		return {
-			events: events
-		};
+		return new EventChart(events);
 	}
 
 	public static function getAsset(id:String):EventChart

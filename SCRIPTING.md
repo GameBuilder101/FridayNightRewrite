@@ -17,6 +17,7 @@ It should be noted that import statements are not allowed (for security reasons 
 - [Global-Script Callbacks](#global-script-callbacks)
 - [Stage Element Callbacks](#stage-element-callbacks)
 - [Event Type Callbacks](#event-type-callbacks)
+- [Note Type Callbacks](#note-type-callbacks)
 
 ## Universal Imports
 The following are classes automatically imported into every type of script.
@@ -166,3 +167,13 @@ When you add any of the following functions to your event type script, the engin
 
 - `onTrigger(state:ConductedState, time:Float, args:Dynamic)`
   - `state` is the state this event was triggered on (may not always be the PlayState!), `time` is the music time in milliseconds when it was triggered, and `args` contains any custom arguments set in the editor
+
+## Note Type Callbacks
+When you add any of the following functions to your note type script, the engine will call them at the appropriate time.
+
+- `onHit(state:PlayState, time:Float, lane:Int)`
+  - `time` is the music time in milliseconds when the note was hit. For `lane`, 0 is left, 1 down, 2 up, and 3 right
+- `onMiss(state:PlayState, time:Float, lane:Int)`
+  - `time` is the music time in milliseconds when the note was missed. For `lane`, 0 is left, 1 down, 2 up, and 3 right
+- `getScore(accuracy:Float, combo:Int, lane:Int):Int`
+  - `accuracy` is a value from 0 to 1. 1 is absolutely perfect, while 0 is just barely within the hit range. `combo` is the player's current combo (excluding this note if it was just hit). For `lane`, 0 is left, 1 down, 2 up, and 3 right

@@ -7,10 +7,13 @@ class Event extends Node
 {
 	public var eventType(default, null):Script;
 
+	var args:Dynamic;
+
 	public function new(eventType:Script, time:Float, args:Dynamic)
 	{
-		super(time, args);
+		super(time);
 		this.eventType = eventType;
+		this.args = args;
 		eventType.start(); // Initialize the type if it hasn't been already
 	}
 

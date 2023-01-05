@@ -7,21 +7,30 @@ class Note extends Node
 {
 	public var noteType(default, null):Script;
 
-	public function new(noteType:Script, time:Float, args:Dynamic)
+	/** 0 is left, 1 down, 2 up, 3 right **/
+	public var lane:Int;
+
+	public function new(noteType:Script, time:Float, lane:Int)
 	{
-		super(time, args);
+		super(time);
 		this.noteType = noteType;
+		this.lane = lane;
 		noteType.start(); // Initialize the type if it hasn't been already
 	}
 
-	public function onHit(state:ConductedState)
+	public function onHit(state:PlayState)
 	{
-		noteType.call("onHit", [state, time]);
+		noteType.call("onHit", [state, time, lane]);
 	}
 
-	public function onMiss(state:ConductedState)
+	public function onMiss(state:PlayState)
 	{
-		noteType.call("onMiss", [state, time]);
+		noteType.call("onMiss", [state, time, lane]);
+	}
+
+	public function getScore(accuracy:Float, combo:Int):Int
+	{
+		return noteType.call("getScore", [accuracy, combo, lane]);
 	}
 }
 

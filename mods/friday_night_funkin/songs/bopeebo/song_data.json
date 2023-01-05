@@ -1,3 +1,22 @@
 {
-    "name": "Bopeebo"
+    "name": "Bopeebo",
+    "difficulties": [
+        {
+            "name": "Easy",
+            "color": []
+        },
+        {
+            "name": "Normal",
+            "color": []
+        },
+        {
+            "name": "Hard",
+            "color": []
+        }
+    ],
+    "singers": [
+        "player",
+        "opponent"
+    ],
+    "opponentID": "characters/dad"
 }

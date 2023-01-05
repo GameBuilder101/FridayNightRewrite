@@ -1,8 +1,8 @@
 package;
 
-import flixel.FlxState;
+import stage.Stage;
 
-class PlayState extends FlxState
+class PlayState extends ConductedState
 {
 	override function create()
 	{
@@ -12,5 +12,10 @@ class PlayState extends FlxState
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+	}
+
+	function createStage():Stage
+	{
+		return null;
 	}
 }

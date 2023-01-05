@@ -6,12 +6,8 @@ class Node
 	/** The time of this node in the music. **/
 	public var time(default, null):Float;
 
-	/** Holds things such as event arguments, note lanes, etc. **/
-	var args:Dynamic;
-
-	public function new(time:Float, args:Dynamic)
+	public function new(time:Float)
 	{
 		this.time = time;
-		this.args = args;
 	}
 }

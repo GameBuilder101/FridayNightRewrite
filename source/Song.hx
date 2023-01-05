@@ -3,10 +3,21 @@ package;
 import assetManagement.FileManager;
 import assetManagement.LibraryManager;
 import assetManagement.Registry;
+import flixel.util.FlxColor;
 
 typedef SongData =
 {
-	name:String
+	name:String,
+	difficulties:Array<SongDifficulty>,
+	singers:Array<String>,
+	eventsID:String,
+	opponentID:String
+}
+
+typedef SongDifficulty
+{
+	name:String,
+	color:FlxColor;
 }
 
 /** Use this to access/load songs. **/
@@ -27,7 +38,11 @@ class SongDataRegistry extends Registry<SongData>
 
 	function loadData(directory:String, id:String):SongData
 	{
-		return FileManager.getParsedJson(Registry.getFullPath(directory, id) + "/song_data");
+		var parsed:Dynamic = FileManager.getParsedJson(Registry.getFullPath(directory, id) + "/song_data");
+		if (parsed == null)
+			return null;
+
+		return;
 	}
 
 	public static function getAsset(id:String):SongData

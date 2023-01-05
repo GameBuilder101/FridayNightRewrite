@@ -101,22 +101,23 @@ class Script
 	}
 
 	/** Calls a function in the script. (If it does not exist, this does nothing.) **/
-	public function call(name:String, args:Array<Dynamic> = null)
+	public function call(name:String, args:Array<Dynamic> = null):Dynamic
 	{
 		// Get the function from the script
 		var func:Dynamic = get(name);
 		if (func == null || !Reflect.isFunction(func))
-			return;
+			return null;
 
 		if (args == null)
 			args = [];
 		try
 		{
 			// Call the function
-			Reflect.callMethod(this, func, args);
+			return Reflect.callMethod(this, func, args);
 		}
 		catch (e:Dynamic)
 			error("Could not call function '" + name + "': the number or type of arguments is incorrect");
+		return null;
 	}
 
 	/** Triggers an error and displays a warning from this script. **/
