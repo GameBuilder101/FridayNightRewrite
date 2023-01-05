@@ -50,7 +50,7 @@ class StageDataRegistry extends Registry<StageData>
 	function loadData(directory:String, id:String):StageData
 	{
 		var parsed:Dynamic = FileManager.getParsedJson(Registry.getFullPath(directory, id) + "/stage_data");
-		if (parsed == null || parsed.elements == null || parsed.elements.length <= 0)
+		if (parsed == null || parsed.elements == null)
 			return null;
 
 		// Fill in default element values if the data is missing

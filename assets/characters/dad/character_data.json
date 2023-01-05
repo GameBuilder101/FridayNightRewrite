@@ -7,5 +7,10 @@
         }
     ],
     "menuSpriteID": "characters/dad/sprite_menu",
-    "themeColor": []
+    "menuSpriteScale": 0.8,
+    "themeColor": [
+        175,
+        102,
+        206
+    ]
 }

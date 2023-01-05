@@ -55,8 +55,8 @@ class Settings extends Saver
 		data.set(MISS_SOUND_VOLUME, 1.0);
 		data.set(DOWNSCROLL, false);
 		data.set(GHOST_TAPPING, true);
-		data.set(PLAYER_CHARACTER, "bf");
-		data.set(GIRLFRIEND_CHARACTER, "gf");
+		data.set(PLAYER_CHARACTER, "characters/bf");
+		data.set(GIRLFRIEND_CHARACTER, "characters/gf");
 		return data;
 	}
 
@@ -141,7 +141,7 @@ class Settings extends Saver
 		var character:CharacterData = CharacterDataRegistry.getAsset(instance.get(PLAYER_CHARACTER));
 		// In case the mod containing the character was deleted, just return a default
 		if (character == null)
-			return CharacterDataRegistry.getAsset("bf");
+			return CharacterDataRegistry.getAsset("characters/bf");
 		return character;
 	}
 
@@ -155,7 +155,7 @@ class Settings extends Saver
 		var character:CharacterData = CharacterDataRegistry.getAsset(instance.get(GIRLFRIEND_CHARACTER));
 		// In case the mod containing the character was deleted, just return a default
 		if (character == null)
-			return CharacterDataRegistry.getAsset("gf");
+			return CharacterDataRegistry.getAsset("characters/gf");
 		return character;
 	}
 

@@ -22,7 +22,7 @@
                 14
             ],
             "frameRate": 24,
-            "offsetY": -9
+            "offsetY": -9.0
         },
         {
             "name": "dance_right",
@@ -45,65 +45,65 @@
                 29
             ],
             "frameRate": 24,
-            "offsetY": -9
+            "offsetY": -9.0
         },
         {
             "name": "sing_left",
             "atlasPrefix": "GF left note instance 1",
-            "frameRate": 24,
-            "offsetY": -19
+            "frameRate": 24.0,
+            "offsetY": -19.0
         },
         {
             "name": "sing_left_sustain",
             "atlasPrefix": "GF left note instance 1",
             "frameRate": 24,
             "looped": true,
-            "offsetY": -19
+            "offsetY": -19.0
         },
         {
             "name": "sing_down",
             "atlasPrefix": "GF Down Note instance 1",
             "frameRate": 24,
-            "offsetY": -20
+            "offsetY": -20.0
         },
         {
             "name": "sing_down_sustain",
             "atlasPrefix": "GF Down Note instance 1",
             "frameRate": 24,
             "looped": true,
-            "offsetY": -20
+            "offsetY": -20.0
         },
         {
             "name": "sing_up",
             "atlasPrefix": "GF Up Note instance 1",
             "frameRate": 24,
-            "offsetY": 4
+            "offsetY": 4.0
         },
         {
             "name": "sing_up_sustain",
             "atlasPrefix": "GF Up Note instance 1",
             "frameRate": 24,
             "looped": true,
-            "offsetY": 4
+            "offsetY": 4.0
         },
         {
             "name": "sing_right",
             "atlasPrefix": "GF Right Note instance 1",
             "frameRate": 24,
-            "offsetY": -20
+            "offsetY": -20.0
         },
         {
             "name": "sing_right_sustain",
             "atlasPrefix": "GF Right Note instance 1",
             "frameRate": 24,
             "looped": true,
-            "offsetY": -20
+            "offsetY": -20.0
         },
         {
             "name": "hey",
             "atlasPrefix": "GF Cheer instance 1",
             "frameRate": 24,
-            "offsetX": 3
+            "offsetX": 3.0
         },
         {
             "name": "scared",
@@ -114,8 +114,8 @@
             "name": "sad",
             "atlasPrefix": "gf sad instance 1",
             "frameRate": 24,
-            "offsetX": -2,
-            "offsetY": -21
+            "offsetX": -2.0,
+            "offsetY": -21.0
         }
     ]
 }

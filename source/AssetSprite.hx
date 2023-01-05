@@ -168,6 +168,9 @@ class AssetSprite extends FlxSprite
 		for (animationData in data.animations)
 			loadAnimation(animationData);
 
+		flipX = data.flipX;
+		flipY = data.flipY;
+
 		// Only allow antialiasing if enabled in settings
 		if (Settings.getAntialiasing())
 			antialiasing = data.antialiasing;
@@ -201,6 +204,8 @@ class AssetSprite extends FlxSprite
 	/** There must be a separate function for this so the animation offset ais set correctly. **/
 	public function playAnimation(animName:String, force:Bool = false, reversed:Bool = false)
 	{
+		if (!animation.exists(animName))
+			return;
 		animation.play(animName, force, reversed);
 		updateAnimationOffset();
 	}

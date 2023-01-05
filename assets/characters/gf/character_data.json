@@ -7,5 +7,10 @@
         }
     ],
     "menuSpriteID": "characters/gf/sprite_menu",
-    "themeColor": []
+    "menuSpriteScale": 0.8,
+    "themeColor": [
+        165,
+        0,
+        77
+    ]
 }

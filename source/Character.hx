@@ -10,6 +10,7 @@ typedef CharacterData =
 	name:String,
 	variants:Array<CharacterVariant>,
 	menuSpriteID:String,
+	menuSpriteScale:Float,
 	themeColor:FlxColor
 }
 
@@ -44,6 +45,7 @@ class CharacterDataRegistry extends Registry<CharacterData>
 			name: parsed.name,
 			variants: parsed.variants,
 			menuSpriteID: parsed.menuSpriteID,
+			menuSpriteScale: parsed.menuSpriteScale,
 			themeColor: FlxColor.fromRGB(parsed.themeColor[0], parsed.themeColor[1], parsed.themeColor[2])
 		};
 	}

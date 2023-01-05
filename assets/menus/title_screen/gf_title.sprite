@@ -22,8 +22,8 @@
                 14
             ],
             "frameRate": 24,
-            "offsetX": 10,
-            "offsetY": 1
+            "offsetX": 10.0,
+            "offsetY": 1.0
         },
         {
             "name": "dance_right",
@@ -46,15 +46,15 @@
                 29
             ],
             "frameRate": 24,
-            "offsetX": 10,
-            "offsetY": 1
+            "offsetX": 10.0,
+            "offsetY": 1.0
         },
         {
             "name": "hey",
             "atlasPrefix": "GF Cheer instance 1",
             "frameRate": 24,
-            "offsetX": 13,
-            "offsetY": 10
+            "offsetX": 13.0,
+            "offsetY": 10.0
         }
     ]
 }

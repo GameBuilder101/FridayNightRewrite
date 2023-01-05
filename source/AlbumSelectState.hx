@@ -59,6 +59,7 @@ class AlbumSelectState extends MenuState
 
 		/* Default the background color to the initial selected album
 			(so it doesn't start by fading from white) */
+		FlxTween.cancelTweensOf(background);
 		background.color = albums[menu.selectedItem].backgroundColor;
 	}
 

@@ -119,7 +119,8 @@
             "type": "box_sprite",
             "data": {
                 "width": 540,
-                "height": 360
+                "height": 360,
+                "blend": 9
             }
         },
         {
@@ -130,6 +131,7 @@
             "x": 540.0,
             "data": {
                 "id": "menus/week_select/color_split_left",
+                "blend": 9,
                 "defaultAnim": "idle"
             }
         },
@@ -141,6 +143,7 @@
             "x": 540.0,
             "data": {
                 "id": "menus/week_select/color_split_right",
+                "blend": 9,
                 "defaultAnim": "idle"
             }
         },
@@ -152,7 +155,8 @@
             "x": 740.0,
             "data": {
                 "width": 540,
-                "height": 360
+                "height": 360,
+                "blend": 9
             }
         },
         {

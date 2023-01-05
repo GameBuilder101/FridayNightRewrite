@@ -7,5 +7,10 @@
         }
     ],
     "menuSpriteID": "characters/bf/sprite_menu",
-    "themeColor": []
+    "menuSpriteScale": 0.5,
+    "themeColor": [
+        49,
+        176,
+        209
+    ]
 }

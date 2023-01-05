@@ -1,5 +1,6 @@
 package;
 
+import stage.Stage;
 import Album;
 import Character;
 import GlobalScript;
@@ -38,8 +39,8 @@ class WeekSelectState extends MenuState implements IAlbumSelected
 		opponent = cast stage.getElementWithTag("menu_opponent");
 		girlfriend = cast stage.getElementWithTag("menu_girlfriend");
 
-		colorSplitPlayer = cast stage.getElementWithTag("color_split_player");
-		colorSplitOpponent = cast stage.getElementWithTag("color_split_opponent");
+		colorSplitPlayer = cast stage.getElementsWithTag("color_split_player");
+		colorSplitOpponent = cast stage.getElementsWithTag("color_split_opponent");
 
 		// Load weeks from the list in the album
 		for (id in album.weekIDs)
@@ -55,6 +56,7 @@ class WeekSelectState extends MenuState implements IAlbumSelected
 		// Update the player character sprite
 		var character:CharacterData = Settings.getPlayerCharacter();
 		player.loadFromID(character.menuSpriteID);
+		player.scale.set(character.menuSpriteScale, character.menuSpriteScale);
 		// Update the player character's colors
 		for (sprite in colorSplitPlayer)
 			sprite.color = character.themeColor;
@@ -62,12 +64,16 @@ class WeekSelectState extends MenuState implements IAlbumSelected
 		// Update the girlfriend character sprite
 		character = Settings.getGirlfriendCharacter();
 		girlfriend.loadFromID(character.menuSpriteID);
+		girlfriend.scale.set(character.menuSpriteScale, character.menuSpriteScale);
 
 		/* Default the opponent color split to the initial selected week
 			(so it doesn't start by fading from white) */
 		var color:FlxColor = getOpponentThemeColor(weeks[menu.selectedItem]);
 		for (sprite in colorSplitOpponent)
+		{
+			FlxTween.cancelTweensOf(sprite);
 			sprite.color = color;
+		}
 	}
 
 	override function update(elapsed:Float)
@@ -95,13 +101,14 @@ class WeekSelectState extends MenuState implements IAlbumSelected
 				onSelected: function()
 				{
 					// Update the stage
-					stagePreview.loadFromID(week.previewStageID);
+					stagePreview.loadFromID(StageDataRegistry.getAsset(week.previewStageID).previewSpriteID);
 
 					var character:CharacterData = CharacterDataRegistry.getAsset(week.previewOpponentID);
 					// Update the opponent character sprite
 					if (character != null) // If there is an opponent
 					{
 						opponent.loadFromID(character.menuSpriteID);
+						opponent.scale.set(character.menuSpriteScale, character.menuSpriteScale);
 						opponent.revive();
 					}
 					else // If there isn't an opponent (only the case for the tutorial usually)
@@ -112,7 +119,7 @@ class WeekSelectState extends MenuState implements IAlbumSelected
 					for (sprite in colorSplitOpponent)
 					{
 						FlxTween.cancelTweensOf(sprite);
-						FlxTween.color(sprite, 0.5, sprite.color, color);
+						FlxTween.color(sprite, 0.25, sprite.color, color);
 					}
 
 					GlobalScriptRegistry.callAll("onWeekSelected", [week]);
@@ -131,10 +138,8 @@ class WeekSelectState extends MenuState implements IAlbumSelected
 	/** Returns the color to use for the opponent. **/
 	function getOpponentThemeColor(week:WeekData):FlxColor
 	{
-		// Get the opponent for the week
-		var character:CharacterData = CharacterDataRegistry.getAsset(week.previewOpponentID);
-		if (character == null) // If it could not be found, just use the player color
+		if (week.previewOpponentID == null)
 			return Settings.getPlayerCharacter().themeColor;
-		return character.themeColor;
+		return CharacterDataRegistry.getAsset(week.previewOpponentID).themeColor;
 	}
 }

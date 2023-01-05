@@ -16,7 +16,7 @@
             "name": "menu_idle",
             "atlasPrefix": "normal",
             "offsetX": 134.0,
-            "offsetY": 40
+            "offsetY": 40.0
         }
     ]
 }

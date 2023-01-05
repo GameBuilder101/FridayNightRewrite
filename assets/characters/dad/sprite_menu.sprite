@@ -3,7 +3,9 @@
         {
             "name": "dance",
             "atlasPrefix": "M Dad Idle",
-            "frameRate": 24
+            "frameRate": 24,
+            "offsetX": 103.0,
+            "offsetY": -370.0
         }
     ]
 }

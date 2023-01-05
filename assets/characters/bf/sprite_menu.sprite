@@ -4,12 +4,16 @@
         {
             "name": "dance",
             "atlasPrefix": "M BF Idle",
-            "frameRate": 24
+            "frameRate": 24,
+            "offsetX": 164.0,
+            "offsetY": -340.0
         },
         {
             "name": "hey",
             "atlasPrefix": "M bf HEY",
-            "frameRate": 24
+            "frameRate": 24,
+            "offsetX": 166.0,
+            "offsetY": -345.0
         }
     ]
 }
