@@ -1,3 +1,23 @@
 {
-    "name": "Fresh"
+    "name": "Fresh",
+    "difficulties": [
+        {
+            "name": "Easy",
+            "color": []
+        },
+        {
+            "name": "Normal",
+            "color": []
+        },
+        {
+            "name": "Hard",
+            "color": []
+        }
+    ],
+    "singers": [
+        "player",
+        "opponent"
+    ],
+    "stageID": "stages/stage",
+    "opponentID": "characters/dad"
 }

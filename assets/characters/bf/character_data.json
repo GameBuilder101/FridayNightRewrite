@@ -3,7 +3,9 @@
     "variants": [
         {
             "id": "normal",
-            "spriteID": "characters/bf/sprite_normal"
+            "spriteID": "characters/bf/sprite_normal",
+            "deathSpriteID": "characters/bf/death_sprite_normal",
+            "iconSpriteID": "characters/bf/icon"
         }
     ],
     "menuSpriteID": "characters/bf/sprite_menu",

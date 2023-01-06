@@ -56,5 +56,6 @@
             "offsetX": 13.0,
             "offsetY": 10.0
         }
-    ]
+    ],
+    "defaultAnim": "dance_left"
 }

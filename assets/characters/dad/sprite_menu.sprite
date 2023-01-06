@@ -7,5 +7,6 @@
             "offsetX": 103.0,
             "offsetY": -370.0
         }
-    ]
+    ],
+    "defaultAnim": "dance"
 }

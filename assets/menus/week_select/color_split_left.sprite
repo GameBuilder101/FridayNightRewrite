@@ -6,5 +6,6 @@
             "frameRate": 24,
             "looped": true
         }
-    ]
+    ],
+    "defaultAnim": "idle"
 }

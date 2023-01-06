@@ -3,7 +3,8 @@
     "variants": [
         {
             "id": "normal",
-            "spriteID": "characters/gf/sprite_normal"
+            "spriteID": "characters/gf/sprite_normal",
+            "iconSpriteID": "characters/gf/icon"
         }
     ],
     "menuSpriteID": "characters/gf/sprite_menu",

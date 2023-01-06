@@ -29,8 +29,12 @@ class NoteChartRegistry extends Registry<NoteChart>
 
 		// Create the notes from the chart data provided in the file
 		var notes:Array<Note> = [];
-		for (node in cast(parsed, Array<Dynamic>))
-			notes.push(new Note(NoteTypeRegistry.getAsset(node.type), node.time, node.lane));
+		for (note in cast(parsed, Array<Dynamic>))
+		{
+			if (note.c == null) // If no type is provided, assume normal
+				note.c = "assets/note_types/normal";
+			notes.push(new Note(NoteTypeRegistry.getAsset(note.c), note.t, note.l));
+		}
 
 		return new NoteChart(notes);
 	}

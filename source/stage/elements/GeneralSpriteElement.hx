@@ -50,9 +50,6 @@ class GeneralSpriteElement extends AssetSprite implements IStageElement implemen
 		bopFrequency = data.bopFrequency;
 		bopScale = data.bopScale;
 		bopSpeed = data.bopSpeed;
-
-		if (data.defaultAnim != null)
-			playAnimation(data.defaultAnim, true);
 	}
 
 	public function onAddedToStage(stage:Stage)

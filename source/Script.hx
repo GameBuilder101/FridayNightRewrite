@@ -213,7 +213,7 @@ class Script
 		set("StageDataRegistry", stage.Stage.StageDataRegistry);
 		set("AlbumDataRegistry", Album.AlbumDataRegistry);
 		set("WeekDataRegistry", Week.WeekDataRegistry);
-		set("SongDataRegistry", Song.SongDataRegistry);
+		set("SongDataRegistry", music.Song.SongDataRegistry);
 		set("CharacterDataRegistry", Character.CharacterDataRegistry);
 
 		// Add useful functions

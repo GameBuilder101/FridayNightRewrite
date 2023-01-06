@@ -1,7 +1,10 @@
-function onHit(state, time) {}
-function onMiss(state, time) {}
-
-function getScore(accuracy, combo):Int
+function onHit(state, time, accuracy)
 {
-	return cast(accuracy * 100.0 * cast(combo / 8.0, Int), Int);
+	state.score += cast(accuracy * 100.0 * cast(state.combo / 8.0, Int), Int);
+	state.combo += 1;
+}
+
+function onMiss(state, time)
+{
+	state.combo = 0;
 }

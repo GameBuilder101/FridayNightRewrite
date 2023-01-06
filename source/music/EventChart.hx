@@ -29,8 +29,8 @@ class EventChartRegistry extends Registry<EventChart>
 
 		// Create the events from the chart data provided in the file
 		var events:Array<Event> = [];
-		for (node in cast(parsed, Array<Dynamic>))
-			events.push(new Event(EventTypeRegistry.getAsset(node.type), node.time, node.args));
+		for (event in cast(parsed, Array<Dynamic>))
+			events.push(new Event(EventTypeRegistry.getAsset(event.c), event.t, event.a));
 
 		return new EventChart(events);
 	}

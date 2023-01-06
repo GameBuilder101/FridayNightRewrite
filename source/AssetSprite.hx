@@ -7,7 +7,6 @@ import flixel.FlxSprite;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.util.FlxColor;
-import haxe.xml.Fast;
 import openfl.display.BlendMode;
 import shader.IUpdatableShader;
 import shader.ShaderResolver;
@@ -20,6 +19,7 @@ typedef AssetSpriteData =
 	flipX:Bool,
 	flipY:Bool,
 	animations:Array<AnimationData>,
+	defaultAnim:String,
 	antialiasing:Bool,
 	color:FlxColor,
 	alpha:Float,
@@ -112,6 +112,7 @@ class AssetSpriteDataRegistry extends Registry<AssetSpriteData>
 			flipX: parsed.flipX,
 			flipY: parsed.flipY,
 			animations: parsed.animations,
+			defaultAnim: parsed.defaultAnim,
 			antialiasing: parsed.antialiasing,
 			color: FlxColor.fromRGB(parsed.color[0], parsed.color[1], parsed.color[2]),
 			alpha: parsed.alpha,
@@ -167,6 +168,8 @@ class AssetSprite extends FlxSprite
 		// Add the animations given the animation data
 		for (animationData in data.animations)
 			loadAnimation(animationData);
+		if (data.defaultAnim != null)
+			playAnimation(data.defaultAnim, true);
 
 		flipX = data.flipX;
 		flipY = data.flipY;

@@ -3,7 +3,8 @@
     "variants": [
         {
             "id": "normal",
-            "spriteID": "characters/dad/sprite_normal"
+            "spriteID": "characters/dad/sprite_normal",
+            "iconSpriteID": "characters/dad/icon"
         }
     ],
     "menuSpriteID": "characters/dad/sprite_menu",

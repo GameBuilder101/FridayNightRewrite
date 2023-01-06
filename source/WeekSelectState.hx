@@ -1,6 +1,5 @@
 package;
 
-import stage.Stage;
 import Album;
 import Character;
 import GlobalScript;
@@ -13,6 +12,7 @@ import menu.MenuState;
 import menu.items.FlashingButtonMenuItem;
 import music.Conductor;
 import music.MusicData;
+import stage.Stage;
 
 class WeekSelectState extends MenuState implements IAlbumSelected
 {
@@ -21,6 +21,9 @@ class WeekSelectState extends MenuState implements IAlbumSelected
 
 	/** An array of all detected/loaded weeks. **/
 	public var weeks(default, null):Array<WeekData> = [];
+
+	/** The currently-selected difficulty index. **/
+	var difficulty:Int;
 
 	var stagePreview:AssetSprite;
 	var player:AssetSprite;
@@ -127,7 +130,7 @@ class WeekSelectState extends MenuState implements IAlbumSelected
 				onInteracted: function(value:Dynamic)
 				{
 					GlobalScriptRegistry.callAll("onWeekInteracted", [week]);
-					specialTransition(new PlayState());
+					specialTransition(new PlayState(null, difficulty, week));
 					Conductor.fadeOut(0.8); // Fade out the music after being selected
 				}
 			}));

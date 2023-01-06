@@ -3,6 +3,7 @@ package;
 import assetManagement.FileManager;
 import assetManagement.LibraryManager;
 import assetManagement.Registry;
+import flixel.group.FlxSpriteGroup;
 import flixel.util.FlxColor;
 
 typedef CharacterData =
@@ -17,7 +18,9 @@ typedef CharacterData =
 typedef CharacterVariant =
 {
 	id:String,
-	spriteID:String
+	spriteID:String,
+	deathSpriteID:String,
+	iconSpriteID:String
 }
 
 /** Use this to access/load character data. **/
@@ -63,5 +66,58 @@ class CharacterDataRegistry extends Registry<CharacterData>
 			return cachedIDs;
 		cachedIDs = LibraryManager.getAllIDs("characters");
 		return cachedIDs;
+	}
+}
+
+/** A character is a sprite loaded from character data which has things like singing animations. IE: BF, GF, Dad, etc. **/
+class Character extends FlxSpriteGroup
+{
+	public var data(default, null):CharacterData;
+
+	public var currentVariant(default, null):CharacterVariant;
+
+	var sprite:AssetSprite;
+
+	public function new(x:Float, y:Float, ?data:CharacterData = null, ?id:String = null, variantID:String = null)
+	{
+		super(x, y);
+		sprite = new AssetSprite(x, y);
+		add(sprite);
+
+		if (data != null)
+			loadFromData(data, variantID);
+		else if (id != null)
+			loadFromID(id, variantID);
+	}
+
+	public function loadFromData(data:CharacterData, variantID:String = null)
+	{
+		this.data = data;
+		setVariant(variantID);
+	}
+
+	public function loadFromID(id:String, variantID:String = null)
+	{
+		var data:CharacterData = CharacterDataRegistry.getAsset(id);
+		if (data != null)
+			loadFromData(data);
+	}
+
+	/** Sets the sprite variant to use.
+		@param variantID If set to null, "normal" will be used as the default.
+	**/
+	public function setVariant(variantID:String)
+	{
+		if (variantID == null)
+			variantID = "normal";
+		for (variant in data.variants)
+		{
+			if (variant.id != variantID)
+				continue;
+			currentVariant = variant;
+			break;
+		}
+
+		sprite.loadFromID(currentVariant.spriteID);
 	}
 }

@@ -18,19 +18,14 @@ class Note extends Node
 		noteType.start(); // Initialize the type if it hasn't been already
 	}
 
-	public function onHit(state:PlayState)
+	public function onHit(state:PlayState, accuracy:Float)
 	{
-		noteType.call("onHit", [state, time, lane]);
+		noteType.call("onHit", [state, time, lane, accuracy]);
 	}
 
 	public function onMiss(state:PlayState)
 	{
 		noteType.call("onMiss", [state, time, lane]);
-	}
-
-	public function getScore(accuracy:Float, combo:Int):Int
-	{
-		return noteType.call("getScore", [accuracy, combo, lane]);
 	}
 }
 

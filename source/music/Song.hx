@@ -1,4 +1,4 @@
-package;
+package music;
 
 import assetManagement.FileManager;
 import assetManagement.LibraryManager;
@@ -8,16 +8,18 @@ import flixel.util.FlxColor;
 typedef SongData =
 {
 	name:String,
+	// In case a mod wants to add custom difficulties
 	difficulties:Array<SongDifficulty>,
 	singers:Array<String>,
 	eventsID:String,
+	stageID:String,
 	opponentID:String
 }
 
-typedef SongDifficulty
+typedef SongDifficulty =
 {
 	name:String,
-	color:FlxColor;
+	color:FlxColor
 }
 
 /** Use this to access/load songs. **/
@@ -42,7 +44,23 @@ class SongDataRegistry extends Registry<SongData>
 		if (parsed == null)
 			return null;
 
-		return;
+		var difficulties:Array<SongDifficulty> = [];
+		for (difficulty in cast(parsed.difficulties, Array<Dynamic>))
+		{
+			difficulties.push({
+				name: difficulty.name,
+				color: FlxColor.fromRGB(difficulty.color[0], difficulty.color[1], difficulty.color[2], difficulty.color[3])
+			});
+		}
+
+		return {
+			name: parsed.name,
+			difficulties: difficulties,
+			singers: parsed.singers,
+			eventsID: parsed.eventsID,
+			stageID: parsed.stageID,
+			opponentID: parsed.opponentID
+		};
 	}
 
 	public static function getAsset(id:String):SongData

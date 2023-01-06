@@ -80,7 +80,7 @@ The following are classes automatically imported into every type of script.
 - `stage.Stage.StageDataRegistry`
 - `Album.AlbumDataRegistry`
 - `Week.WeekDataRegistry`
-- `Song.SongDataRegistry`
+- `music.Song.SongDataRegistry`
 - `Character.CharacterDataRegistry`
 
 ## Universal Functions
@@ -171,9 +171,7 @@ When you add any of the following functions to your event type script, the engin
 ## Note Type Callbacks
 When you add any of the following functions to your note type script, the engine will call them at the appropriate time.
 
-- `onHit(state:PlayState, time:Float, lane:Int)`
-  - `time` is the music time in milliseconds when the note was hit. For `lane`, 0 is left, 1 down, 2 up, and 3 right
+- `onHit(state:PlayState, time:Float, lane:Int, accuracy:Float)`
+  - `time` is the music time in milliseconds when the note was hit. For `lane`, 0 is left, 1 down, 2 up, and 3 right. `accuracy` is a value from 0 to 1. 1 is absolutely perfect, while 0 is just barely within the hit range
 - `onMiss(state:PlayState, time:Float, lane:Int)`
   - `time` is the music time in milliseconds when the note was missed. For `lane`, 0 is left, 1 down, 2 up, and 3 right
-- `getScore(accuracy:Float, combo:Int, lane:Int):Int`
-  - `accuracy` is a value from 0 to 1. 1 is absolutely perfect, while 0 is just barely within the hit range. `combo` is the player's current combo (excluding this note if it was just hit). For `lane`, 0 is left, 1 down, 2 up, and 3 right

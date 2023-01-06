@@ -82,7 +82,9 @@
             "y": 360.0,
             "data": {
                 "bopAnimFrequency": 2,
-                "bopAnimName": "dance"
+                "bopAnimName": "dance",
+                "bopLeftAnimName": "dance_left",
+                "bopRightAnimName": "dance_right"
             }
         },
         {
@@ -131,8 +133,7 @@
             "x": 540.0,
             "data": {
                 "id": "menus/week_select/color_split_left",
-                "blend": 9,
-                "defaultAnim": "idle"
+                "blend": 9
             }
         },
         {
@@ -143,8 +144,7 @@
             "x": 540.0,
             "data": {
                 "id": "menus/week_select/color_split_right",
-                "blend": 9,
-                "defaultAnim": "idle"
+                "blend": 9
             }
         },
         {
