@@ -4,6 +4,7 @@
         {
             "id": "normal",
             "spriteID": "characters/dad/sprite_normal",
+            "spriteScale": 1.0,
             "iconSpriteID": "characters/dad/icon"
         }
     ],

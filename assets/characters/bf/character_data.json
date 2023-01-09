@@ -5,6 +5,7 @@
             "id": "normal",
             "spriteID": "characters/bf/sprite_normal",
             "deathSpriteID": "characters/bf/death_sprite_normal",
+            "spriteScale": 1.0,
             "iconSpriteID": "characters/bf/icon"
         }
     ],

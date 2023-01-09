@@ -97,7 +97,9 @@
             "y": 360.0,
             "data": {
                 "bopAnimFrequency": 2,
-                "bopAnimName": "dance"
+                "bopAnimName": "dance",
+                "bopLeftAnimName": "dance_left",
+                "bopRightAnimName": "dance_right"
             }
         },
         {
@@ -111,7 +113,9 @@
             "data": {
                 "flipX": true,
                 "bopAnimFrequency": 2,
-                "bopAnimName": "dance"
+                "bopAnimName": "dance",
+                "bopLeftAnimName": "dance_left",
+                "bopRightAnimName": "dance_right"
             }
         },
         {

@@ -6,7 +6,7 @@ import stage.elements.ScriptedElement;
 /** Handles the conversion of a stage element type to a string and vice-versa. **/
 class StageElementResolver
 {
-	static final BUILTIN:Array<String> = ["general_sprite", "box_sprite", "text", "menu"];
+	static final BUILTIN:Array<String> = ["general_sprite", "box_sprite", "text", "menu", "character"];
 
 	/** Returns a list of all element type names. **/
 	public static function getAll():Array<String>
@@ -30,6 +30,8 @@ class StageElementResolver
 				return new TextElement(data);
 			case "menu":
 				return new MenuElement(data);
+			case "character":
+				return new CharacterElement(data);
 			default: // If it was not a built-in type, try to see if it's a custom scripted type
 				var elementType:Script = ScriptedElementTypeRegistry.getAsset(type);
 				if (elementType == null) // If it isn't, then there is no element of this type

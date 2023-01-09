@@ -5,6 +5,8 @@ import assetManagement.LibraryManager;
 import assetManagement.Registry;
 import flixel.group.FlxSpriteGroup;
 import flixel.util.FlxColor;
+import music.IConducted;
+import music.Note;
 
 typedef CharacterData =
 {
@@ -20,6 +22,7 @@ typedef CharacterVariant =
 	id:String,
 	spriteID:String,
 	deathSpriteID:String,
+	spriteScale:Float,
 	iconSpriteID:String
 }
 
@@ -70,13 +73,19 @@ class CharacterDataRegistry extends Registry<CharacterData>
 }
 
 /** A character is a sprite loaded from character data which has things like singing animations. IE: BF, GF, Dad, etc. **/
-class Character extends FlxSpriteGroup
+class Character extends FlxSpriteGroup implements IConducted
 {
 	public var data(default, null):CharacterData;
-
 	public var currentVariant(default, null):CharacterVariant;
 
 	var sprite:AssetSprite;
+
+	var danceRight:Bool;
+
+	var singingNotes:Array<Note> = [];
+
+	/** Used for the game-over. **/
+	var dead:Bool;
 
 	public function new(x:Float, y:Float, ?data:CharacterData = null, ?id:String = null, variantID:String = null)
 	{
@@ -106,7 +115,7 @@ class Character extends FlxSpriteGroup
 	/** Sets the sprite variant to use.
 		@param variantID If set to null, "normal" will be used as the default.
 	**/
-	public function setVariant(variantID:String)
+	public function setVariant(variantID:String = null)
 	{
 		if (variantID == null)
 			variantID = "normal";
@@ -119,5 +128,60 @@ class Character extends FlxSpriteGroup
 		}
 
 		sprite.loadFromID(currentVariant.spriteID);
+	}
+
+	override function update(elapsed:Float)
+	{
+		super.update(elapsed);
+		if (singingNotes.length > 0)
+		{
+			var animName:String = "sing_" + Note.laneIndexToID(singingNotes[0].lane);
+			sprite.playAnimation(animName, false);
+		}
+		else if (sprite.animation.name.contains("sing"))
+			sprite.playAnimation();
+	}
+
+	public function updateMusic(time:Float, bpm:Float, beat:Float) {}
+
+	public function onWholeBeat(beat:Int)
+	{
+		if (dead) // Dead idle animation
+		{
+			if (beat % 2.0 == 0.0)
+				sprite.playAnimation("idle");
+			return;
+		}
+
+		if (sprite.animation.exists("dance")) // If there is a singular dance animation
+		{
+			sprite.playAnimation("dance");
+			return;
+		}
+
+		if (danceRight) // If there is a back-and-forth dance animation
+			sprite.playAnimation("dance_right");
+		else
+			sprite.playAnimation("dance_left");
+		danceRight = !danceRight;
+	}
+
+	public function startSinging(note:Note)
+	{
+		singingNotes.push(note);
+	}
+
+	public function stopSinging(note:Note)
+	{
+		singingNotes.remove(note);
+	}
+
+	public function die()
+	{
+		if (dead)
+			return;
+		dead = true;
+		sprite.loadFromID(currentVariant.deathSpriteID);
+		sprite.playAnimation("dying", true);
 	}
 }

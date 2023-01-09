@@ -36,7 +36,8 @@ class GeneralSpriteElement extends AssetSprite implements IStageElement implemen
 			shader = ShaderResolver.resolve(data.shaderType, data.shaderArgs);
 
 		bopAnimFrequency = data.bopAnimFrequency;
-		if (data.bopAnimName != null) // If there is a single bop animation
+		// If there is a single bop animation, just use that one
+		if (data.bopAnimName != null && animation.exists(data.bopAnimName))
 		{
 			bopLeftAnimName = data.bopAnimName;
 			bopRightAnimName = data.bopAnimName;

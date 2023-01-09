@@ -18,6 +18,22 @@ class Note extends Node
 		noteType.start(); // Initialize the type if it hasn't been already
 	}
 
+	/** Converts a number representing a note lane into a string representing a note lane. **/
+	public static function laneIndexToID(lane:Int):String
+	{
+		switch (lane)
+		{
+			case 0:
+				return "left";
+			case 1:
+				return "down";
+			case 2:
+				return "up";
+			default:
+				return "right";
+		}
+	}
+
 	public function onHit(state:PlayState, accuracy:Float)
 	{
 		noteType.call("onHit", [state, time, lane, accuracy]);
