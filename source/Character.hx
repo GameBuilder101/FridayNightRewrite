@@ -8,6 +8,8 @@ import flixel.util.FlxColor;
 import music.IConducted;
 import music.Note;
 
+using StringTools;
+
 typedef CharacterData =
 {
 	name:String,
@@ -128,18 +130,15 @@ class Character extends FlxSpriteGroup implements IConducted
 		}
 
 		sprite.loadFromID(currentVariant.spriteID);
+		sprite.scale.set(currentVariant.spriteScale, currentVariant.spriteScale);
 	}
 
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
-		if (singingNotes.length > 0)
-		{
-			var animName:String = "sing_" + Note.laneIndexToID(singingNotes[0].lane);
-			sprite.playAnimation(animName, false);
-		}
-		else if (sprite.animation.name.contains("sing"))
-			sprite.playAnimation();
+		// Play sustain animation if still singing after main sing animation finishes
+		if (getIsSinging())
+			sprite.playAnimation("sing_" + Note.laneIndexToID(singingNotes[singingNotes.length - 1].lane) + "_sustain");
 	}
 
 	public function updateMusic(time:Float, bpm:Float, beat:Float) {}
@@ -168,12 +167,23 @@ class Character extends FlxSpriteGroup implements IConducted
 
 	public function startSinging(note:Note)
 	{
+		if (dead)
+			return;
 		singingNotes.push(note);
+		// Start the singing
+		sprite.playAnimation("sing_" + Note.laneIndexToID(note.lane), true);
 	}
 
 	public function stopSinging(note:Note)
 	{
+		if (!singingNotes.contains(note))
+			return;
 		singingNotes.remove(note);
+	}
+
+	public inline function getIsSinging():Bool
+	{
+		return singingNotes.length > 0;
 	}
 
 	public function die()
@@ -181,7 +191,8 @@ class Character extends FlxSpriteGroup implements IConducted
 		if (dead)
 			return;
 		dead = true;
-		sprite.loadFromID(currentVariant.deathSpriteID);
+		singingNotes = []; // Stop singing
+		sprite.loadFromID(currentVariant.deathSpriteID); // Switch to death sprite
 		sprite.playAnimation("dying", true);
 	}
 }

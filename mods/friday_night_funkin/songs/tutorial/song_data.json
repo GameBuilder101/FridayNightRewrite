@@ -1,22 +1,8 @@
 {
     "name": "Tutorial",
-    "difficulties": [
-        {
-            "name": "Easy",
-            "color": []
-        },
-        {
-            "name": "Normal",
-            "color": []
-        },
-        {
-            "name": "Hard",
-            "color": []
-        }
-    ],
-    "stageID": "stages/stage",
-    "singers": [
+    "characterTags": [
         "player",
         "girlfriend"
-    ]
+    ],
+    "stageID": "stages/stage"
 }

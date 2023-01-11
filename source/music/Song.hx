@@ -3,23 +3,18 @@ package music;
 import assetManagement.FileManager;
 import assetManagement.LibraryManager;
 import assetManagement.Registry;
-import flixel.util.FlxColor;
 
 typedef SongData =
 {
 	name:String,
-	// In case a mod wants to add custom difficulties
-	difficulties:Array<SongDifficulty>,
-	singers:Array<String>,
-	eventsID:String,
+	characterTags:Array<String>,
 	stageID:String,
-	opponentID:String
-}
-
-typedef SongDifficulty =
-{
-	name:String,
-	color:FlxColor
+	playerID:String,
+	girlfriendID:String,
+	opponentID:String,
+	playerVariant:String,
+	opponentVariant:String,
+	girlfriendVariant:String
 }
 
 /** Use this to access/load songs. **/
@@ -40,27 +35,7 @@ class SongDataRegistry extends Registry<SongData>
 
 	function loadData(directory:String, id:String):SongData
 	{
-		var parsed:Dynamic = FileManager.getParsedJson(Registry.getFullPath(directory, id) + "/song_data");
-		if (parsed == null)
-			return null;
-
-		var difficulties:Array<SongDifficulty> = [];
-		for (difficulty in cast(parsed.difficulties, Array<Dynamic>))
-		{
-			difficulties.push({
-				name: difficulty.name,
-				color: FlxColor.fromRGB(difficulty.color[0], difficulty.color[1], difficulty.color[2], difficulty.color[3])
-			});
-		}
-
-		return {
-			name: parsed.name,
-			difficulties: difficulties,
-			singers: parsed.singers,
-			eventsID: parsed.eventsID,
-			stageID: parsed.stageID,
-			opponentID: parsed.opponentID
-		};
+		return FileManager.getParsedJson(Registry.getFullPath(directory, id) + "/song_data");
 	}
 
 	public static function getAsset(id:String):SongData

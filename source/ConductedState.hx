@@ -77,7 +77,7 @@ abstract class ConductedState extends FlxTransitionableState implements IConduct
 		if (eventChart != null)
 		{
 			/* Trigger all events which occured between the previous time and the current time */
-			for (event in eventChart.events)
+			for (event in eventChart.nodes)
 			{
 				if (event.time > prevEventTime && event.time <= time)
 					triggerEvent(event);

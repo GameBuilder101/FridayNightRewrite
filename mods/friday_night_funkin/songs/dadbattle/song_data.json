@@ -1,20 +1,6 @@
 {
     "name": "Dadbattle",
-    "difficulties": [
-        {
-            "name": "Easy",
-            "color": []
-        },
-        {
-            "name": "Normal",
-            "color": []
-        },
-        {
-            "name": "Hard",
-            "color": []
-        }
-    ],
-    "singers": [
+    "characterTags": [
         "player",
         "opponent"
     ],
