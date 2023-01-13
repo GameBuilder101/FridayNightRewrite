@@ -40,8 +40,8 @@
         },
         {
             "type": "assets/stage_elements/swaying_sprite",
-            "x": 760,
-            "y": 120.0,
+            "x": 880,
+            "y": 210.0,
             "scaleX": 0.65,
             "scaleY": 0.65,
             "center": true,

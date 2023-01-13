@@ -5,7 +5,7 @@
             "atlasPrefix": "M Dad Idle",
             "frameRate": 24,
             "offsetX": 103.0,
-            "offsetY": -370.0
+            "offsetY": 340.0
         }
     ],
     "defaultAnim": "dance"

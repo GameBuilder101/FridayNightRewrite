@@ -1,6 +1,6 @@
 {
     "name": "Friday Night Funkin'",
-    "description": "A port of the original Friday Night Funkin'\n- Credits -\nninjamuffin99: programming, PhantomArcade: animation,\nevilsk8r: artist, KawaiSprite: music",
+    "description": "A port of the original Friday Night Funkin'",
     "spriteID": "albums/friday_night_funkin/sprite",
     "menuMusicID": "menus/_shared/menu_theme",
     "backgroundID": "menus/_shared/background",

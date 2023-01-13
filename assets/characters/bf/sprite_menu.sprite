@@ -5,15 +5,15 @@
             "name": "dance",
             "atlasPrefix": "M BF Idle",
             "frameRate": 24,
-            "offsetX": 164.0,
-            "offsetY": -340.0
+            "offsetX": 170.0,
+            "offsetY": 250.0
         },
         {
             "name": "hey",
             "atlasPrefix": "M bf HEY",
             "frameRate": 24,
-            "offsetX": 166.0,
-            "offsetY": -345.0
+            "offsetX": 174.0,
+            "offsetY": 255.0
         }
     ],
     "defaultAnim": "dance"

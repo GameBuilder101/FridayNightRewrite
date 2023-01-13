@@ -19,9 +19,9 @@
         {
             "type": "general_sprite",
             "x": 640.0,
-            "y": 510.0,
-            "scaleX": 0.2,
-            "scaleY": 0.2,
+            "y": 530.0,
+            "scaleX": 0.54,
+            "scaleY": 0.54,
             "center": true,
             "data": {
                 "id": "menus/_shared/record",
@@ -29,7 +29,10 @@
                     0,
                     0,
                     0
-                ]
+                ],
+                "bopFrequency": 1,
+                "bopScale": 0.55,
+                "bopSpeed": 0.1
             }
         },
         {
@@ -79,9 +82,9 @@
             ],
             "type": "general_sprite",
             "x": 640.0,
-            "y": 360.0,
+            "y": 340.0,
             "data": {
-                "bopAnimFrequency": 2,
+                "bopAnimFrequency": 1,
                 "bopAnimName": "dance",
                 "bopLeftAnimName": "dance_left",
                 "bopRightAnimName": "dance_right"
@@ -93,8 +96,8 @@
                 "menu_opponent"
             ],
             "type": "general_sprite",
-            "x": 240.0,
-            "y": 360.0,
+            "x": 300.0,
+            "y": 345.0,
             "data": {
                 "bopAnimFrequency": 2,
                 "bopAnimName": "dance",
@@ -108,8 +111,8 @@
                 "menu_player"
             ],
             "type": "general_sprite",
-            "x": 1040.0,
-            "y": 360.0,
+            "x": 980.0,
+            "y": 345.0,
             "data": {
                 "flipX": true,
                 "bopAnimFrequency": 2,
@@ -161,6 +164,19 @@
                 "width": 540,
                 "height": 360,
                 "blend": 9
+            }
+        },
+        {
+            "type": "box_sprite",
+            "y": 384.0,
+            "data": {
+                "width": 1280,
+                "height": 8,
+                "color": [
+                    0,
+                    0,
+                    0
+                ]
             }
         },
         {

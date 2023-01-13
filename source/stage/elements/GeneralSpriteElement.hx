@@ -1,5 +1,6 @@
 package stage.elements;
 
+import AssetSprite.AssetSpriteData;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import music.IConducted;
@@ -8,6 +9,7 @@ import shader.ShaderResolver;
 class GeneralSpriteElement extends AssetSprite implements IStageElement implements IConducted
 {
 	var bopAnimFrequency:Float;
+	var bopAnimName:String;
 	var bopLeftAnimName:String;
 	var bopRightAnimName:String;
 	var bopRight:Bool;
@@ -19,13 +21,16 @@ class GeneralSpriteElement extends AssetSprite implements IStageElement implemen
 	var originalScaleX:Float;
 	var originalScaleY:Float;
 
+	var flipXOnLoad:Bool;
+	var flipYOnLoad:Bool;
+
 	public function new(data:Dynamic)
 	{
+		if (data.flipX != null)
+			flipXOnLoad = data.flipX;
+		if (data.flipY != null)
+			flipYOnLoad = data.flipY;
 		super(0.0, 0.0, null, data.id);
-		if (data.flipX != null && data.flipX)
-			flipX = !flipX;
-		if (data.flipY != null && data.flipY)
-			flipY = !flipY;
 		if (data.color != null)
 			color *= FlxColor.fromRGB(data.color[0], data.color[1], data.color[2]);
 		if (data.alpha != null)
@@ -36,21 +41,22 @@ class GeneralSpriteElement extends AssetSprite implements IStageElement implemen
 			shader = ShaderResolver.resolve(data.shaderType, data.shaderArgs);
 
 		bopAnimFrequency = data.bopAnimFrequency;
-		// If there is a single bop animation, just use that one
-		if (data.bopAnimName != null && animation.exists(data.bopAnimName))
-		{
-			bopLeftAnimName = data.bopAnimName;
-			bopRightAnimName = data.bopAnimName;
-		}
-		else
-		{
-			bopLeftAnimName = data.bopLeftAnimName;
-			bopRightAnimName = data.bopRightAnimName;
-		}
+		bopAnimName = data.bopAnimName;
+		bopLeftAnimName = data.bopLeftAnimName;
+		bopRightAnimName = data.bopRightAnimName;
 
 		bopFrequency = data.bopFrequency;
 		bopScale = data.bopScale;
 		bopSpeed = data.bopSpeed;
+	}
+
+	override function loadFromData(data:AssetSpriteData)
+	{
+		super.loadFromData(data);
+		if (flipXOnLoad)
+			flipX = !flipX;
+		if (flipYOnLoad)
+			flipY = !flipY;
 	}
 
 	public function onAddedToStage(stage:Stage)
@@ -65,7 +71,9 @@ class GeneralSpriteElement extends AssetSprite implements IStageElement implemen
 	{
 		if (bopAnimFrequency > 0 && beat % bopAnimFrequency == 0.0)
 		{
-			if (bopRight)
+			if (bopAnimName != null && animation.exists(bopAnimName)) // If there is a singular bop animation
+				playAnimation(bopAnimName, true);
+			else if (bopRight)
 				playAnimation(bopRightAnimName, true);
 			else
 				playAnimation(bopLeftAnimName, true);

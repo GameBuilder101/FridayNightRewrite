@@ -103,13 +103,15 @@ class WeekSelectState extends MenuState implements IAlbumSelected
 			items.push(new FlashingButtonMenuItem(week.itemName, {
 				onSelected: function()
 				{
+					currentTitle = week.name;
+
 					// Update the stage
 					stagePreview.loadFromID(StageDataRegistry.getAsset(week.previewStageID).previewSpriteID);
 
-					var character:CharacterData = CharacterDataRegistry.getAsset(week.previewOpponentID);
 					// Update the opponent character sprite
-					if (character != null) // If there is an opponent
+					if (week.previewOpponentID != null && week.previewOpponentID != "") // If there is an opponent
 					{
+						var character:CharacterData = CharacterDataRegistry.getAsset(week.previewOpponentID);
 						opponent.loadFromID(character.menuSpriteID);
 						opponent.scale.set(character.menuSpriteScale, character.menuSpriteScale);
 						opponent.revive();

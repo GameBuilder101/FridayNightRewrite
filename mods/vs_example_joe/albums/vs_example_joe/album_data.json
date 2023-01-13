@@ -1,6 +1,6 @@
 {
     "name": "Vs. Example Joe",
-    "description": "The best example mod in all of existence\n- Credits -\nGameBuilder101: Joe-ification",
+    "description": "The best example mod in all of existence",
     "spriteID": "albums/vs_example_joe/sprite",
     "menuMusicID": "menus/_shared/example_joe_theme",
     "backgroundID": "menus/_shared/example_joe_background",

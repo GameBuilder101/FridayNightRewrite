@@ -52,11 +52,6 @@ class AlbumSelectState extends MenuState
 		menu.addItems(getMainMenuItems());
 		currentTitle = stage.data.name;
 
-		hintBack.setPosition(FlxG.width / 2.0 - FlxG.width / 3.0, FlxG.height - 176.0);
-		hintBack.makeGraphic(cast(FlxG.width / 1.5), 160, FlxColor.BLACK);
-		hintText.setPosition(hintBack.x + 16.0, hintBack.y + 16.0);
-		hintText.fieldWidth = hintBack.width - 32.0;
-
 		/* Default the background color to the initial selected album
 			(so it doesn't start by fading from white) */
 		FlxTween.cancelTweensOf(background);

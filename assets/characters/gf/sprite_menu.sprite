@@ -23,7 +23,7 @@
             ],
             "frameRate": 24,
             "offsetX": 170.0,
-            "offsetY": 320.0
+            "offsetY": 300.0
         },
         {
             "name": "dance_right",
@@ -47,7 +47,7 @@
             ],
             "frameRate": 24,
             "offsetX": 170.0,
-            "offsetY": 320.0
+            "offsetY": 300.0
         }
     ],
     "defaultAnim": "dance_left"

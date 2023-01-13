@@ -232,7 +232,7 @@ class AssetSprite extends FlxSprite
 		{
 			if (animation.name == animationData.name)
 			{
-				offset.set(animationData.offsetX * scale.x, animationData.offsetY * scale.y);
+				offset.set(animationData.offsetX, animationData.offsetY);
 				break;
 			}
 		}
