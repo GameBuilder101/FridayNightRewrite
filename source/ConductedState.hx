@@ -33,6 +33,7 @@ abstract class ConductedState extends FlxTransitionableState implements IConduct
 		// Must be done after FlxG has a chance to initialize or else it throws an error
 		Controls.initialize();
 		Settings.initialize();
+		Scores.initialize();
 
 		// Must be called somewhere in a state (after initialization), since graphics (such as the transition tile) can't be obtained before then
 		TransitionDataRegistry.updateDefaultTrans();

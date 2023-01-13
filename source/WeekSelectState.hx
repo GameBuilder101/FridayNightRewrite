@@ -5,6 +5,7 @@ import Character;
 import GlobalScript;
 import Week;
 import flixel.FlxG;
+import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import menu.MenuItem;
@@ -12,6 +13,7 @@ import menu.MenuState;
 import menu.items.FlashingButtonMenuItem;
 import music.Conductor;
 import music.MusicData;
+import music.Song;
 import stage.Stage;
 
 class WeekSelectState extends MenuState implements IAlbumSelected
@@ -33,6 +35,13 @@ class WeekSelectState extends MenuState implements IAlbumSelected
 	var colorSplitPlayer:Array<AssetSprite> = [];
 	var colorSplitOpponent:Array<AssetSprite> = [];
 
+	var songListText:FlxText;
+
+	var leftDifficultyArrow:AssetSprite;
+	var difficultyText:SpriteText;
+	var rightDifficultyArrow:AssetSprite;
+	var highScoreText:FlxText;
+
 	override function create()
 	{
 		super.create();
@@ -44,6 +53,16 @@ class WeekSelectState extends MenuState implements IAlbumSelected
 
 		colorSplitPlayer = cast stage.getElementsWithTag("color_split_player");
 		colorSplitOpponent = cast stage.getElementsWithTag("color_split_opponent");
+
+		// Add song list text
+		songListText = new FlxText(16.0, 408.0, 400);
+		songListText.setFormat("Jann Script Bold", 17);
+		add(songListText);
+
+		// Add high score text
+		highScoreText = new FlxText(864.0, 468.0, 400);
+		highScoreText.setFormat("Jann Script Bold", 17);
+		add(highScoreText);
 
 		// Load weeks from the list in the album
 		for (id in album.weekIDs)
@@ -103,7 +122,14 @@ class WeekSelectState extends MenuState implements IAlbumSelected
 			items.push(new FlashingButtonMenuItem(week.itemName, {
 				onSelected: function()
 				{
+					// Update the week name
 					currentTitle = week.name;
+					// Update the song list
+					songListText.text = "- Tracks -";
+					for (songID in week.songIDs)
+						songListText.text += "\n" + SongDataRegistry.getAsset(songID).name;
+					// Update the high score text
+					highScoreText.text = "High Score: " + 69420;
 
 					// Update the stage
 					stagePreview.loadFromID(StageDataRegistry.getAsset(week.previewStageID).previewSpriteID);

@@ -75,6 +75,7 @@ The following are classes automatically imported into every type of script.
 - `assetManagement.LibraryManager`
 - `Controls`
 - `Settings`
+- `Scores`
 - `ConductedState`
 - `menu.Menu`
 - `stage.Stage.StageDataRegistry`

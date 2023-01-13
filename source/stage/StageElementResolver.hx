@@ -6,7 +6,7 @@ import stage.elements.ScriptedElement;
 /** Handles the conversion of a stage element type to a string and vice-versa. **/
 class StageElementResolver
 {
-	static final BUILTIN:Array<String> = ["general_sprite", "box_sprite", "text", "menu", "character"];
+	static final BUILTIN:Array<String> = ["general_sprite", "box_sprite", "menu", "character"];
 
 	/** Returns a list of all element type names. **/
 	public static function getAll():Array<String>
@@ -26,8 +26,6 @@ class StageElementResolver
 				return new GeneralSpriteElement(data);
 			case "box_sprite":
 				return new BoxSpriteElement(data);
-			case "text":
-				return new TextElement(data);
 			case "menu":
 				return new MenuElement(data);
 			case "character":

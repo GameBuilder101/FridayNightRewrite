@@ -208,6 +208,7 @@ class Script
 		set("LibraryManager", LibraryManager);
 		set("Controls", Controls);
 		set("Settings", Settings);
+		set("Scores", Scores);
 		set("ConductedState", ConductedState);
 		set("Menu", menu.Menu);
 		set("StageDataRegistry", stage.Stage.StageDataRegistry);

@@ -6,9 +6,9 @@ import flixel.util.FlxColor;
 class DifficultyUtil
 {
 	public static final BUILTIN:Array<Difficulty> = [
-		{name: "Easy", color: FlxColor.fromRGB(0, 0, 0)},
-		{name: "Normal", color: FlxColor.fromRGB(0, 0, 0)},
-		{name: "Hard", color: FlxColor.fromRGB(0, 0, 0)}
+		{name: "Easy", color: FlxColor.fromRGB(219, 33, 86)},
+		{name: "Normal", color: FlxColor.fromRGB(253, 232, 113)},
+		{name: "Hard", color: FlxColor.fromRGB(247, 51, 154)}
 	];
 
 	/** The max difficulty. **/
