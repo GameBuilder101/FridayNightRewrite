@@ -1,9 +1,0 @@
-{
-    "name": "Bopeebo",
-    "characterTags": [
-        "player",
-        "opponent"
-    ],
-    "stageID": "stages/stage",
-    "opponentID": "characters/dad"
-}

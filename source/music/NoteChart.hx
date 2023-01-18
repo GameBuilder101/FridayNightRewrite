@@ -5,29 +5,12 @@ import assetManagement.LibraryManager;
 import assetManagement.Registry;
 import music.Note;
 
-class NoteChart extends Chart<Note> {}
-
-/** Use this to access/load note charts. **/
-class NoteChartRegistry extends Registry<NoteChart>
+class NoteChart extends Chart<Note>
 {
-	static var cache:NoteChartRegistry = new NoteChartRegistry();
-
-	public function new()
+	/** Converts from parsed JSON. **/
+	public static function fromParsed(parsed:Dynamic):NoteChart
 	{
-		super();
-		LibraryManager.onFullReload.push(function()
-		{
-			cache.clear();
-		});
-	}
-
-	function loadData(directory:String, id:String):NoteChart
-	{
-		var parsed:Dynamic = FileManager.getParsedJson(Registry.getFullPath(directory, id));
-		if (parsed == null)
-			return null;
-
-		// Create the notes from the chart data provided in the file
+		// Create the notes from the chart data
 		var notes:Array<Note> = [];
 		for (note in cast(parsed, Array<Dynamic>))
 		{
@@ -37,10 +20,5 @@ class NoteChartRegistry extends Registry<NoteChart>
 		}
 
 		return new NoteChart(notes);
-	}
-
-	public static function getAsset(id:String):NoteChart
-	{
-		return LibraryManager.getLibraryAsset(id, cache);
 	}
 }
