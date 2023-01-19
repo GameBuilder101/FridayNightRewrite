@@ -7,7 +7,7 @@ import stage.Stage;
 class PlayState extends ConductedState
 {
 	/** The current song. **/
-	public var song(default, null):SongData;
+	public var song(default, null):Song;
 
 	/** For most songs, 0 is easy, 1 is normal, and 2 is hard. **/
 	public var difficulty(default, null):Int;
@@ -24,7 +24,7 @@ class PlayState extends ConductedState
 	/** 
 		@param song When specified, this state will load that specific song. If you want the appropriate week song to load, set this null
 	**/
-	public function new(song:SongData, difficulty:Int, week:WeekData = null, weekSongIndex:Int = 0)
+	public function new(song:Song, difficulty:Int, week:WeekData = null, weekSongIndex:Int = 0)
 	{
 		super();
 		this.song = song;
@@ -32,7 +32,7 @@ class PlayState extends ConductedState
 		this.week = week;
 		this.weekSongIndex = weekSongIndex;
 		if (song == null && week != null) // If a specific song was not given, load the week song
-			song = SongDataRegistry.getAsset(week.songIDs[weekSongIndex]);
+			this.song = SongRegistry.getAsset(week.songIDs[weekSongIndex]);
 	}
 
 	function createStage():Stage

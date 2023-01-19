@@ -14,7 +14,9 @@ import music.MusicData.MusicDataRegistry;
 
 class AlbumSelectState extends MenuState
 {
-	var nextState:MenuState;
+	var nextState:PrePlayState;
+
+	var albumIDs(default, null):Array<String>;
 
 	/** An array of all detected/loaded albums. **/
 	public var albums(default, null):Array<AlbumData> = [];
@@ -22,7 +24,7 @@ class AlbumSelectState extends MenuState
 	var leftMenuArrow:AssetSprite;
 	var rightMenuArrow:AssetSprite;
 
-	public function new(nextState:MenuState)
+	public function new(nextState:PrePlayState)
 	{
 		super();
 		this.nextState = nextState;
@@ -36,17 +38,17 @@ class AlbumSelectState extends MenuState
 		rightMenuArrow = cast stage.getElementWithTag("right_menu_arrow");
 
 		// Get all albums IDs
-		var allIDs:Array<String> = AlbumDataRegistry.getAllIDs();
+		albumIDs = AlbumDataRegistry.getAllIDs();
 		// Make the priority albums appear first in the list (in the order specified in the array)
 		for (id in cast(data.priorityAlbumOrder, Array<Dynamic>))
 		{
-			if (!allIDs.contains(id))
+			if (!albumIDs.contains(id))
 				continue;
-			allIDs.remove(id);
-			allIDs.unshift(id);
+			albumIDs.remove(id);
+			albumIDs.unshift(id);
 		}
 		// Load albums from the list that was created
-		for (id in allIDs)
+		for (id in albumIDs)
 			albums.push(AlbumDataRegistry.getAsset(id));
 
 		menu.addItems(getMainMenuItems());
@@ -77,6 +79,7 @@ class AlbumSelectState extends MenuState
 	function getMainMenuItems():Array<MenuItem>
 	{
 		var items:Array<MenuItem> = [];
+		var i:Int = 0;
 		for (album in albums)
 		{
 			items.push(new AlbumMenuItem(album, {
@@ -99,7 +102,8 @@ class AlbumSelectState extends MenuState
 				onInteracted: function(value:Dynamic)
 				{
 					GlobalScriptRegistry.callAll("onAlbumInteracted", [album]);
-					cast(nextState, IAlbumSelected).album = album;
+					nextState.albumID = albumIDs[i];
+					nextState.album = album;
 					specialTransition(nextState);
 					// Hide the side arrows
 					if (leftMenuArrow != null)
@@ -108,6 +112,7 @@ class AlbumSelectState extends MenuState
 						rightMenuArrow.visible = false;
 				}
 			}));
+			i++;
 		}
 		return items;
 	}

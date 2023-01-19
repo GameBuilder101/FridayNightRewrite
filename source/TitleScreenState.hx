@@ -3,6 +3,7 @@ package;
 import Album;
 import GlobalScript;
 import assetManagement.LibraryManager;
+import editor.EditorSelectState;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
@@ -107,6 +108,9 @@ class TitleScreenState extends MenuState
 
 		if (Controls.accept.check())
 			skipIntro();
+
+		if (!playingIntro && FlxG.keys.justPressed.SEVEN)
+			FlxG.switchState(new EditorSelectState());
 	}
 
 	function getMenuID():String
@@ -120,7 +124,7 @@ class TitleScreenState extends MenuState
 			new FlashingButtonMenuItem("Story Mode", {
 				onInteracted: function(value:Dynamic)
 				{
-					var nextState:MenuState = new WeekSelectState();
+					var nextState:PrePlayState = new WeekSelectState();
 					if (AlbumDataRegistry.getAllIDs().length > 1) // If there is only one album, just skip the album select
 						specialTransition(new AlbumSelectState(nextState));
 					else
@@ -130,7 +134,7 @@ class TitleScreenState extends MenuState
 			new FlashingButtonMenuItem("Freeplay", {
 				onInteracted: function(value:Dynamic)
 				{
-					var nextState:MenuState = new FreeplayState();
+					var nextState:PrePlayState = new FreeplayState();
 					if (AlbumDataRegistry.getAllIDs().length > 1) // If there is only one album, just skip the album select
 						specialTransition(new AlbumSelectState(nextState));
 					else

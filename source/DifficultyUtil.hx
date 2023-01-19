@@ -6,10 +6,13 @@ import flixel.util.FlxColor;
 class DifficultyUtil
 {
 	public static final BUILTIN:Array<Difficulty> = [
-		{name: "Easy", color: FlxColor.fromRGB(219, 33, 86)},
+		{name: "Easy", color: FlxColor.fromRGB(22, 240, 83)},
 		{name: "Normal", color: FlxColor.fromRGB(253, 232, 113)},
 		{name: "Hard", color: FlxColor.fromRGB(247, 51, 154)}
 	];
+
+	/** The difficulty selected by default. **/
+	public static final DEFAULT_SELECTED:Int = 1;
 
 	/** The max difficulty. **/
 	public static inline function getMax():Int

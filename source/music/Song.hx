@@ -56,9 +56,9 @@ class Song
 }
 
 /** Use this to access/load songs. **/
-class SongDataRegistry extends Registry<SongData>
+class SongRegistry extends Registry<Song>
 {
-	static var cache:SongDataRegistry = new SongDataRegistry();
+	static var cache:SongRegistry = new SongRegistry();
 	static var cachedIDs:Array<String>;
 
 	public function new()
@@ -71,9 +71,9 @@ class SongDataRegistry extends Registry<SongData>
 		});
 	}
 
-	function loadData(directory:String, id:String):SongData
+	function loadData(directory:String, id:String):Song
 	{
-		var parsed:Dynamic = FileManager.getParsedJson(Registry.getFullPath(directory, id));
+		var parsed:Dynamic = FileManager.getParsedJson(Registry.getFullPath(directory, id) + "/song_data");
 		if (parsed == null)
 			return null;
 
@@ -84,23 +84,28 @@ class SongDataRegistry extends Registry<SongData>
 		song.opponentVariant = parsed.opponentVariant;
 		song.girlfriendVariant = parsed.girlfriendVariant;
 
-		/* Re-construct the charts array from the JSON. The structure is slightly different
-			in the JSON since it can't store maps, so it needs to be converted */
+		/* Song charts are loaded in dynamically. Loop through all files with the naming convention "difficulty_#" until
+			no more are found. These will contain the charts corresponding to the difficulties of the song */
 		var charts:Array<Map<String, NoteChart>> = [];
+		var parsedDiff:Dynamic;
 		var singers:Map<String, NoteChart>;
-		for (difficulty in cast(parsed.charts, Array<Dynamic>))
+		var i:Int = 0;
+		while (true)
 		{
-			singers = [];
-			for (singer in cast(difficulty, Array<Dynamic>))
-				singers.set(singer.tag, NoteChart.fromParsed(singer.chart));
-			charts.push(singers);
+			parsedDiff = FileManager.getParsedJson(Registry.getFullPath(directory, id) + "/difficulty_" + i);
+			if (parsedDiff == null)
+				break;
+			singers = new Map<String, NoteChart>();
+			for (singer in cast(parsedDiff, Array<Dynamic>))
+				singers.set(singer.key, NoteChart.fromParsed(singer.chart));
+			i++;
 		}
 		song.charts = charts;
 
 		return song;
 	}
 
-	public static function getAsset(id:String):SongData
+	public static function getAsset(id:String):Song
 	{
 		return LibraryManager.getLibraryAsset(id, cache);
 	}

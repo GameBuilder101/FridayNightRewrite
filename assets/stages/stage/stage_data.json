@@ -1,5 +1,98 @@
 {
     "name": "Stage",
     "previewSpriteID": "stages/stage/preview",
-    "elements": []
+    "elements": [
+        {
+            "type": "general_sprite",
+            "x": -600.0,
+            "y": -200.0,
+            "scrollFactorX": 0.9,
+            "scrollFactorY": 0.9,
+            "data": {
+                "id": "stages/stage/background"
+            }
+        },
+        {
+            "type": "general_sprite",
+            "x": -650.0,
+            "y": -600.0,
+            "scrollFactorX": 0.9,
+            "scrollFactorY": 0.9,
+            "scaleX": 1.1,
+            "scaleY": 1.1,
+            "data": {
+                "id": "stages/stage/ground"
+            }
+        },
+        {
+            "tags": [
+                "girlfriend"
+            ],
+            "type": "character",
+            "x": 400.0,
+            "y": 130.0,
+            "scrollFactorX": 0.95,
+            "scrollFactorY": 0.95
+        },
+        {
+            "tags": [
+                "player"
+            ],
+            "type": "character",
+            "x": 770.0,
+            "y": 100.0,
+            "scrollFactorX": 0.95,
+            "scrollFactorY": 0.95,
+            "data": {
+                "flipX": true
+            }
+        },
+        {
+            "tags": [
+                "dad"
+            ],
+            "type": "character",
+            "x": 100.0,
+            "y": 100.0,
+            "scrollFactorX": 0.95,
+            "scrollFactorY": 0.95
+        },
+        {
+            "type": "general_sprite",
+            "x": -125.0,
+            "y": -100.0,
+            "scrollFactorX": 0.9,
+            "scrollFactorY": 0.9,
+            "scaleX": 1.1,
+            "scaleY": 1.1,
+            "data": {
+                "id": "stages/stage/light"
+            }
+        },
+        {
+            "type": "general_sprite",
+            "x": 1225.0,
+            "y": -100.0,
+            "scrollFactorX": 0.9,
+            "scrollFactorY": 0.9,
+            "scaleX": 1.1,
+            "scaleY": 1.1,
+            "data": {
+                "id": "stages/stage/light",
+                "flipX": true
+            }
+        },
+        {
+            "type": "general_sprite",
+            "x": -500.0,
+            "y": -300.0,
+            "scrollFactorX": 1.3,
+            "scrollFactorY": 1.3,
+            "scaleX": 0.9,
+            "scaleY": 0.9,
+            "data": {
+                "id": "stages/stage/curtains"
+            }
+        }
+    ]
 }

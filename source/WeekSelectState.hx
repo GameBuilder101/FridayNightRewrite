@@ -1,50 +1,50 @@
 package;
 
-import Album;
 import Character;
 import GlobalScript;
-import Week;
-import flixel.FlxG;
+import Scores;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import menu.MenuItem;
-import menu.MenuState;
 import menu.items.FlashingButtonMenuItem;
-import music.Conductor;
-import music.MusicData;
 import music.Song;
 import stage.Stage;
+import stage.elements.GeneralSpriteElement;
 
-class WeekSelectState extends MenuState implements IAlbumSelected
+class WeekSelectState extends PrePlayState
 {
-	/** The album that was selected in the album select state. **/
-	public var album:AlbumData;
-
-	/** An array of all detected/loaded weeks. **/
-	public var weeks(default, null):Array<WeekData> = [];
-
-	/** The currently-selected difficulty index. **/
-	var difficulty:Int;
+	var songListLabel:FlxText;
+	var songListText:FlxText;
 
 	var stagePreview:AssetSprite;
-	var player:AssetSprite;
-	var opponent:AssetSprite;
-	var girlfriend:AssetSprite;
+	var player:GeneralSpriteElement;
+	var opponent:GeneralSpriteElement;
+	var girlfriend:GeneralSpriteElement;
 
 	var colorSplitPlayer:Array<AssetSprite> = [];
 	var colorSplitOpponent:Array<AssetSprite> = [];
 
-	var songListText:FlxText;
-
-	var leftDifficultyArrow:AssetSprite;
-	var difficultyText:SpriteText;
-	var rightDifficultyArrow:AssetSprite;
-	var highScoreText:FlxText;
-
 	override function create()
 	{
 		super.create();
+
+		// Update PrePlayState elements
+		difficultyText.setPosition(1099.0, 418.0);
+		leftDifficultyArrow.y = difficultyText.y;
+		rightDifficultyArrow.y = difficultyText.y;
+		highScoreText.setPosition(934.0, 500.0);
+		highScoreText.fieldWidth = 330;
+		selectDifficulty(difficulty);
+
+		// Add song list text
+		songListLabel = new FlxText(16.0, 408.0, 330, "- Tracks -");
+		songListLabel.setFormat("Jann Script Bold", 34, FlxColor.WHITE, CENTER);
+		add(songListLabel);
+		songListText = new FlxText(16.0, 460.0, 330);
+		songListText.setFormat("Jann Script Bold", 24, FlxColor.WHITE, CENTER);
+		songListText.alpha = 0.75;
+		add(songListText);
 
 		stagePreview = cast stage.getElementWithTag("stage_preview");
 		player = cast stage.getElementWithTag("menu_player");
@@ -54,26 +54,7 @@ class WeekSelectState extends MenuState implements IAlbumSelected
 		colorSplitPlayer = cast stage.getElementsWithTag("color_split_player");
 		colorSplitOpponent = cast stage.getElementsWithTag("color_split_opponent");
 
-		// Add song list text
-		songListText = new FlxText(16.0, 408.0, 400);
-		songListText.setFormat("Jann Script Bold", 17);
-		add(songListText);
-
-		// Add high score text
-		highScoreText = new FlxText(864.0, 468.0, 400);
-		highScoreText.setFormat("Jann Script Bold", 17);
-		add(highScoreText);
-
-		// Load weeks from the list in the album
-		for (id in album.weekIDs)
-			weeks.push(WeekDataRegistry.getAsset(id));
-
 		menu.addItems(getMainMenuItems());
-
-		// Just in case, play the menu music again
-		Conductor.play(MusicDataRegistry.getAsset(album.menuMusicID), true, false);
-		background.loadFromID(album.backgroundID);
-		background.color = album.backgroundColor;
 
 		// Update the player character sprite
 		var character:CharacterData = Settings.getPlayerCharacter();
@@ -90,22 +71,11 @@ class WeekSelectState extends MenuState implements IAlbumSelected
 
 		/* Default the opponent color split to the initial selected week
 			(so it doesn't start by fading from white) */
-		var color:FlxColor = getOpponentThemeColor(weeks[menu.selectedItem]);
+		var color:FlxColor = PrePlayState.getOpponentThemeColor(album.weeks[menu.selectedItem].previewOpponentID);
 		for (sprite in colorSplitOpponent)
 		{
 			FlxTween.cancelTweensOf(sprite);
 			sprite.color = color;
-		}
-	}
-
-	override function update(elapsed:Float)
-	{
-		super.update(elapsed);
-		// Go back to the main menu if the back button is pressed
-		if (menu.interactable && Controls.cancel.check())
-		{
-			menu.playCancelSound();
-			FlxG.switchState(new TitleScreenState());
 		}
 	}
 
@@ -117,19 +87,22 @@ class WeekSelectState extends MenuState implements IAlbumSelected
 	function getMainMenuItems():Array<MenuItem>
 	{
 		var items:Array<MenuItem> = [];
-		for (week in weeks)
+		var i:Int = 0;
+		for (week in album.weeks)
 		{
 			items.push(new FlashingButtonMenuItem(week.itemName, {
 				onSelected: function()
 				{
-					// Update the week name
+					// Update the title
 					currentTitle = week.name;
+
+					// Update the high score
+					currentHighScore = Scores.getWeekHighScore(albumID, i, difficulty);
+
 					// Update the song list
-					songListText.text = "- Tracks -";
+					songListText.text = "";
 					for (songID in week.songIDs)
-						songListText.text += "\n" + SongDataRegistry.getAsset(songID).name;
-					// Update the high score text
-					highScoreText.text = "High Score: " + 69420;
+						songListText.text += SongRegistry.getAsset(songID).name + "\n";
 
 					// Update the stage
 					stagePreview.loadFromID(StageDataRegistry.getAsset(week.previewStageID).previewSpriteID);
@@ -146,7 +119,7 @@ class WeekSelectState extends MenuState implements IAlbumSelected
 						opponent.kill();
 
 					// Update the opponent character's colors
-					var color:FlxColor = getOpponentThemeColor(week);
+					var color:FlxColor = PrePlayState.getOpponentThemeColor(week.previewOpponentID);
 					for (sprite in colorSplitOpponent)
 					{
 						FlxTween.cancelTweensOf(sprite);
@@ -158,19 +131,13 @@ class WeekSelectState extends MenuState implements IAlbumSelected
 				onInteracted: function(value:Dynamic)
 				{
 					GlobalScriptRegistry.callAll("onWeekInteracted", [week]);
-					specialTransition(new PlayState(null, difficulty, week));
-					Conductor.fadeOut(0.8); // Fade out the music after being selected
+					prePlayTransition(new PlayState(null, difficulty, week));
+					player.enableBopAnim = false;
+					player.playAnimation("hey", true);
 				}
 			}));
+			i++;
 		}
 		return items;
-	}
-
-	/** Returns the color to use for the opponent. **/
-	function getOpponentThemeColor(week:WeekData):FlxColor
-	{
-		if (week.previewOpponentID == null)
-			return Settings.getPlayerCharacter().themeColor;
-		return CharacterDataRegistry.getAsset(week.previewOpponentID).themeColor;
 	}
 }

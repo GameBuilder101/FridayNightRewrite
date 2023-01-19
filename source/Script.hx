@@ -213,9 +213,9 @@ class Script
 		set("Menu", menu.Menu);
 		set("StageDataRegistry", stage.Stage.StageDataRegistry);
 		set("AlbumDataRegistry", Album.AlbumDataRegistry);
-		set("WeekDataRegistry", Week.WeekDataRegistry);
-		set("SongDataRegistry", music.Song.SongDataRegistry);
+		set("SongRegistry", music.Song.SongRegistry);
 		set("CharacterDataRegistry", Character.CharacterDataRegistry);
+		set("DifficultyUtil", DifficultyUtil);
 
 		// Add useful functions
 

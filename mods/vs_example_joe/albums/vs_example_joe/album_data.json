@@ -9,6 +9,9 @@
         255,
         255
     ],
-    "weekIDs": [],
-    "freeplaySongIDs": []
+    "freeplaySongIDs": [
+        "songs/exemplary",
+        "songs/devious",
+        "songs/joe-ified"
+    ]
 }

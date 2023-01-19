@@ -19,7 +19,7 @@
         {
             "type": "general_sprite",
             "x": 640.0,
-            "y": 530.0,
+            "y": 540.0,
             "scaleX": 0.54,
             "scaleY": 0.54,
             "center": true,
@@ -47,6 +47,7 @@
                 "spacing": 120.0,
                 "radius": 50.0,
                 "fontSize": 0.9,
+                "waveSelectedItem": true,
                 "normalItemColor": [
                     255,
                     255,
@@ -67,6 +68,28 @@
                 "cancelSoundID": "menus/_shared/menu_cancel",
                 "errorSoundID": "menus/_shared/menu_error",
                 "toggleSoundID": "menus/_shared/menu_toggle"
+            }
+        },
+        {
+            "tags": [
+                "full_combo_badge"
+            ],
+            "type": "general_sprite",
+            "x": 950.0,
+            "y": 540.0,
+            "data": {
+                "id": "menus/_shared/full_combo_badge"
+            }
+        },
+        {
+            "tags": [
+                "ghost_full_combo_badge"
+            ],
+            "type": "general_sprite",
+            "x": 950.0,
+            "y": 540.0,
+            "data": {
+                "id": "menus/_shared/ghost_full_combo_badge"
             }
         },
         {

@@ -14,6 +14,8 @@ class GeneralSpriteElement extends AssetSprite implements IStageElement implemen
 	var bopRightAnimName:String;
 	var bopRight:Bool;
 
+	public var enableBopAnim:Bool = true;
+
 	var bopFrequency:Float;
 	var bopScale:Float;
 	var bopSpeed:Float;
@@ -69,14 +71,14 @@ class GeneralSpriteElement extends AssetSprite implements IStageElement implemen
 
 	public function onWholeBeat(beat:Int)
 	{
-		if (bopAnimFrequency > 0 && beat % bopAnimFrequency == 0.0)
+		if (enableBopAnim && bopAnimFrequency > 0 && beat % bopAnimFrequency == 0.0)
 		{
 			if (bopAnimName != null && animation.exists(bopAnimName)) // If there is a singular bop animation
-				playAnimation(bopAnimName, true);
+				playAnimation(bopAnimName);
 			else if (bopRight)
-				playAnimation(bopRightAnimName, true);
+				playAnimation(bopRightAnimName);
 			else
-				playAnimation(bopLeftAnimName, true);
+				playAnimation(bopLeftAnimName);
 			bopRight = !bopRight;
 		}
 

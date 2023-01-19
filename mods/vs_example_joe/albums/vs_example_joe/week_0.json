@@ -1,0 +1,11 @@
+{
+    "name": "Efficacious Example",
+    "itemName": "Week 1",
+    "previewStageID": "stages/stage",
+    "previewOpponentID": "characters/example_joe",
+    "songIDs": [
+        "songs/exemplary",
+        "songs/devious",
+        "songs/joe-ified"
+    ]
+}

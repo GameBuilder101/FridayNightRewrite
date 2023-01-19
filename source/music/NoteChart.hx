@@ -18,7 +18,6 @@ class NoteChart extends Chart<Note>
 				note.c = "assets/note_types/normal";
 			notes.push(new Note(NoteTypeRegistry.getAsset(note.c), note.t, note.l));
 		}
-
 		return new NoteChart(notes);
 	}
 }

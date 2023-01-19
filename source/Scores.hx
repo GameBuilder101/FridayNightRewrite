@@ -31,4 +31,32 @@ class Scores extends Saver
 		var data:Map<String, Dynamic> = new Map<String, Dynamic>();
 		return data;
 	}
+
+	public static function getWeekHighScore(albumID:String, weekIndex:Int, difficulty:Int):HighScore
+	{
+		return instance.get("albumID: " + albumID + ", weekIndex: " + weekIndex + ", difficulty: " + difficulty);
+	}
+
+	public static function setWeekHighScore(albumID:String, weekIndex:Int, difficulty:Int, highScore:HighScore)
+	{
+		instance.set("albumID: " + albumID + ", weekIndex: " + weekIndex + ", difficulty: " + difficulty, highScore);
+	}
+
+	public static function getSongHighScore(songID:String, difficulty:Int):HighScore
+	{
+		return instance.get("songID: " + songID + ", difficulty: " + difficulty);
+	}
+
+	public static function setSongHighScore(songID:String, difficulty:Int, highScore:HighScore)
+	{
+		instance.set("songID: " + songID + ", difficulty: " + difficulty, highScore);
+	}
+}
+
+typedef HighScore =
+{
+	score:Int,
+	highestCombo:Int,
+	fullCombo:Bool,
+	ghostTapping:Bool
 }

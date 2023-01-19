@@ -39,6 +39,8 @@
 
 	<haxelib name="flixel-addons" />
 
+	<haxelib name="flixel-ui" />
+
 	<haxelib name="hscript" />
 
 	<!-- ______________________________ Haxedefines _____________________________ -->

@@ -1,0 +1,13 @@
+{
+    "color": [
+        235,
+        224,
+        83
+    ],
+    "shaderType": "glint",
+    "shaderArgs": {
+        "glintSpeedX": 0.2,
+        "glintSpeedY": 0.0,
+        "glintTexID": "menus/_shared/full_combo_badge_glint"
+    }
+}

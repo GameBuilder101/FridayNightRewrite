@@ -80,9 +80,9 @@ The following are classes automatically imported into every type of script.
 - `menu.Menu`
 - `stage.Stage.StageDataRegistry`
 - `Album.AlbumDataRegistry`
-- `Week.WeekDataRegistry`
-- `music.Song.SongDataRegistry`
+- `music.Song.SongRegistry`
 - `Character.CharacterDataRegistry`
+- `DifficultyUtil`
 
 ## Universal Functions
 The following are functions that you can call directly from any script (without having to reference a class).
