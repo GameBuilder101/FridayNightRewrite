@@ -29,6 +29,9 @@ class Song
 	{
 		this.name = name;
 		this.credits = credits;
+		// Fill out charts with null
+		for (i in 0...DifficultyUtil.getMax())
+			charts.push(null);
 	}
 
 	public function getChart(characterTag:String, difficulty:Int):NoteChart

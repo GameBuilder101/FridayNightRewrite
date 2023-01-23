@@ -4,9 +4,9 @@ import flixel.addons.ui.FlxUICheckBox;
 
 class BoolEditor extends FlxUICheckBox implements IEditor<Bool>
 {
-	public function new(x:Float, y:Float, width:Int)
+	public function new(x:Float, y:Float, width:Int, label:String)
 	{
-		super(x, y, width);
+		super(x, y, null, null, label, width);
 	}
 
 	public function getValue():Bool
