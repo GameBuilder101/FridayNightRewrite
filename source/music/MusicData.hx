@@ -9,8 +9,8 @@ import openfl.media.Sound;
 class MusicData
 {
 	public var sound(default, null):Sound;
-	public var volume(default, null):Float;
-	public var bpmMap(default, null):Array<BPMChange>;
+	public var volume:Float;
+	public var bpmMap:Array<BPMChange>;
 
 	public function new(sound:Sound, volume:Float, bpmMap:Array<BPMChange>)
 	{

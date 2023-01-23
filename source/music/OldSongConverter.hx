@@ -10,7 +10,7 @@ class OldSongConverter
 		everything.
 		@param path The file path to the folder containing all difficulties.
 	**/
-	public static function convert(path:String):Song
+	public static function convert(path:String, instrumentalPath:String, voicesPath:String):ConvertedSong
 	{
 		var songID:String = path.substring(path.lastIndexOf("/") + 1, path.length);
 		// Get the parsed JSON data for each difficulty
@@ -20,17 +20,20 @@ class OldSongConverter
 		if (easy == null && normal == null && hard == null)
 			return null;
 
+		var instrumental:MusicData = new MusicData(FileManager.getSound(instrumentalPath), 1.0, []);
+		var voices:SoundData = new SoundData([{sound: FileManager.getSound(voicesPath), volume: 1.0}]);
+
 		// Set up the converted song
 		var song:Song = new Song(normal.song.song);
 		song.opponentID = playerIDToCharacterID(normal.song.player2);
 		song.playerVariant = playerIDToVariantID(normal.song.player1);
 		song.opponentVariant = playerIDToVariantID(normal.song.player2);
 		if (easy != null)
-			song.charts[0] = convertChart(easy);
+			song.charts[0] = convertChart(song, easy);
 		if (normal != null)
-			song.charts[1] = convertChart(normal);
+			song.charts[1] = convertChart(song, normal);
 		if (hard != null)
-			song.charts[2] = convertChart(hard);
+			song.charts[2] = convertChart(song, hard);
 
 		return song;
 	}
@@ -45,28 +48,35 @@ class OldSongConverter
 
 	static function playerIDToVariantID(player:String):String
 	{
-		if (player.endsWith("-car"))
-			return "car";
-		else if (player.endsWith("-christmas"))
-			return "christmas";
-		else if (player.endsWith("-pixel"))
-			return "pixel";
-		else if (player.endsWith("-angry"))
-			return "angry";
+		if (player.contains("-"))
+			return player.substring(player.lastIndexOf("-") + 1, player.length);
 		return "normal";
 	}
 
 	/** Converts the charts from an old song into charts for a new song. **/
-	static function convertChart(parsed:Dynamic):Map<String, NoteChart>
+	static function convertChart(song:Song, parsed:Dynamic):Map<String, NoteChart>
 	{
 		var map:Map<String, NoteChart>;
 		var playerChart:NoteChart = new NoteChart([]);
 		var opponentChart:NoteChart = new NoteChart([]);
 
-		for (section in cast(parsed.song.notes, Array<Dynamic>)) {}
+		var sectionTime:Float = 0.0; // Used to track when the section starts
+		for (section in cast(parsed.song.notes, Array<Dynamic>))
+		{
+			if (section.changeBPM)
+				song.instrumental.bpmMap.push(sectionTime, section.bpm);
+			sectionTime += section.lengthInSteps;
+		}
 
 		map.set("player", playerChart);
 		map.set("opponent", opponentChart);
 		return map;
 	}
+}
+
+typedef ConvertedSong =
+{
+	song:Song,
+	instrumental:MusicData,
+	voices:SoundData
 }

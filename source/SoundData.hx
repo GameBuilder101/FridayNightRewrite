@@ -10,7 +10,7 @@ import openfl.media.Sound;
 /** Sound data is used to store sounds with variations. **/
 class SoundData
 {
-	var variants(default, null):Array<SoundVariant> = new Array<SoundVariant>();
+	var variants:Array<SoundVariant> = new Array<SoundVariant>();
 
 	public function new(variants:Array<SoundVariant>)
 	{

@@ -76,7 +76,8 @@ class SongRegistry extends Registry<Song>
 
 	function loadData(directory:String, id:String):Song
 	{
-		var parsed:Dynamic = FileManager.getParsedJson(Registry.getFullPath(directory, id) + "/song_data");
+		var path:String = Registry.getFullPath(directory, id);
+		var parsed:Dynamic = FileManager.getParsedJson(path + "/song_data");
 		if (parsed == null)
 			return null;
 
