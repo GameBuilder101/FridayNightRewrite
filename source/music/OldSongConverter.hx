@@ -1,6 +1,7 @@
 package music;
 
 import assetManagement.FileManager;
+import openfl.media.Sound;
 
 using StringTools;
 
@@ -10,9 +11,16 @@ class OldSongConverter
 		everything.
 		@param path The file path to the folder containing all difficulties.
 	**/
-	public static function convert(path:String, instrumentalPath:String, voicesPath:String):ConvertedSong
+	public static function convert(path:String):ConvertedSong
 	{
-		var songID:String = path.substring(path.lastIndexOf("/") + 1, path.length);
+		// Get the song ID based on the folder name
+		var index:Int = path.lastIndexOf("/");
+		if (index <= -1)
+			index = path.lastIndexOf("\\");
+		if (index <= -1)
+			return null;
+		var songID:String = path.substring(index + 1, path.length);
+
 		// Get the parsed JSON data for each difficulty
 		var easy:Dynamic = FileManager.getParsedJson(path + "/" + songID + "-easy");
 		var normal:Dynamic = FileManager.getParsedJson(path + "/" + songID);
@@ -20,22 +28,24 @@ class OldSongConverter
 		if (easy == null && normal == null && hard == null)
 			return null;
 
-		var instrumental:MusicData = new MusicData(FileManager.getSound(instrumentalPath), 1.0, []);
-		var voices:SoundData = new SoundData([{sound: FileManager.getSound(voicesPath), volume: 1.0}]);
-
 		// Set up the converted song
-		var song:Song = new Song(normal.song.song);
-		song.opponentID = playerIDToCharacterID(normal.song.player2);
-		song.playerVariant = playerIDToVariantID(normal.song.player1);
-		song.opponentVariant = playerIDToVariantID(normal.song.player2);
-		if (easy != null)
-			song.charts[0] = convertChart(song, easy);
-		if (normal != null)
-			song.charts[1] = convertChart(song, normal);
-		if (hard != null)
-			song.charts[2] = convertChart(song, hard);
+		var converted:ConvertedSong = {
+			song: new Song(normal.song.song),
+			instrumental: new MusicData(null, 1.0, []),
+			voices: new SoundData([{sound: null, volume: 1.0}])
+		};
+		converted.song.opponentID = playerIDToCharacterID(normal.song.player2);
+		converted.song.playerVariant = playerIDToVariantID(normal.song.player1);
+		converted.song.opponentVariant = playerIDToVariantID(normal.song.player2);
 
-		return song;
+		if (easy != null)
+			converted.song.charts[0] = convertChart(converted, easy);
+		if (normal != null)
+			converted.song.charts[1] = convertChart(converted, normal);
+		if (hard != null)
+			converted.song.charts[2] = convertChart(converted, hard);
+
+		return converted;
 	}
 
 	static inline function playerIDToCharacterID(player:String):String
@@ -54,17 +64,32 @@ class OldSongConverter
 	}
 
 	/** Converts the charts from an old song into charts for a new song. **/
-	static function convertChart(song:Song, parsed:Dynamic):Map<String, NoteChart>
+	static function convertChart(converted:ConvertedSong, parsed:Dynamic):Map<String, NoteChart>
 	{
 		var map:Map<String, NoteChart>;
-		var playerChart:NoteChart = new NoteChart([]);
-		var opponentChart:NoteChart = new NoteChart([]);
+		var playerChart:NoteChart;
+		var opponentChart:NoteChart;
 
 		var sectionTime:Float = 0.0; // Used to track when the section starts
 		for (section in cast(parsed.song.notes, Array<Dynamic>))
 		{
-			if (section.changeBPM)
-				song.instrumental.bpmMap.push(sectionTime, section.bpm);
+			if (section.changeBPM) // Add the BPM change to the map
+				converted.instrumental.bpmMap.push({time: sectionTime, bpm: section.bpm});
+
+			playerChart = new NoteChart([]);
+			opponentChart = new NoteChart([]);
+			var isPlayer = section.mustHitSection; // Whether this is a player note
+			for (note in cast(section.sectionNotes, Array<Dynamic>))
+			{
+				if (note[1] > 3)
+				{
+					isPlayer = !isPlayer;
+					note[1] -= 4;
+				}
+				if (isPlayer)
+					playerChart.nodes.push(new Note());
+			}
+
 			sectionTime += section.lengthInSteps;
 		}
 
@@ -77,6 +102,7 @@ class OldSongConverter
 typedef ConvertedSong =
 {
 	song:Song,
+	// Used primarily for BPM map
 	instrumental:MusicData,
 	voices:SoundData
 }
