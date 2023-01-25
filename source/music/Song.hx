@@ -19,11 +19,11 @@ class Song
 	public var girlfriendVariant:String;
 
 	/** Each index of the array corresponds to a difficulty index. If the element is
-		null, that means this song doesn't have a chart for that difficulty. Each map
-		has a string as a key. This string represents the tag of the character who
+		null, that means this song doesn't have a chart for that difficulty. Each singer
+		map has a string as a key. This string represents the tag of the character who
 		sings that chart (IE: "player", "opponent", "girlfriend", etc.)
 	**/
-	public var charts:Array<Map<String, NoteChart>>;
+	public var difficulties:Array<SongDifficulty>;
 
 	public function new(name:String, credits:String = "")
 	{
@@ -31,7 +31,7 @@ class Song
 		this.credits = credits;
 		// Fill out charts with null
 		for (i in 0...DifficultyUtil.getMax())
-			charts.push(null);
+			difficulties.push(null);
 	}
 
 	public function getChart(characterTag:String, difficulty:Int):NoteChart
@@ -40,22 +40,28 @@ class Song
 		/* Start by searching to the right of the given difficulty. If there
 			is a chart for this difficulty, it gets returned. If not, it returns the next
 			highest difficulty which has a chart. */
-		while (i < charts.length)
+		while (i < difficulties.length)
 		{
-			if (charts[i] != null)
-				return charts[i][characterTag];
+			if (difficulties[i] != null)
+				return difficulties[i].singers[characterTag];
 			i++;
 		}
 		// Now search to the left if there isn't a higher difficulty to replace
 		i = difficulty;
 		while (i >= 0)
 		{
-			if (charts[i] != null)
-				return charts[i][characterTag];
+			if (difficulties[i] != null)
+				return difficulties[i].singers[characterTag];
 			i--;
 		}
 		return null;
 	}
+}
+
+typedef SongDifficulty =
+{
+	singers:Map<String, NoteChart>,
+	scrollSpeed:Float
 }
 
 /** Use this to access/load songs. **/
@@ -90,7 +96,7 @@ class SongRegistry extends Registry<Song>
 
 		/* Song charts are loaded in dynamically. Loop through all files with the naming convention "difficulty_#" until
 			no more are found. These will contain the charts corresponding to the difficulties of the song */
-		var charts:Array<Map<String, NoteChart>> = [];
+		var difficulties:Array<SongDifficulty> = [];
 		var parsedDiff:Dynamic;
 		var singers:Map<String, NoteChart>;
 		var i:Int = 0;
@@ -100,11 +106,11 @@ class SongRegistry extends Registry<Song>
 			if (parsedDiff == null)
 				break;
 			singers = new Map<String, NoteChart>();
-			for (singer in cast(parsedDiff, Array<Dynamic>))
+			for (singer in cast(parsedDiff.singers, Array<Dynamic>))
 				singers.set(singer.key, NoteChart.fromParsed(singer.chart));
 			i++;
 		}
-		song.charts = charts;
+		song.difficulties = difficulties;
 
 		return song;
 	}
