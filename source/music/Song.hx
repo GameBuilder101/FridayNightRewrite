@@ -25,6 +25,9 @@ class Song
 	**/
 	public var difficulties:Array<SongDifficulty>;
 
+	public var instrumentalID:String;
+	public var voicesID:String;
+
 	public function new(name:String, credits:String = "")
 	{
 		this.name = name;
@@ -93,6 +96,9 @@ class SongRegistry extends Registry<Song>
 		song.playerVariant = parsed.playerVariant;
 		song.opponentVariant = parsed.opponentVariant;
 		song.girlfriendVariant = parsed.girlfriendVariant;
+
+		song.instrumentalID = path + "/instrumental";
+		song.voicesID = path + "/voices";
 
 		/* Song charts are loaded in dynamically. Loop through all files with the naming convention "difficulty_#" until
 			no more are found. These will contain the charts corresponding to the difficulties of the song */

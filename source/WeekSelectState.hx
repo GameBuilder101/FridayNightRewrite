@@ -46,14 +46,6 @@ class WeekSelectState extends PrePlayState
 		songListText.alpha = 0.75;
 		add(songListText);
 
-		stagePreview = cast stage.getElementWithTag("stage_preview");
-		player = cast stage.getElementWithTag("menu_player");
-		opponent = cast stage.getElementWithTag("menu_opponent");
-		girlfriend = cast stage.getElementWithTag("menu_girlfriend");
-
-		colorSplitPlayer = cast stage.getElementsWithTag("color_split_player");
-		colorSplitOpponent = cast stage.getElementsWithTag("color_split_opponent");
-
 		menu.addItems(getMainMenuItems());
 
 		// Update the player character sprite
@@ -77,6 +69,18 @@ class WeekSelectState extends PrePlayState
 			FlxTween.cancelTweensOf(sprite);
 			sprite.color = color;
 		}
+	}
+
+	override function createStage():Stage
+	{
+		var stage:Stage = super.createStage();
+		stagePreview = cast stage.getElementWithTag("stage_preview");
+		player = cast stage.getElementWithTag("menu_player");
+		opponent = cast stage.getElementWithTag("menu_opponent");
+		girlfriend = cast stage.getElementWithTag("menu_girlfriend");
+		colorSplitPlayer = cast stage.getElementsWithTag("color_split_player");
+		colorSplitOpponent = cast stage.getElementsWithTag("color_split_opponent");
+		return stage;
 	}
 
 	function getMenuID():String
@@ -131,7 +135,7 @@ class WeekSelectState extends PrePlayState
 				onInteracted: function(value:Dynamic)
 				{
 					GlobalScriptRegistry.callAll("onWeekInteracted", [week]);
-					prePlayTransition(new PlayState(null, difficulty, week));
+					prePlayTransition(new PlayState(album, null, difficulty, i));
 					player.enableBopAnim = false;
 					player.playAnimation("hey", true);
 				}

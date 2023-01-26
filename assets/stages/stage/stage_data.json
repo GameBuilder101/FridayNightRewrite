@@ -26,17 +26,20 @@
         },
         {
             "tags": [
-                "girlfriend"
+                "character"
             ],
             "type": "character",
             "x": 400.0,
             "y": 130.0,
             "scrollFactorX": 0.95,
-            "scrollFactorY": 0.95
+            "scrollFactorY": 0.95,
+            "data": {
+                "singerTag": "player"
+            }
         },
         {
             "tags": [
-                "player"
+                "character"
             ],
             "type": "character",
             "x": 770.0,
@@ -44,18 +47,22 @@
             "scrollFactorX": 0.95,
             "scrollFactorY": 0.95,
             "data": {
+                "singerTag": "player",
                 "flipX": true
             }
         },
         {
             "tags": [
-                "dad"
+                "character"
             ],
             "type": "character",
             "x": 100.0,
             "y": 100.0,
             "scrollFactorX": 0.95,
-            "scrollFactorY": 0.95
+            "scrollFactorY": 0.95,
+            "data": {
+                "singerTag": "player"
+            }
         },
         {
             "type": "general_sprite",

@@ -109,8 +109,8 @@ class OldSongConverter
 			sectionTime += section.lengthInSteps;
 		}
 
-		singers.set("player", playerChart);
-		singers.set("opponent", opponentChart);
+		singers.set(Character.PLAYER_TAG, playerChart);
+		singers.set(Character.OPPONENT_TAG, opponentChart);
 		return {singers: singers, scrollSpeed: parsed.speed};
 	}
 }

@@ -11,6 +11,7 @@ import menu.MenuState;
 import menu.items.AlbumMenuItem;
 import music.Conductor;
 import music.MusicData.MusicDataRegistry;
+import stage.Stage;
 
 class AlbumSelectState extends MenuState
 {
@@ -33,9 +34,6 @@ class AlbumSelectState extends MenuState
 	override function create()
 	{
 		super.create();
-
-		leftMenuArrow = cast stage.getElementWithTag("left_menu_arrow");
-		rightMenuArrow = cast stage.getElementWithTag("right_menu_arrow");
 
 		// Get all albums IDs
 		albumIDs = AlbumDataRegistry.getAllIDs();
@@ -69,6 +67,14 @@ class AlbumSelectState extends MenuState
 			menu.playCancelSound();
 			FlxG.switchState(new TitleScreenState());
 		}
+	}
+
+	override function createStage():Stage
+	{
+		var stage:Stage = super.createStage();
+		leftMenuArrow = cast stage.getElementWithTag("left_menu_arrow");
+		rightMenuArrow = cast stage.getElementWithTag("right_menu_arrow");
+		return stage;
 	}
 
 	function getMenuID():String
