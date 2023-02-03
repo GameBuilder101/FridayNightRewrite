@@ -203,6 +203,8 @@ class Script
 		set("Conductor", music.Conductor);
 		set("Node", music.Node);
 		set("Event", music.Event);
+		set("Song", music.Song);
+		set("SongRegistry", music.Song.SongRegistry);
 		set("ShaderResolver", shader.ShaderResolver);
 		set("FileManager", FileManager);
 		set("LibraryManager", LibraryManager);

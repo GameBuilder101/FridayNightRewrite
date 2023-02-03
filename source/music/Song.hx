@@ -114,6 +114,7 @@ class SongRegistry extends Registry<Song>
 			singers = new Map<String, NoteChart>();
 			for (singer in cast(parsedDiff.singers, Array<Dynamic>))
 				singers.set(singer.key, NoteChart.fromParsed(singer.chart));
+			difficulties.push({singers: singers, scrollSpeed: parsedDiff.scrollSpeed});
 			i++;
 		}
 		song.difficulties = difficulties;

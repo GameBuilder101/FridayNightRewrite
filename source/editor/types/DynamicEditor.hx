@@ -1,41 +1,57 @@
 package editor.types;
 
-import flixel.text.FlxText;
-import flixel.group.FlxSpriteGroup;
 import flixel.FlxSprite;
+import flixel.group.FlxSpriteGroup;
 import flixel.util.FlxColor;
 
-class DynamicEditor extends FlxSpriteGroup implements IEditor<Dynamic>
+abstract class DynamicEditor extends FlxSpriteGroup implements IEditor<Dynamic>
 {
-	var label:FlxText;
+	public static final ITEM_SPACING:Float = 16.0;
+
+	public var onChanged:Void->Void;
+
 	var back:FlxSprite;
 
-	var editors:Array<IEdtior<Dynamic>> = [];
+	var editors:Map<String, IEditor<Dynamic>> = new Map<String, IEditor<Dynamic>>();
 
-	public function new(x:Float, y:Float, width:Int, fields:Array<IEditor<Dynamic>>, label:String)
+	public function new(x:Float, y:Float, width:Int, onChanged:Void->Void = null)
 	{
 		super(x, y);
+		this.onChanged = onChanged;
+
 		back = new FlxSprite(x, y);
+		back.alpha = 0.6;
 		add(back);
 
-		label = new FlxText(x, y - 16.0, width, label);
-		add(label);
+		editors = getEditors();
 
-		var editorY:Float = y;
-		for (field in fields)
+		// Position the editors and create the background sprite
+		var yTracker:Float = ITEM_SPACING;
+		for (editor in editors)
 		{
-			editorY += field.height;
+			editor.setPosition(x, yTracker);
+			add(cast editor);
+			yTracker += editor.get_height() + ITEM_SPACING;
 		}
+		back.makeGraphic(width, cast yTracker, FlxColor.BLACK);
 	}
 
-	override function update(elapsed:Float)
+	/** Return a map containing all the editors for this dynamic. Each key should correspond
+		directly to the name of a field in the dynamic. Note: positions will get automatically set.
+	**/
+	abstract function getEditors():Map<String, IEditor<Dynamic>>;
+
+	public function getValue():Dynamic
 	{
-		super.update(elapsed);
-		preview.color = FlxColor.fromRGB(r.getValue(), g.getValue(), b.getValue());
+		var value:Dynamic = {};
+		for (editor in editors.keyValueIterator())
+			value.setField(editor.key, editor.value.getValue());
+		return value;
 	}
 
-	public function getValue():Array<Int>
+	public function setValue(value:Dynamic)
 	{
-		return [r.getValue(), g.getValue(), b.getValue()];
+		for (field in Reflect.fields(value))
+			editors[field].setValue(value.getField(field));
 	}
 }

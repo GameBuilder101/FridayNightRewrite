@@ -19,14 +19,17 @@ class FilePathEditor extends FlxSpriteGroup implements IEditor<String>
 	var value:StringEditor;
 	var fileButton:FlxUIButton;
 
-	public function new(x:Float, y:Float, width:Int, fileExtension:String, type:FilePathEditorType)
+	public function new(x:Float, y:Float, width:Int, fileExtension:String, type:FilePathEditorType, onChanged:Void->Void = null)
 	{
 		super(x, y);
-
+		this.onChanged = onChanged;
 		this.fileExtension = fileExtension;
 		this.type = type;
 
-		value = new StringEditor(x, y, cast width * 0.8, onChanged);
+		value = new StringEditor(x, y, cast width * 0.8, function()
+		{
+			this.onChanged();
+		});
 		add(value);
 		fileButton = new FlxUIButton(x + width * 0.8, y, "File", openFileDialog);
 		fileButton.resize(width * 0.2, value.height);
@@ -36,6 +39,11 @@ class FilePathEditor extends FlxSpriteGroup implements IEditor<String>
 	public function getValue():String
 	{
 		return value.getValue();
+	}
+
+	public function setValue(value:String)
+	{
+		this.value.setValue(value);
 	}
 
 	function openFileDialog()

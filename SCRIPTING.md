@@ -70,6 +70,8 @@ The following are classes automatically imported into every type of script.
 - `music.Conductor`
 - `music.Node`
 - `music.Event`
+- `music.Song`
+- `music.Song.SongRegistry`
 - `shader.ShaderResolver`
 - `assetManagement.FileManager`
 - `assetManagement.LibraryManager`

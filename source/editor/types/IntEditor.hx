@@ -9,9 +9,10 @@ class IntEditor extends FlxUIInputText implements IEditor<Int>
 	public function new(x:Float, y:Float, width:Int, onChanged:Void->Void = null)
 	{
 		super(x, y, width);
+		this.onChanged = onChanged;
 		callback = function(text:String, action:String)
 		{
-			onChanged();
+			this.onChanged();
 		};
 		textField.restrict = "0-9";
 	}
@@ -19,5 +20,10 @@ class IntEditor extends FlxUIInputText implements IEditor<Int>
 	public function getValue():Int
 	{
 		return cast text;
+	}
+
+	public function setValue(value:Int)
+	{
+		text = "" + value;
 	}
 }

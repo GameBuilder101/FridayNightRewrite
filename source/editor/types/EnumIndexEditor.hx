@@ -4,7 +4,7 @@ import flixel.addons.ui.FlxUIDropDownMenu;
 import flixel.addons.ui.StrNameLabel;
 import haxe.EnumTools;
 
-/** Edits an enum by outputting the  **/
+/** Edits an enum using a dropdown with the ouput being the index of the selected item. **/
 class EnumIndexEditor extends FlxUIDropDownMenu implements IEditor<Int>
 {
 	public var onChanged:Void->Void;
@@ -13,6 +13,8 @@ class EnumIndexEditor extends FlxUIDropDownMenu implements IEditor<Int>
 
 	public function new(x:Float, y:Float, width:Int, type:Enum<Dynamic>, onChanged:Void->Void = null)
 	{
+		this.onChanged = onChanged;
+
 		// Add dropdown items based on the enum constructors
 		var dataList:Array<StrNameLabel> = [];
 		constructors = EnumTools.getConstructors(type);
@@ -22,7 +24,7 @@ class EnumIndexEditor extends FlxUIDropDownMenu implements IEditor<Int>
 
 		super(x, y, dataList, function(name:String)
 		{
-			onChanged();
+			this.onChanged();
 		});
 	}
 
@@ -34,5 +36,10 @@ class EnumIndexEditor extends FlxUIDropDownMenu implements IEditor<Int>
 				return i;
 		}
 		return 0;
+	}
+
+	public function setValue(value:Int)
+	{
+		selectedId = constructors[value];
 	}
 }

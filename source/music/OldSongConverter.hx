@@ -20,7 +20,7 @@ class OldSongConverter
 		if (index <= -1)
 			index = dataPath.lastIndexOf("\\");
 		if (index <= -1)
-			return null; // If some idiot tried to convert from the root
+			return null;
 		var songID:String = dataPath.substring(index + 1, dataPath.length);
 
 		// Get the parsed JSON data for each difficulty
