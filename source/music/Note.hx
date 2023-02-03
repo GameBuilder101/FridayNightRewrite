@@ -5,16 +5,23 @@ import assetManagement.LibraryManager;
 
 class Note extends Node
 {
+	/** The default note type ID. **/
+	public static inline final DEFAULT_ID:String = "assets/note_types/normal";
+
 	public var noteType(default, null):Script;
 
 	/** 0 is left, 1 down, 2 up, 3 right **/
 	public var lane:Int;
 
-	public function new(noteType:Script, time:Float, lane:Int)
+	/** The duration of the sustain note. 0 if not a sustain note. **/
+	public var sustain:Float;
+
+	public function new(noteType:Script, time:Float, lane:Int, sustain:Float = 0.0)
 	{
 		super(time);
 		this.noteType = noteType;
 		this.lane = lane;
+		this.sustain = sustain;
 		noteType.start(); // Initialize the type if it hasn't been already
 	}
 

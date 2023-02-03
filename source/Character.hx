@@ -77,6 +77,10 @@ class CharacterDataRegistry extends Registry<CharacterData>
 /** A character is a sprite loaded from character data which has things like singing animations. IE: BF, GF, Dad, etc. **/
 class Character extends FlxSpriteGroup implements IConducted
 {
+	public static inline final PLAYER_TAG = "player";
+	public static inline final OPPONENT_TAG = "opponent";
+	public static inline final GIRLFRIEND_TAG = "girlfriend";
+
 	public var data(default, null):CharacterData;
 	public var currentVariant(default, null):CharacterVariant;
 

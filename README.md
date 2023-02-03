@@ -45,6 +45,7 @@ This is the repository for Friday Night Rewrite, a full code rewrite of the orig
    haxelib install openfl
    haxelib install flixel
    haxelib install flixel-addons
+   haxelib install flixel-ui
    haxelib install hscript
    ```
 

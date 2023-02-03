@@ -3,22 +3,15 @@ package;
 import Album;
 import Character;
 import DifficultyUtil;
-import GlobalScript;
 import Scores;
-import Week;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.text.FlxText;
-import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
-import menu.MenuItem;
 import menu.MenuState;
-import menu.items.FlashingButtonMenuItem;
 import music.Conductor;
 import music.MusicData;
-import music.Song;
 import stage.Stage;
-import stage.elements.GeneralSpriteElement;
 
 /** For stuff common between the week select and freeplay states. **/
 abstract class PrePlayState extends MenuState
@@ -65,11 +58,6 @@ abstract class PrePlayState extends MenuState
 		highScoreText.alpha = 0.75;
 		add(highScoreText);
 
-		fullComboBadge = cast stage.getElementWithTag("full_combo_badge");
-		fullComboBadge.visible = true;
-		ghostFullComboBadge = cast stage.getElementWithTag("ghost_full_combo_badge");
-		ghostFullComboBadge.visible = false;
-
 		// Update the background and music to the album background/music
 		Conductor.play(MusicDataRegistry.getAsset(album.menuMusicID), true, false);
 		background.loadFromID(album.backgroundID);
@@ -114,6 +102,16 @@ abstract class PrePlayState extends MenuState
 				menu.playToggleSound();
 			}
 		}
+	}
+
+	override function createStage():Stage
+	{
+		var stage:Stage = super.createStage();
+		fullComboBadge = cast stage.getElementWithTag("full_combo_badge");
+		fullComboBadge.visible = true;
+		ghostFullComboBadge = cast stage.getElementWithTag("ghost_full_combo_badge");
+		ghostFullComboBadge.visible = false;
+		return stage;
 	}
 
 	/** Returns a color to use for an opponent. **/
