@@ -2,8 +2,8 @@ package editor.types;
 
 import assetManagement.LibraryManager;
 import flash.events.Event;
+import flixel.addons.ui.FlxUIButton;
 import flixel.group.FlxSpriteGroup;
-import flixel.ui.FlxButton;
 import openfl.net.FileFilter;
 import openfl.net.FileReference;
 
@@ -11,13 +11,13 @@ using StringTools;
 
 class FilePathEditor extends FlxSpriteGroup implements IEditor<String>
 {
-	var value:String;
+	public var onChanged:Void->Void;
 
 	var fileExtension:String;
 	var type:FilePathEditorType;
 
-	var valueEditor:StringEditor;
-	var fileButton:FlxButton;
+	var value:StringEditor;
+	var fileButton:FlxUIButton;
 
 	public function new(x:Float, y:Float, width:Int, fileExtension:String, type:FilePathEditorType)
 	{
@@ -26,16 +26,16 @@ class FilePathEditor extends FlxSpriteGroup implements IEditor<String>
 		this.fileExtension = fileExtension;
 		this.type = type;
 
-		valueEditor = new StringEditor(x, y, cast width * 0.8);
-		add(valueEditor);
-		fileButton = new FlxButton(x + width * 0.8, y, "File", openFileDialog);
-		fileButton.width = width * 0.2;
+		value = new StringEditor(x, y, cast width * 0.8, onChanged);
+		add(value);
+		fileButton = new FlxUIButton(x + width * 0.8, y, "File", openFileDialog);
+		fileButton.resize(width * 0.2, value.height);
 		add(fileButton);
 	}
 
 	public function getValue():String
 	{
-		return value;
+		return value.getValue();
 	}
 
 	function openFileDialog()
@@ -50,7 +50,7 @@ class FilePathEditor extends FlxSpriteGroup implements IEditor<String>
 		var fileRef:FileReference = cast(event.target, FileReference);
 		var path:String = stylePath(fileRef.name);
 		if (path != null)
-			value = path;
+			value.text = path;
 	}
 
 	/** If this editor is for an asset ID, this shortens the path to something valid **/

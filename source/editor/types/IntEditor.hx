@@ -1,12 +1,18 @@
 package editor.types;
 
-import flixel.addons.text.FlxTextField;
+import flixel.addons.ui.FlxUIInputText;
 
-class IntEditor extends FlxTextField implements IEditor<Int>
+class IntEditor extends FlxUIInputText implements IEditor<Int>
 {
-	public function new(x:Float, y:Float, width:Int)
+	public var onChanged:Void->Void;
+
+	public function new(x:Float, y:Float, width:Int, onChanged:Void->Void = null)
 	{
 		super(x, y, width);
+		callback = function(text:String, action:String)
+		{
+			onChanged();
+		};
 		textField.restrict = "0-9";
 	}
 
