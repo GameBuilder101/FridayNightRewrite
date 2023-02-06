@@ -23,7 +23,7 @@ abstract class DynamicEditor extends FlxSpriteGroup implements IEditor<Dynamic>
 		back.alpha = 0.6;
 		add(back);
 
-		editors = getEditors();
+		editors = getEditors(x + ITEM_SPACING, width - cast(ITEM_SPACING * 2.0));
 
 		// Position the editors and create the background sprite
 		var yTracker:Float = ITEM_SPACING;
@@ -39,7 +39,7 @@ abstract class DynamicEditor extends FlxSpriteGroup implements IEditor<Dynamic>
 	/** Return a map containing all the editors for this dynamic. Each key should correspond
 		directly to the name of a field in the dynamic. Note: positions will get automatically set.
 	**/
-	abstract function getEditors():Map<String, IEditor<Dynamic>>;
+	abstract function getEditors(x:Float, width:Int):Map<String, IEditor<Dynamic>>;
 
 	public function getValue():Dynamic
 	{

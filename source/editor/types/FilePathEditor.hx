@@ -67,10 +67,14 @@ class FilePathEditor extends FlxSpriteGroup implements IEditor<String>
 		if (type == NORMAL) // If normal, then don't shorten the path
 			return path;
 
-		// Remove the executable path part
-		path = path.substring(Sys.programPath().length + 1, path.length);
 		// Remove the file extension
 		path = path.substring(0, path.lastIndexOf("."));
+
+		if (type == EXCLUDE_EXTENSION)
+			return path;
+
+		// Remove the executable path part
+		path = path.substring(Sys.programPath().length + 1, path.length);
 
 		if (type == ASSET_ID_INCLUDE_LIBRARY)
 			return path;
@@ -90,6 +94,7 @@ class FilePathEditor extends FlxSpriteGroup implements IEditor<String>
 enum FilePathEditorType
 {
 	NORMAL;
+	EXCLUDE_EXTENSION;
 	// Remove all parts of the path until after the library name
 	ASSET_ID;
 	// Remove all parts of the path until after the executable directory

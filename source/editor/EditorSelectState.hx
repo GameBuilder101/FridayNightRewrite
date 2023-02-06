@@ -1,6 +1,7 @@
 package editor;
 
 import assetManagement.LibraryManager;
+import editor.states.*;
 import flixel.FlxG;
 import menu.MenuItem;
 import menu.MenuState;
@@ -12,10 +13,7 @@ class EditorSelectState extends MenuState
 	override function create()
 	{
 		super.create();
-
 		currentTitle = stage.data.name; // Use the stage name as the display name
-		currentHint = null;
-
 		menu.addItems(getMainMenuItems());
 	}
 
@@ -32,6 +30,10 @@ class EditorSelectState extends MenuState
 				onSelected: function()
 				{
 					currentHint = "Define the animations and appearence of any sprite";
+				},
+				onInteracted: function(value:Dynamic)
+				{
+					FlxG.switchState(new AssetSpriteEditorState());
 				}
 			}),
 			new ButtonMenuItem("Sound", {

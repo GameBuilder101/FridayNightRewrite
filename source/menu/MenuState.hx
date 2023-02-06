@@ -54,7 +54,9 @@ abstract class MenuState extends ConductedState
 			data = {};
 
 		// Play menu music if it was defined in the JSON
-		if (data.musicID != null)
+		if (data.musicID == null)
+			Conductor.stop();
+		else
 			Conductor.play(MusicDataRegistry.getAsset(data.musicID), true, false);
 		// Load an event chart if it was defined in the JSON
 		if (data.eventChartID != null)
