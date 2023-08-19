@@ -3,11 +3,14 @@
     "description": "The best example mod in all of existence",
     "version": "1.0.0",
     "latestVersionURL": "https://raw.githubusercontent.com/GameBuilder101/FridayNightRewrite/main/mods/vs_example_joe/library.json",
-    "engineVersion": "0.1.0",
     "dependencies": [
         {
+            "id": "core",
+            "version": "0.1.0"
+        },
+        {
             "id": "friday_night_funkin",
-            "suggestedVersion": "0.2.7"
+            "version": "0.2.7"
         }
     ]
 }
