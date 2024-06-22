@@ -1,6 +1,8 @@
 # ◄ ▼ Friday Night Rewrite ▲ ►
 An engine for Friday Night Funkin' reprogrammed completely from the ground-up!
 
+## (NOTE: This project has been unfinished for a long time and is pretty much abandoned! THE GAMEPLAY LITERALLY DOES NOT WORK! THE MOST IMPORTANT PART IS NOT DONE!)
+
 ### This site is for accessing the project's source code. If you want to download Friday Night Rewrite normally, do so here:
 
 This is the repository for Friday Night Rewrite, a full code rewrite of the original game Friday Night Funkin'. The modding community for this game is huge, and yet despite numerous engines (mods meant to make mods easier) being released, I still felt like making mods was really messy. The foundations of the codebase were so shaky, it just made more sense to start from the ground-up. Hence why I made Friday Night Rewrite.
@@ -34,7 +36,7 @@ This is the repository for Friday Night Rewrite, a full code rewrite of the orig
 - Custom arrow types
 - Custom stage elements
 - Custom events
-- **COMmeNTEd cODE?!?!?!?!?!?!?!??!?!?!?!! :scream::scream::scream:**
+- Commented code
 - And much more!
 
 ## How to Set Up
